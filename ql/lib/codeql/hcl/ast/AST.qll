@@ -190,3 +190,31 @@ class HereDoc extends Expr, THeredocTemplate {
 
   HereDoc() { this = THeredocTemplate(hereDoc) }
 }
+
+class Variable extends Expr, TVariable {
+  HCL::VariableExpr var;
+
+  Variable() { this = TVariable(var) }
+
+  string getName() { result = var.getName().getValue() }
+}
+
+class GetAttrExpr extends Expr, TGetAttrExpr {
+  HCL::GetAttrExpr getAttr;
+
+  override string getAPrimaryQlClass() { result = "GetExpr" }
+
+  GetAttrExpr() { this = TGetAttrExpr(getAttr) }
+
+  Expr getExpr() { toTreeSitter(result) = getAttr.getExpr() }
+
+  Identifier getKey() { toTreeSitter(result) = getAttr.getKey() }
+
+  override string toString() { result = getExpr() + "." + getKey().getName() }
+
+  override AstNode getAChild(string pred) {
+    pred = "getExpr" and result = this.getExpr()
+    or
+    pred = "getKey" and result = this.getKey()
+  }
+}

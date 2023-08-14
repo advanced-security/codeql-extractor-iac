@@ -11,7 +11,7 @@
 
 import hcl
 
-from Expr e
+from ConstantExpr e
 where
   // Azure
   exists(Resource r |

@@ -18,6 +18,7 @@ newtype TAstNode =
   TFullSplat(HCL::FullSplat fullSplat) or
   TFunctionCall(HCL::FunctionCall call) or
   TGetAttr(HCL::GetAttr getAttr) or
+  TGetAttrExpr(HCL::GetAttrExpr getAttr) or
   TIdentifier(HCL::Identifier identifier) or
   TIndex(HCL::Index index) or
   TNullLiteral(HCL::NullLit literal) or
@@ -42,7 +43,7 @@ class TLiteral = TBooleanLiteral or TNumericLit or TStringLit or TNullLiteral;
 
 class TExpr =
   TLiteral or TVariable or TFunctionCall or TUnaryOperation or TBinaryOperation or TConditional or
-      TGetAttr or TIndex or TTemplateLiteral or TTemplateInterpolation or TTemplateFor or
+      TGetAttrExpr or TIndex or TTemplateLiteral or TTemplateInterpolation or TTemplateFor or
       TTemplateIf or TForExpr or TForObjectExpr or TForTupleExpr or TTuple or TObject or
       TAttrSplat or TFullSplat or TSplatExpr or TQuotedTemplate or TBlock or THeredocTemplate;
 
@@ -66,7 +67,7 @@ HCL::AstNode toTreeSitter(TAstNode n) {
   n = TForTupleExpr(result) or
   n = TFullSplat(result) or
   n = TFunctionCall(result) or
-  n = TGetAttr(result) or
+  n = TGetAttrExpr(result) or
   n = TIdentifier(result) or
   n = TIndex(result) or
   n = TNullLiteral(result) or
