@@ -1,0 +1,9 @@
+name: codeql/iac-queries
+version: 0.0.1-dev
+groups: 
+  - iac
+  - queries
+dependencies:
+  codeql/iac-all: ${workspace}
+extractor: iac
+defaultSuiteFile: codeql-suites/iac-code-scanning.qls

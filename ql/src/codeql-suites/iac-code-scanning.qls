@@ -1,0 +1,11 @@
+- description: Standard Code Scanning queries for HCL
+- queries: .
+- include:
+    kind:
+    - problem
+    tags contain:
+    - security
+
+- exclude:
+    tags contain:
+      - experimental
