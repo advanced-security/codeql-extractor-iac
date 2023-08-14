@@ -1,0 +1,9 @@
+target
+extractor-pack
+.vscode/launch.json
+.cache
+ql/test/**/*.testproj
+ql/test/**/*.actual
+ql/test/**/CONSISTENCY
+work
+testing/

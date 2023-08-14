@@ -1,0 +1,20 @@
+[package]
+name = "codeql-extractor-iac"
+version = "0.1.0"
+authors = ["GitHub"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+flate2 = "1.0"
+
+tree-sitter = ">= 0.20, < 0.21"
+tree-sitter-hcl = { git = "https://github.com/GeekMasher/tree-sitter-hcl", rev = "5e045dd1ff7852511c249c4c5d919d9556751d98" }
+tree-sitter-json = { git = "https://github.com/tausbn/tree-sitter-json.git", rev = "745663ee997f1576fe1e7187e6347e0db36ec7a9" }
+clap = { version = "4.2", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+rayon = "1.7.0"
+regex = "1.9.3"
+codeql-extractor = { git = "https://github.com/github/codeql", rev = "6d7a75d1b945cfbd5bc5a7f71155e45bd73e676c" }
