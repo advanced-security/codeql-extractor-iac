@@ -42,6 +42,12 @@ pub fn run(options: Options) -> std::io::Result<()> {
                 node_types: tree_sitter_json::NODE_TYPES,
                 file_extensions: vec!["json".into(), "jsonl".into(), "jsonc".into()],
             },
+            simple::LanguageSpec {
+                prefix: "dockerfile",
+                ts_language: tree_sitter_dockerfile::language(),
+                node_types: tree_sitter_dockerfile::NODE_TYPES,
+                file_extensions: vec!["Dockerfile".into(), "Containerfile".into()],
+            },
         ],
         trap_dir: options.output_dir,
         trap_compression: trap::Compression::from_env("CODEQL_IAC_TRAP_COMPRESSION"),

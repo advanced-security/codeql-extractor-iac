@@ -14,8 +14,20 @@ pub fn run(_: Options) -> std::io::Result<()> {
         .expect("CODEQL_EXTRACTOR_IAC_WIP_DATABASE not set");
 
     autobuilder::Autobuilder::new("iac", PathBuf::from(database))
-        .include_extensions(&[".hcl", ".tf", ".ftvars", ".json", ".jsonc", ".jsonl"])
-        .include_globs(&["deprecated.blame"])
+        .include_extensions(&[
+            ".hcl",
+            ".tf",
+            ".ftvars", // Terraform / HCL files
+            ".json",
+            ".jsonc",
+            ".jsonl",      // JSON files
+            ".Dockerfile", // Docker files
+        ])
+        .include_globs(&[
+            "**/Dockerfile",
+            "**/Containerfile", // Docker / Container files
+        ])
+        .exclude_globs(&["**/.git"])
         .size_limit("10m")
         .run()
 }

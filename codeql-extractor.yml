@@ -5,8 +5,11 @@ column_kind: "utf8"
 legacy_qltest_extraction: true
 github_api_languages:
   - HCL
+  - Docker
 scc_languages:
   - HCL
+  - Docker
+
 # File types
 file_types:
   - name: hcl
@@ -19,3 +22,8 @@ file_types:
     display_name: JSON
     extensions:
       - .json
+  - name: dockerfile
+    display_name: Dockerfile
+    extensions:
+      - .Dockerfile
+      - .Containerfile

@@ -198,6 +198,7 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "tree-sitter",
+ "tree-sitter-dockerfile",
  "tree-sitter-hcl",
  "tree-sitter-json",
 ]
@@ -831,6 +832,15 @@ checksum = "d4423c784fe11398ca91e505cdc71356b07b1a924fc8735cfab5333afe3e18bc"
 dependencies = [
  "cc",
  "regex",
+]
+
+[[package]]
+name = "tree-sitter-dockerfile"
+version = "0.1.0"
+source = "git+https://github.com/camdencheek/tree-sitter-dockerfile?rev=c0a9d694d9bf8ab79a919f5f9c7bc9c169caf321#c0a9d694d9bf8ab79a919f5f9c7bc9c169caf321"
+dependencies = [
+ "cc",
+ "tree-sitter",
 ]
 
 [[package]]

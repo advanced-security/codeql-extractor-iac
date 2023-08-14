@@ -578,3 +578,416 @@ json_ast_node_info(
   int loc: @location_default ref
 );
 
+/*- DOCKERFILE dbscheme -*/
+@dockerfile_add_instruction_child_type = @dockerfile_path | @dockerfile_token_param
+
+#keyset[dockerfile_add_instruction, index]
+dockerfile_add_instruction_child(
+  int dockerfile_add_instruction: @dockerfile_add_instruction ref,
+  int index: int ref,
+  unique int child: @dockerfile_add_instruction_child_type ref
+);
+
+dockerfile_add_instruction_def(
+  unique int id: @dockerfile_add_instruction
+);
+
+@dockerfile_arg_instruction_default_type = @dockerfile_double_quoted_string | @dockerfile_single_quoted_string | @dockerfile_unquoted_string
+
+dockerfile_arg_instruction_default(
+  unique int dockerfile_arg_instruction: @dockerfile_arg_instruction ref,
+  unique int default: @dockerfile_arg_instruction_default_type ref
+);
+
+dockerfile_arg_instruction_def(
+  unique int id: @dockerfile_arg_instruction,
+  int name: @dockerfile_unquoted_string ref
+);
+
+@dockerfile_cmd_instruction_child_type = @dockerfile_json_string_array | @dockerfile_shell_command
+
+dockerfile_cmd_instruction_def(
+  unique int id: @dockerfile_cmd_instruction,
+  int child: @dockerfile_cmd_instruction_child_type ref
+);
+
+@dockerfile_copy_instruction_child_type = @dockerfile_path | @dockerfile_token_param
+
+#keyset[dockerfile_copy_instruction, index]
+dockerfile_copy_instruction_child(
+  int dockerfile_copy_instruction: @dockerfile_copy_instruction ref,
+  int index: int ref,
+  unique int child: @dockerfile_copy_instruction_child_type ref
+);
+
+dockerfile_copy_instruction_def(
+  unique int id: @dockerfile_copy_instruction
+);
+
+@dockerfile_double_quoted_string_child_type = @dockerfile_expansion | @dockerfile_token_escape_sequence
+
+#keyset[dockerfile_double_quoted_string, index]
+dockerfile_double_quoted_string_child(
+  int dockerfile_double_quoted_string: @dockerfile_double_quoted_string ref,
+  int index: int ref,
+  unique int child: @dockerfile_double_quoted_string_child_type ref
+);
+
+dockerfile_double_quoted_string_def(
+  unique int id: @dockerfile_double_quoted_string
+);
+
+@dockerfile_entrypoint_instruction_child_type = @dockerfile_json_string_array | @dockerfile_shell_command
+
+dockerfile_entrypoint_instruction_def(
+  unique int id: @dockerfile_entrypoint_instruction,
+  int child: @dockerfile_entrypoint_instruction_child_type ref
+);
+
+#keyset[dockerfile_env_instruction, index]
+dockerfile_env_instruction_child(
+  int dockerfile_env_instruction: @dockerfile_env_instruction ref,
+  int index: int ref,
+  unique int child: @dockerfile_env_pair ref
+);
+
+dockerfile_env_instruction_def(
+  unique int id: @dockerfile_env_instruction
+);
+
+@dockerfile_env_pair_value_type = @dockerfile_double_quoted_string | @dockerfile_single_quoted_string | @dockerfile_unquoted_string
+
+dockerfile_env_pair_value(
+  unique int dockerfile_env_pair: @dockerfile_env_pair ref,
+  unique int value: @dockerfile_env_pair_value_type ref
+);
+
+dockerfile_env_pair_def(
+  unique int id: @dockerfile_env_pair,
+  int name: @dockerfile_unquoted_string ref
+);
+
+dockerfile_expansion_def(
+  unique int id: @dockerfile_expansion,
+  int child: @dockerfile_token_variable ref
+);
+
+@dockerfile_expose_instruction_child_type = @dockerfile_expansion | @dockerfile_token_expose_port
+
+#keyset[dockerfile_expose_instruction, index]
+dockerfile_expose_instruction_child(
+  int dockerfile_expose_instruction: @dockerfile_expose_instruction ref,
+  int index: int ref,
+  unique int child: @dockerfile_expose_instruction_child_type ref
+);
+
+dockerfile_expose_instruction_def(
+  unique int id: @dockerfile_expose_instruction
+);
+
+dockerfile_from_instruction_as(
+  unique int dockerfile_from_instruction: @dockerfile_from_instruction ref,
+  unique int as: @dockerfile_image_alias ref
+);
+
+@dockerfile_from_instruction_child_type = @dockerfile_image_spec | @dockerfile_token_param
+
+#keyset[dockerfile_from_instruction, index]
+dockerfile_from_instruction_child(
+  int dockerfile_from_instruction: @dockerfile_from_instruction ref,
+  int index: int ref,
+  unique int child: @dockerfile_from_instruction_child_type ref
+);
+
+dockerfile_from_instruction_def(
+  unique int id: @dockerfile_from_instruction
+);
+
+@dockerfile_healthcheck_instruction_child_type = @dockerfile_cmd_instruction | @dockerfile_token_param
+
+#keyset[dockerfile_healthcheck_instruction, index]
+dockerfile_healthcheck_instruction_child(
+  int dockerfile_healthcheck_instruction: @dockerfile_healthcheck_instruction ref,
+  int index: int ref,
+  unique int child: @dockerfile_healthcheck_instruction_child_type ref
+);
+
+dockerfile_healthcheck_instruction_def(
+  unique int id: @dockerfile_healthcheck_instruction
+);
+
+#keyset[dockerfile_image_alias, index]
+dockerfile_image_alias_child(
+  int dockerfile_image_alias: @dockerfile_image_alias ref,
+  int index: int ref,
+  unique int child: @dockerfile_expansion ref
+);
+
+dockerfile_image_alias_def(
+  unique int id: @dockerfile_image_alias
+);
+
+#keyset[dockerfile_image_digest, index]
+dockerfile_image_digest_child(
+  int dockerfile_image_digest: @dockerfile_image_digest ref,
+  int index: int ref,
+  unique int child: @dockerfile_expansion ref
+);
+
+dockerfile_image_digest_def(
+  unique int id: @dockerfile_image_digest
+);
+
+#keyset[dockerfile_image_name, index]
+dockerfile_image_name_child(
+  int dockerfile_image_name: @dockerfile_image_name ref,
+  int index: int ref,
+  unique int child: @dockerfile_expansion ref
+);
+
+dockerfile_image_name_def(
+  unique int id: @dockerfile_image_name
+);
+
+dockerfile_image_spec_digest(
+  unique int dockerfile_image_spec: @dockerfile_image_spec ref,
+  unique int digest: @dockerfile_image_digest ref
+);
+
+dockerfile_image_spec_tag(
+  unique int dockerfile_image_spec: @dockerfile_image_spec ref,
+  unique int tag: @dockerfile_image_tag ref
+);
+
+dockerfile_image_spec_def(
+  unique int id: @dockerfile_image_spec,
+  int name: @dockerfile_image_name ref
+);
+
+#keyset[dockerfile_image_tag, index]
+dockerfile_image_tag_child(
+  int dockerfile_image_tag: @dockerfile_image_tag ref,
+  int index: int ref,
+  unique int child: @dockerfile_expansion ref
+);
+
+dockerfile_image_tag_def(
+  unique int id: @dockerfile_image_tag
+);
+
+#keyset[dockerfile_json_string, index]
+dockerfile_json_string_child(
+  int dockerfile_json_string: @dockerfile_json_string ref,
+  int index: int ref,
+  unique int child: @dockerfile_token_escape_sequence ref
+);
+
+dockerfile_json_string_def(
+  unique int id: @dockerfile_json_string
+);
+
+#keyset[dockerfile_json_string_array, index]
+dockerfile_json_string_array_child(
+  int dockerfile_json_string_array: @dockerfile_json_string_array ref,
+  int index: int ref,
+  unique int child: @dockerfile_json_string ref
+);
+
+dockerfile_json_string_array_def(
+  unique int id: @dockerfile_json_string_array
+);
+
+#keyset[dockerfile_label_instruction, index]
+dockerfile_label_instruction_child(
+  int dockerfile_label_instruction: @dockerfile_label_instruction ref,
+  int index: int ref,
+  unique int child: @dockerfile_label_pair ref
+);
+
+dockerfile_label_instruction_def(
+  unique int id: @dockerfile_label_instruction
+);
+
+@dockerfile_label_pair_value_type = @dockerfile_double_quoted_string | @dockerfile_single_quoted_string | @dockerfile_unquoted_string
+
+dockerfile_label_pair_def(
+  unique int id: @dockerfile_label_pair,
+  int key__: @dockerfile_unquoted_string ref,
+  int value: @dockerfile_label_pair_value_type ref
+);
+
+case @dockerfile_mount_param.name of
+  0 = @dockerfile_mount_param_mount
+;
+
+
+@dockerfile_mount_param_value_type = @dockerfile_reserved_word | @dockerfile_token_mount_param_param
+
+#keyset[dockerfile_mount_param, index]
+dockerfile_mount_param_value(
+  int dockerfile_mount_param: @dockerfile_mount_param ref,
+  int index: int ref,
+  unique int value: @dockerfile_mount_param_value_type ref
+);
+
+dockerfile_mount_param_def(
+  unique int id: @dockerfile_mount_param,
+  int name: int ref
+);
+
+@dockerfile_onbuild_instruction_child_type = @dockerfile_add_instruction | @dockerfile_arg_instruction | @dockerfile_cmd_instruction | @dockerfile_copy_instruction | @dockerfile_entrypoint_instruction | @dockerfile_env_instruction | @dockerfile_expose_instruction | @dockerfile_from_instruction | @dockerfile_healthcheck_instruction | @dockerfile_label_instruction | @dockerfile_onbuild_instruction | @dockerfile_run_instruction | @dockerfile_shell_instruction | @dockerfile_stopsignal_instruction | @dockerfile_token_cross_build_instruction | @dockerfile_token_maintainer_instruction | @dockerfile_user_instruction | @dockerfile_volume_instruction | @dockerfile_workdir_instruction
+
+dockerfile_onbuild_instruction_def(
+  unique int id: @dockerfile_onbuild_instruction,
+  int child: @dockerfile_onbuild_instruction_child_type ref
+);
+
+#keyset[dockerfile_path, index]
+dockerfile_path_child(
+  int dockerfile_path: @dockerfile_path ref,
+  int index: int ref,
+  unique int child: @dockerfile_expansion ref
+);
+
+dockerfile_path_def(
+  unique int id: @dockerfile_path
+);
+
+@dockerfile_run_instruction_child_type = @dockerfile_json_string_array | @dockerfile_mount_param | @dockerfile_shell_command | @dockerfile_token_param
+
+#keyset[dockerfile_run_instruction, index]
+dockerfile_run_instruction_child(
+  int dockerfile_run_instruction: @dockerfile_run_instruction ref,
+  int index: int ref,
+  unique int child: @dockerfile_run_instruction_child_type ref
+);
+
+dockerfile_run_instruction_def(
+  unique int id: @dockerfile_run_instruction
+);
+
+@dockerfile_shell_command_child_type = @dockerfile_token_comment | @dockerfile_token_line_continuation | @dockerfile_token_shell_fragment
+
+#keyset[dockerfile_shell_command, index]
+dockerfile_shell_command_child(
+  int dockerfile_shell_command: @dockerfile_shell_command ref,
+  int index: int ref,
+  unique int child: @dockerfile_shell_command_child_type ref
+);
+
+dockerfile_shell_command_def(
+  unique int id: @dockerfile_shell_command
+);
+
+dockerfile_shell_instruction_def(
+  unique int id: @dockerfile_shell_instruction,
+  int child: @dockerfile_json_string_array ref
+);
+
+#keyset[dockerfile_single_quoted_string, index]
+dockerfile_single_quoted_string_child(
+  int dockerfile_single_quoted_string: @dockerfile_single_quoted_string ref,
+  int index: int ref,
+  unique int child: @dockerfile_token_escape_sequence ref
+);
+
+dockerfile_single_quoted_string_def(
+  unique int id: @dockerfile_single_quoted_string
+);
+
+@dockerfile_source_file_child_type = @dockerfile_add_instruction | @dockerfile_arg_instruction | @dockerfile_cmd_instruction | @dockerfile_copy_instruction | @dockerfile_entrypoint_instruction | @dockerfile_env_instruction | @dockerfile_expose_instruction | @dockerfile_from_instruction | @dockerfile_healthcheck_instruction | @dockerfile_label_instruction | @dockerfile_onbuild_instruction | @dockerfile_run_instruction | @dockerfile_shell_instruction | @dockerfile_stopsignal_instruction | @dockerfile_token_comment | @dockerfile_token_cross_build_instruction | @dockerfile_token_maintainer_instruction | @dockerfile_user_instruction | @dockerfile_volume_instruction | @dockerfile_workdir_instruction
+
+#keyset[dockerfile_source_file, index]
+dockerfile_source_file_child(
+  int dockerfile_source_file: @dockerfile_source_file ref,
+  int index: int ref,
+  unique int child: @dockerfile_source_file_child_type ref
+);
+
+dockerfile_source_file_def(
+  unique int id: @dockerfile_source_file
+);
+
+#keyset[dockerfile_stopsignal_instruction, index]
+dockerfile_stopsignal_instruction_child(
+  int dockerfile_stopsignal_instruction: @dockerfile_stopsignal_instruction ref,
+  int index: int ref,
+  unique int child: @dockerfile_expansion ref
+);
+
+dockerfile_stopsignal_instruction_def(
+  unique int id: @dockerfile_stopsignal_instruction
+);
+
+#keyset[dockerfile_unquoted_string, index]
+dockerfile_unquoted_string_child(
+  int dockerfile_unquoted_string: @dockerfile_unquoted_string ref,
+  int index: int ref,
+  unique int child: @dockerfile_expansion ref
+);
+
+dockerfile_unquoted_string_def(
+  unique int id: @dockerfile_unquoted_string
+);
+
+dockerfile_user_instruction_group(
+  unique int dockerfile_user_instruction: @dockerfile_user_instruction ref,
+  unique int group: @dockerfile_unquoted_string ref
+);
+
+dockerfile_user_instruction_def(
+  unique int id: @dockerfile_user_instruction,
+  int user: @dockerfile_unquoted_string ref
+);
+
+@dockerfile_volume_instruction_child_type = @dockerfile_json_string_array | @dockerfile_path
+
+#keyset[dockerfile_volume_instruction, index]
+dockerfile_volume_instruction_child(
+  int dockerfile_volume_instruction: @dockerfile_volume_instruction ref,
+  int index: int ref,
+  unique int child: @dockerfile_volume_instruction_child_type ref
+);
+
+dockerfile_volume_instruction_def(
+  unique int id: @dockerfile_volume_instruction
+);
+
+dockerfile_workdir_instruction_def(
+  unique int id: @dockerfile_workdir_instruction,
+  int child: @dockerfile_path ref
+);
+
+dockerfile_tokeninfo(
+  unique int id: @dockerfile_token,
+  int kind: int ref,
+  string value: string ref
+);
+
+case @dockerfile_token.kind of
+  0 = @dockerfile_reserved_word
+| 1 = @dockerfile_token_comment
+| 2 = @dockerfile_token_cross_build_instruction
+| 3 = @dockerfile_token_escape_sequence
+| 4 = @dockerfile_token_expose_port
+| 5 = @dockerfile_token_line_continuation
+| 6 = @dockerfile_token_maintainer_instruction
+| 7 = @dockerfile_token_mount_param_param
+| 8 = @dockerfile_token_param
+| 9 = @dockerfile_token_shell_fragment
+| 10 = @dockerfile_token_variable
+;
+
+
+@dockerfile_ast_node = @dockerfile_add_instruction | @dockerfile_arg_instruction | @dockerfile_cmd_instruction | @dockerfile_copy_instruction | @dockerfile_double_quoted_string | @dockerfile_entrypoint_instruction | @dockerfile_env_instruction | @dockerfile_env_pair | @dockerfile_expansion | @dockerfile_expose_instruction | @dockerfile_from_instruction | @dockerfile_healthcheck_instruction | @dockerfile_image_alias | @dockerfile_image_digest | @dockerfile_image_name | @dockerfile_image_spec | @dockerfile_image_tag | @dockerfile_json_string | @dockerfile_json_string_array | @dockerfile_label_instruction | @dockerfile_label_pair | @dockerfile_mount_param | @dockerfile_onbuild_instruction | @dockerfile_path | @dockerfile_run_instruction | @dockerfile_shell_command | @dockerfile_shell_instruction | @dockerfile_single_quoted_string | @dockerfile_source_file | @dockerfile_stopsignal_instruction | @dockerfile_token | @dockerfile_unquoted_string | @dockerfile_user_instruction | @dockerfile_volume_instruction | @dockerfile_workdir_instruction
+
+@dockerfile_ast_node_parent = @dockerfile_ast_node | @file
+
+#keyset[parent, parent_index]
+dockerfile_ast_node_info(
+  unique int node: @dockerfile_ast_node ref,
+  int parent: @dockerfile_ast_node_parent ref,
+  int parent_index: int ref,
+  int loc: @location_default ref
+);
+
