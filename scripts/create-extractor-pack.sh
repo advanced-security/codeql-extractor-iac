@@ -13,6 +13,15 @@ else
   exit 1
 fi
 
+if which codeql >/dev/null; then
+  CODEQL_BINARY="codeql"
+elif gh codeql >/dev/null; then
+  CODEQL_BINARY="gh codeql"
+else
+  gh extension install github/gh-codeql
+  CODEQL_BINARY="gh codeql"
+fi
+
 cargo build --release
 cargo run --release --bin codeql-extractor-iac -- generate --dbscheme ql/lib/iac.dbscheme --library ql/lib/codeql/iac/ast/internal/TreeSitter.qll
 $CODEQL_BINARY query format -i ql/lib/codeql/iac/ast/internal/TreeSitter.qll
