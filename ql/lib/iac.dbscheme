@@ -1,0 +1,580 @@
+// CodeQL database schema for HCL
+// Automatically generated from the tree-sitter grammar; do not edit
+
+/*- Files and folders -*/
+
+/**
+ * The location of an element.
+ * The location spans column `startcolumn` of line `startline` to
+ * column `endcolumn` of line `endline` in file `file`.
+ * For more information, see
+ * [Locations](https://codeql.github.com/docs/writing-codeql-queries/providing-locations-in-codeql-queries/).
+ */
+locations_default(
+  unique int id: @location_default,
+  int file: @file ref,
+  int beginLine: int ref,
+  int beginColumn: int ref,
+  int endLine: int ref,
+  int endColumn: int ref
+);
+
+files(
+  unique int id: @file,
+  string name: string ref
+);
+
+folders(
+  unique int id: @folder,
+  string name: string ref
+);
+
+@container = @file | @folder
+
+containerparent(
+  int parent: @container ref,
+  unique int child: @container ref
+);
+
+/*- Source location prefix -*/
+
+/**
+ * The source location of the snapshot.
+ */
+sourceLocationPrefix(string prefix : string ref);
+
+/*- Diagnostic messages -*/
+
+diagnostics(
+  unique int id: @diagnostic,
+  int severity: int ref,
+  string error_tag: string ref,
+  string error_message: string ref,
+  string full_error_message: string ref,
+  int location: @location_default ref
+);
+
+/*- Diagnostic messages: severity -*/
+
+case @diagnostic.severity of
+  10 = @diagnostic_debug
+| 20 = @diagnostic_info
+| 30 = @diagnostic_warning
+| 40 = @diagnostic_error
+;
+
+/*- YAML -*/
+
+#keyset[parent, idx]
+yaml (unique int id: @yaml_node,
+      int kind: int ref,
+      int parent: @yaml_node_parent ref,
+      int idx: int ref,
+      string tag: string ref,
+      string tostring: string ref);
+
+case @yaml_node.kind of
+  0 = @yaml_scalar_node
+| 1 = @yaml_mapping_node
+| 2 = @yaml_sequence_node
+| 3 = @yaml_alias_node
+;
+
+@yaml_collection_node = @yaml_mapping_node | @yaml_sequence_node;
+
+@yaml_node_parent = @yaml_collection_node | @file;
+
+yaml_anchors (unique int node: @yaml_node ref,
+              string anchor: string ref);
+
+yaml_aliases (unique int alias: @yaml_alias_node ref,
+              string target: string ref);
+
+yaml_scalars (unique int scalar: @yaml_scalar_node ref,
+              int style: int ref,
+              string value: string ref);
+
+yaml_errors (unique int id: @yaml_error,
+             string message: string ref);
+
+yaml_locations(unique int locatable: @yaml_locatable ref,
+             int location: @location_default ref);
+
+@yaml_locatable = @yaml_node | @yaml_error;
+
+/*- HCL dbscheme -*/
+@hcl_underscore_collection_value = @hcl_object | @hcl_tuple
+
+@hcl_underscore_expr_term = @hcl_for_expr | @hcl_function_call | @hcl_get_attr_expr | @hcl_index_expr | @hcl_parenthesized_expr | @hcl_splat_expr | @hcl_underscore_collection_value | @hcl_underscore_literal_value | @hcl_underscore_operation | @hcl_underscore_template_expr | @hcl_variable_expr
+
+@hcl_underscore_expression = @hcl_conditional | @hcl_underscore_expr_term
+
+@hcl_underscore_literal_value = @hcl_string_lit | @hcl_token_bool_lit | @hcl_token_null_lit | @hcl_token_numeric_lit
+
+@hcl_underscore_operation = @hcl_binary_operation | @hcl_unary_operation
+
+@hcl_underscore_splat = @hcl_attr_splat | @hcl_full_splat
+
+@hcl_underscore_template_directive = @hcl_template_for | @hcl_template_if
+
+@hcl_underscore_template_expr = @hcl_heredoc_template | @hcl_quoted_template
+
+#keyset[hcl_attr_splat, index]
+hcl_attr_splat_element(
+  int hcl_attr_splat: @hcl_attr_splat ref,
+  int index: int ref,
+  unique int element: @hcl_get_attr ref
+);
+
+hcl_attr_splat_def(
+  unique int id: @hcl_attr_splat
+);
+
+hcl_attribute_def(
+  unique int id: @hcl_attribute,
+  int key__: @hcl_token_identifier ref,
+  int val: @hcl_underscore_expression ref
+);
+
+case @hcl_binary_operation.operator of
+  0 = @hcl_binary_operation_bangequal
+| 1 = @hcl_binary_operation_percent
+| 2 = @hcl_binary_operation_ampersandampersand
+| 3 = @hcl_binary_operation_star
+| 4 = @hcl_binary_operation_plus
+| 5 = @hcl_binary_operation_minus
+| 6 = @hcl_binary_operation_slash
+| 7 = @hcl_binary_operation_langle
+| 8 = @hcl_binary_operation_langleequal
+| 9 = @hcl_binary_operation_equalequal
+| 10 = @hcl_binary_operation_rangle
+| 11 = @hcl_binary_operation_rangleequal
+| 12 = @hcl_binary_operation_pipepipe
+;
+
+
+hcl_binary_operation_def(
+  unique int id: @hcl_binary_operation,
+  int left: @hcl_underscore_expr_term ref,
+  int operator: int ref,
+  int right: @hcl_underscore_expr_term ref
+);
+
+hcl_block_body(
+  unique int hcl_block: @hcl_block ref,
+  unique int body: @hcl_body ref
+);
+
+@hcl_block_label_type = @hcl_string_lit | @hcl_token_identifier
+
+#keyset[hcl_block, index]
+hcl_block_label(
+  int hcl_block: @hcl_block ref,
+  int index: int ref,
+  unique int label: @hcl_block_label_type ref
+);
+
+hcl_block_def(
+  unique int id: @hcl_block,
+  int type__: @hcl_token_identifier ref
+);
+
+@hcl_body_child_type = @hcl_attribute | @hcl_block
+
+#keyset[hcl_body, index]
+hcl_body_child(
+  int hcl_body: @hcl_body ref,
+  int index: int ref,
+  unique int child: @hcl_body_child_type ref
+);
+
+hcl_body_def(
+  unique int id: @hcl_body
+);
+
+hcl_conditional_def(
+  unique int id: @hcl_conditional,
+  int alternative: @hcl_underscore_expression ref,
+  int body: @hcl_underscore_expression ref,
+  int condition: @hcl_underscore_expression ref
+);
+
+@hcl_config_file_child_type = @hcl_body | @hcl_object
+
+hcl_config_file_child(
+  unique int hcl_config_file: @hcl_config_file ref,
+  unique int child: @hcl_config_file_child_type ref
+);
+
+hcl_config_file_def(
+  unique int id: @hcl_config_file
+);
+
+@hcl_for_expr_child_type = @hcl_for_object_expr | @hcl_for_tuple_expr
+
+hcl_for_expr_def(
+  unique int id: @hcl_for_expr,
+  int child: @hcl_for_expr_child_type ref
+);
+
+hcl_for_object_expr_condition(
+  unique int hcl_for_object_expr: @hcl_for_object_expr ref,
+  unique int condition: @hcl_underscore_expression ref
+);
+
+#keyset[hcl_for_object_expr, index]
+hcl_for_object_expr_target(
+  int hcl_for_object_expr: @hcl_for_object_expr ref,
+  int index: int ref,
+  unique int target: @hcl_token_identifier ref
+);
+
+hcl_for_object_expr_child(
+  unique int hcl_for_object_expr: @hcl_for_object_expr ref,
+  unique int child: @hcl_token_ellipsis ref
+);
+
+hcl_for_object_expr_def(
+  unique int id: @hcl_for_object_expr,
+  int iter: @hcl_underscore_expression ref,
+  int key__: @hcl_underscore_expression ref,
+  int val: @hcl_underscore_expression ref
+);
+
+hcl_for_tuple_expr_condition(
+  unique int hcl_for_tuple_expr: @hcl_for_tuple_expr ref,
+  unique int condition: @hcl_underscore_expression ref
+);
+
+#keyset[hcl_for_tuple_expr, index]
+hcl_for_tuple_expr_target(
+  int hcl_for_tuple_expr: @hcl_for_tuple_expr ref,
+  int index: int ref,
+  unique int target: @hcl_token_identifier ref
+);
+
+hcl_for_tuple_expr_def(
+  unique int id: @hcl_for_tuple_expr,
+  int expr: @hcl_underscore_expression ref,
+  int iter: @hcl_underscore_expression ref
+);
+
+@hcl_full_splat_element_type = @hcl_get_attr | @hcl_index
+
+#keyset[hcl_full_splat, index]
+hcl_full_splat_element(
+  int hcl_full_splat: @hcl_full_splat ref,
+  int index: int ref,
+  unique int element: @hcl_full_splat_element_type ref
+);
+
+hcl_full_splat_def(
+  unique int id: @hcl_full_splat
+);
+
+#keyset[hcl_function_call, index]
+hcl_function_call_argument(
+  int hcl_function_call: @hcl_function_call ref,
+  int index: int ref,
+  unique int argument: @hcl_underscore_expression ref
+);
+
+hcl_function_call_child(
+  unique int hcl_function_call: @hcl_function_call ref,
+  unique int child: @hcl_token_ellipsis ref
+);
+
+hcl_function_call_def(
+  unique int id: @hcl_function_call,
+  int function: @hcl_token_identifier ref
+);
+
+hcl_get_attr_def(
+  unique int id: @hcl_get_attr,
+  int key__: @hcl_token_identifier ref
+);
+
+hcl_get_attr_expr_def(
+  unique int id: @hcl_get_attr_expr,
+  int expr: @hcl_underscore_expr_term ref,
+  int key__: @hcl_token_identifier ref
+);
+
+case @hcl_heredoc_template.start of
+  0 = @hcl_heredoc_template_langlelangle
+| 1 = @hcl_heredoc_template_langlelangleminus
+;
+
+
+@hcl_heredoc_template_child_type = @hcl_template_interpolation | @hcl_token_template_literal | @hcl_underscore_template_directive
+
+#keyset[hcl_heredoc_template, index]
+hcl_heredoc_template_child(
+  int hcl_heredoc_template: @hcl_heredoc_template ref,
+  int index: int ref,
+  unique int child: @hcl_heredoc_template_child_type ref
+);
+
+hcl_heredoc_template_def(
+  unique int id: @hcl_heredoc_template,
+  int start: int ref
+);
+
+@hcl_index_index_type = @hcl_token_numeric_lit | @hcl_underscore_expression
+
+hcl_index_def(
+  unique int id: @hcl_index,
+  int index: @hcl_index_index_type ref
+);
+
+@hcl_index_expr_index_type = @hcl_token_numeric_lit | @hcl_underscore_expression
+
+hcl_index_expr_def(
+  unique int id: @hcl_index_expr,
+  int expr: @hcl_underscore_expr_term ref,
+  int index: @hcl_index_expr_index_type ref
+);
+
+#keyset[hcl_object, index]
+hcl_object_element(
+  int hcl_object: @hcl_object ref,
+  int index: int ref,
+  unique int element: @hcl_object_elem ref
+);
+
+hcl_object_def(
+  unique int id: @hcl_object
+);
+
+hcl_object_elem_def(
+  unique int id: @hcl_object_elem,
+  int key__: @hcl_underscore_expression ref,
+  int val: @hcl_underscore_expression ref
+);
+
+hcl_parenthesized_expr_def(
+  unique int id: @hcl_parenthesized_expr,
+  int child: @hcl_underscore_expression ref
+);
+
+@hcl_quoted_template_child_type = @hcl_template_interpolation | @hcl_token_template_literal | @hcl_underscore_template_directive
+
+#keyset[hcl_quoted_template, index]
+hcl_quoted_template_child(
+  int hcl_quoted_template: @hcl_quoted_template ref,
+  int index: int ref,
+  unique int child: @hcl_quoted_template_child_type ref
+);
+
+hcl_quoted_template_def(
+  unique int id: @hcl_quoted_template
+);
+
+hcl_splat_expr_def(
+  unique int id: @hcl_splat_expr,
+  int expr: @hcl_underscore_expr_term ref,
+  int splat: @hcl_underscore_splat ref
+);
+
+hcl_string_lit_child(
+  unique int hcl_string_lit: @hcl_string_lit ref,
+  unique int child: @hcl_token_template_literal ref
+);
+
+hcl_string_lit_def(
+  unique int id: @hcl_string_lit
+);
+
+@hcl_template_for_body_type = @hcl_template_interpolation | @hcl_token_template_literal | @hcl_underscore_template_directive
+
+#keyset[hcl_template_for, index]
+hcl_template_for_body(
+  int hcl_template_for: @hcl_template_for ref,
+  int index: int ref,
+  unique int body: @hcl_template_for_body_type ref
+);
+
+#keyset[hcl_template_for, index]
+hcl_template_for_target(
+  int hcl_template_for: @hcl_template_for ref,
+  int index: int ref,
+  unique int target: @hcl_token_identifier ref
+);
+
+hcl_template_for_def(
+  unique int id: @hcl_template_for,
+  int iter: @hcl_underscore_expression ref
+);
+
+@hcl_template_if_alternative_type = @hcl_template_interpolation | @hcl_token_template_literal | @hcl_underscore_template_directive
+
+#keyset[hcl_template_if, index]
+hcl_template_if_alternative(
+  int hcl_template_if: @hcl_template_if ref,
+  int index: int ref,
+  unique int alternative: @hcl_template_if_alternative_type ref
+);
+
+@hcl_template_if_body_type = @hcl_template_interpolation | @hcl_token_template_literal | @hcl_underscore_template_directive
+
+#keyset[hcl_template_if, index]
+hcl_template_if_body(
+  int hcl_template_if: @hcl_template_if ref,
+  int index: int ref,
+  unique int body: @hcl_template_if_body_type ref
+);
+
+hcl_template_if_def(
+  unique int id: @hcl_template_if,
+  int condition: @hcl_underscore_expression ref
+);
+
+hcl_template_interpolation_expr(
+  unique int hcl_template_interpolation: @hcl_template_interpolation ref,
+  unique int expr: @hcl_underscore_expression ref
+);
+
+hcl_template_interpolation_def(
+  unique int id: @hcl_template_interpolation
+);
+
+#keyset[hcl_tuple, index]
+hcl_tuple_element(
+  int hcl_tuple: @hcl_tuple ref,
+  int index: int ref,
+  unique int element: @hcl_underscore_expression ref
+);
+
+hcl_tuple_def(
+  unique int id: @hcl_tuple
+);
+
+case @hcl_unary_operation.operator of
+  0 = @hcl_unary_operation_bang
+| 1 = @hcl_unary_operation_minus
+;
+
+
+hcl_unary_operation_def(
+  unique int id: @hcl_unary_operation,
+  int operand: @hcl_underscore_expr_term ref,
+  int operator: int ref
+);
+
+hcl_variable_expr_def(
+  unique int id: @hcl_variable_expr,
+  int name: @hcl_token_identifier ref
+);
+
+hcl_tokeninfo(
+  unique int id: @hcl_token,
+  int kind: int ref,
+  string value: string ref
+);
+
+case @hcl_token.kind of
+  0 = @hcl_reserved_word
+| 1 = @hcl_token_bool_lit
+| 2 = @hcl_token_comment
+| 3 = @hcl_token_ellipsis
+| 4 = @hcl_token_identifier
+| 5 = @hcl_token_null_lit
+| 6 = @hcl_token_numeric_lit
+| 7 = @hcl_token_template_literal
+;
+
+
+@hcl_ast_node = @hcl_attr_splat | @hcl_attribute | @hcl_binary_operation | @hcl_block | @hcl_body | @hcl_conditional | @hcl_config_file | @hcl_for_expr | @hcl_for_object_expr | @hcl_for_tuple_expr | @hcl_full_splat | @hcl_function_call | @hcl_get_attr | @hcl_get_attr_expr | @hcl_heredoc_template | @hcl_index | @hcl_index_expr | @hcl_object | @hcl_object_elem | @hcl_parenthesized_expr | @hcl_quoted_template | @hcl_splat_expr | @hcl_string_lit | @hcl_template_for | @hcl_template_if | @hcl_template_interpolation | @hcl_token | @hcl_tuple | @hcl_unary_operation | @hcl_variable_expr
+
+@hcl_ast_node_parent = @file | @hcl_ast_node
+
+#keyset[parent, parent_index]
+hcl_ast_node_info(
+  unique int node: @hcl_ast_node ref,
+  int parent: @hcl_ast_node_parent ref,
+  int parent_index: int ref,
+  int loc: @location_default ref
+);
+
+/*- JSON dbscheme -*/
+#keyset[json_array, index]
+json_array_child(
+  int json_array: @json_array ref,
+  int index: int ref,
+  unique int child: @json_value ref
+);
+
+json_array_def(
+  unique int id: @json_array
+);
+
+#keyset[json_document, index]
+json_document_child(
+  int json_document: @json_document ref,
+  int index: int ref,
+  unique int child: @json_value ref
+);
+
+json_document_def(
+  unique int id: @json_document
+);
+
+#keyset[json_object, index]
+json_object_child(
+  int json_object: @json_object ref,
+  int index: int ref,
+  unique int child: @json_pair ref
+);
+
+json_object_def(
+  unique int id: @json_object
+);
+
+@json_pair_key_type = @json_string__ | @json_token_number
+
+json_pair_def(
+  unique int id: @json_pair,
+  int key__: @json_pair_key_type ref,
+  int value: @json_value ref
+);
+
+json_string_child(
+  unique int json_string__: @json_string__ ref,
+  unique int child: @json_token_string_content ref
+);
+
+json_string_def(
+  unique int id: @json_string__
+);
+
+@json_value = @json_array | @json_object | @json_string__ | @json_token_false | @json_token_null | @json_token_number | @json_token_true
+
+json_tokeninfo(
+  unique int id: @json_token,
+  int kind: int ref,
+  string value: string ref
+);
+
+case @json_token.kind of
+  0 = @json_reserved_word
+| 1 = @json_token_comment
+| 2 = @json_token_false
+| 3 = @json_token_null
+| 4 = @json_token_number
+| 5 = @json_token_string_content
+| 6 = @json_token_true
+;
+
+
+@json_ast_node = @json_array | @json_document | @json_object | @json_pair | @json_string__ | @json_token
+
+@json_ast_node_parent = @file | @json_ast_node
+
+#keyset[parent, parent_index]
+json_ast_node_info(
+  unique int node: @json_ast_node ref,
+  int parent: @json_ast_node_parent ref,
+  int parent_index: int ref,
+  int loc: @location_default ref
+);
+

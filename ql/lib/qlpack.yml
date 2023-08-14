@@ -1,0 +1,13 @@
+---
+library: true
+warnOnImplicitThis: false
+name: codeql/iac-all
+version: 0.0.1-dev
+dependencies:
+  codeql/util: 0.0.4
+  codeql/yaml: ^0.1.2
+dbscheme: iac.dbscheme
+extractor: iac
+upgrades: upgrades
+groups:
+ - iac
