@@ -2,13 +2,9 @@
 
 set -e
 
-EXTRACTOR_NAME="${1:iac}"
+EXTRACTOR_NAME="iac"
 EXTRACTOR_LOCATIONS="$HOME/.codeql/extractors"
 
-if [ -z "$EXTRACTOR_NAME" ]; then
-    echo "No extractor name provided"
-    exit 1
-fi
 
 mkdir -p $EXTRACTOR_LOCATIONS
 
