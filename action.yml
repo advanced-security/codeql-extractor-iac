@@ -1,0 +1,41 @@
+name: "codeql-extractor-iac"
+description: "CodeQL Extractor for Infrastructure as Code"
+
+inputs:
+  token:
+    description: GitHub Token
+    default: ${{ github.token }}
+
+  sarif:
+    description: "SARIF File Output"
+    default: "result.sarif"
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+      run: |
+        set -e
+        bash -c ${{ github.action_path }}/scripts/install-extractor.sh "iac"
+
+        CODEQL="$(find $RUNNER_TOOL_CACHE/CodeQL/*/x64/codeql -iname "codeql" -print -quit)/codeql"
+
+        "$CODEQL" resolve extractor --search-path ~/.codeql/extractors/extractor-pack -l=iac
+
+        "$CODEQL" database create \
+          --language=iac --overwrite \
+          --search-path ~/.codeql/extractors/extractor-pack \
+          ../codeql-iac-db
+
+        "$CODEQL" database analyze \
+          --search-path="${{ github.action_path }}" \
+          --format sarif-latest \
+          --output "${{ inputs.sarif }}" \
+          ../codeql-iac-db
+
+    # https://github.com/github/codeql-action/blob/main/upload-sarif/action.yml
+    - uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: "${{ inputs.sarif }}"
