@@ -1,7 +1,7 @@
 ---
 library: true
 warnOnImplicitThis: false
-name: codeql/iac-all
+name: advanced-security/iac-all
 version: 0.1.0
 dependencies:
   codeql/util: 0.0.4
