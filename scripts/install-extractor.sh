@@ -2,7 +2,7 @@
 
 set -e
 
-EXTRACTOR_NAME="${1}"
+EXTRACTOR_NAME="${1:iac}"
 EXTRACTOR_LOCATIONS="$HOME/.codeql/extractors"
 
 if [ -z "$EXTRACTOR_NAME" ]; then
