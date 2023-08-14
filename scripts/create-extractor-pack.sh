@@ -32,6 +32,6 @@ cp -r codeql-extractor.yml downgrades tools ql/lib/iac.dbscheme ql/lib/iac.dbsch
 mkdir -p extractor-pack/tools/${platform}
 cp target/release/codeql-extractor-iac extractor-pack/tools/${platform}/extractor
 
-pushd ql/lib 
-codeql pack create --output=$HOME/.codeql/packages .
+pushd ql/lib
+$CODEQL_BINARY pack create --output=$HOME/.codeql/packages .
 popd
