@@ -25,8 +25,9 @@ class IaCCommandLine(CommandLine):
         if arguments.mode == "publish":
             self.runPublish(arguments, packs)
         elif arguments.mode == "queries":
-            print("CodeQL Queries:")
-            for query in pack_src.resolveQueries():
+            queries = pack_src.resolveQueries()
+            print(f"CodeQL Queries :: {len(queries)}")
+            for query in queries:
                 print(f"{query}")
         elif arguments.mode == "version":
             self.runBump(arguments, packs)

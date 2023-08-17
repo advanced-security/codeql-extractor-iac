@@ -1,0 +1,37 @@
+name: Bump Version
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        required: true
+        description: "Bump Type (major, minor, patch)"
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Bump Version"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pip install ghastoolkit
+          python ./.github/scripts/codeql.py version \
+            --bump "${{ github.event.inputs.bump }}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: "[Bot] Version Bump - ${{ github.event.inputs.repository }}"
+          body: "This PR was automatically generated to bump the version of IaC library and queries."
+          commit-message: "Bumping version of IaC library and queries."
+          branch: "auto-gen/version-${{ github.event.inputs.repository }}"
+          delete-branch: true
+          labels: |
+            version
+          assignees: geekmasher
+          reviewers: |
+            geekmasher
+          token: ${{ steps.get_workflow_token.outputs.token }}
