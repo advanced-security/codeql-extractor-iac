@@ -1,9 +1,5 @@
+library: false
 name: advanced-security/iac-queries
-version: 0.1.0
-groups: 
-  - iac
-  - queries
+version: 0.1.1
 dependencies:
   advanced-security/iac-all: ${workspace}
-extractor: iac
-defaultSuiteFile: codeql-suites/iac-code-scanning.qls
