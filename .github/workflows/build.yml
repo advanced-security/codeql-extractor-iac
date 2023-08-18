@@ -1,6 +1,10 @@
 name: Build and Publish Extractor Pack
 
 on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
   workflow_dispatch:
 
 jobs:
@@ -17,7 +21,7 @@ jobs:
           ./scripts/create-extractor-pack.sh
 
       - name: "Publish Extractor Pack"
-        # if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
