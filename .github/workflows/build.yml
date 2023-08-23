@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: dtolnay/rust-toolchain@nightly
+
       - name: "Build Extractor"
         env:
           GH_TOKEN: ${{ github.token }}
