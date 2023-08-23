@@ -16,6 +16,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          gh extensions install github/gh-codeql
+          gh codeql set-version latest
+
           ./scripts/create-extractor-pack.sh
 
       - name: "Run Tests"
