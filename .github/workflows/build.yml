@@ -17,3 +17,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           ./scripts/create-extractor-pack.sh
+
+      - name: "Run Tests"
+        run: |
+          ./scripts/run-tests.sh
