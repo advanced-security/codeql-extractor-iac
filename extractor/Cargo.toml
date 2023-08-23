@@ -19,4 +19,4 @@ tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
 rayon = "1.7.0"
 regex = "1.9.3"
 # codeql-extractor = { git = "https://github.com/github/codeql", rev = "6d7a75d1b945cfbd5bc5a7f71155e45bd73e676c" }
-codeql-extractor = { git = "https://github.com/hmac/codeql", branch = "shared-extractor-globs" }
+codeql-extractor = { git = "https://github.com/hmac/codeql", rev = "5645322252c8511b585556208a567efb69b92a0d" }
