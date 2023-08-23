@@ -6,14 +6,52 @@ private import codeql.files.FileSystem
 /**
  * A container image.
  */
-class Image extends AstNode, TImage {
+class ContainerImage extends AstNode, TImageSpec {
+  private DOCKERFILE::ImageSpec imageSpec;
+
   override string getAPrimaryQlClass() { result = "Image" }
+
+  ContainerImage() { this = TImageSpec(imageSpec) }
+
+  ContainerImageName getName() { toContainerTreeSitter(result) = imageSpec.getName() }
+
+  ContainerImageTag getTag() { toContainerTreeSitter(result) = imageSpec.getTag() }
 }
 
-class ImageName extends AstNode, TImageName {
+/**
+ * A container image name.
+ */
+class ContainerImageName extends AstNode, TImageName {
   private DOCKERFILE::ImageName imageName;
 
   override string getAPrimaryQlClass() { result = "ImageName" }
 
-  ImageName() { this = TImageName(imageName) }
+  ContainerImageName() { this = TImageName(imageName) }
+}
+
+/**
+ * A container image tag.
+ */
+class ContainerImageTag extends AstNode, TImageTag {
+  private DOCKERFILE::ImageTag imageTag;
+
+  override string getAPrimaryQlClass() { result = "ImageTag" }
+
+  ContainerImageTag() { this = TImageTag(imageTag) }
+
+  /**
+   * Returns the value of the tag.
+   */
+  string getValue() { none() }
+}
+
+/**
+ * A container image alias.
+ */
+class ContainerImageAlias extends AstNode, TImageAlias {
+  private DOCKERFILE::ImageAlias imageAlias;
+
+  override string getAPrimaryQlClass() { result = "ImageAlias" }
+
+  ContainerImageAlias() { this = TImageAlias(imageAlias) }
 }

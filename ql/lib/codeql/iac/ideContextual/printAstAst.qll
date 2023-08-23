@@ -8,7 +8,7 @@
  * to hold for only the AST nodes you wish to view.
  */
 
-import codeql.iac.ast.AstNode
+import codeql.iac.ast.AstNode::HCL
 private import codeql.Locations
 import codeql.iac.ast.internal.AstNodes
 
