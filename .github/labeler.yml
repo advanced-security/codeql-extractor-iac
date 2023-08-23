@@ -1,0 +1,12 @@
+extractor:
+  - "extractor/**"
+  - "tools/**"
+
+ql-library:
+  - "ql/lib/**"
+
+ql-queries:
+  - "ql/src/**"
+
+ql-tests:
+  - "ql/test/**"

@@ -1,10 +1,8 @@
-name: Build and Publish Extractor Pack
+name: Build and Compile Extractor Pack
 
 on:
-  push:
-    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: ["main", "develop"]
   workflow_dispatch:
 
 jobs:
@@ -14,15 +12,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - uses: dtolnay/rust-toolchain@nightly
+
       - name: "Build Extractor"
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          gh extensions install github/gh-codeql
+          gh codeql set-version latest
+
           ./scripts/create-extractor-pack.sh
 
-      - name: "Publish Extractor Pack"
-        if: github.ref == 'refs/heads/main'
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: "Run Tests"
         run: |
-          ./scripts/publish-extractor-pack.sh
+          ./scripts/run-tests.sh

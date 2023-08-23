@@ -1,0 +1,8 @@
+name: codeql/iac-tests
+groups: [iac, test]
+dependencies:
+  codeql/iac-queries: ${workspace}
+  codeql/iac-all: ${workspace}
+extractor: iac
+tests: .
+warnOnImplicitThis: true
