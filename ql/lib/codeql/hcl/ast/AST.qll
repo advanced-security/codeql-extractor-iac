@@ -1,5 +1,5 @@
 private import codeql.iac.ast.internal.AstNodes
-private import codeql.iac.ast.AstNode
+private import codeql.iac.ast.AstNode::HCL
 private import codeql.Locations
 private import codeql.files.FileSystem
 
@@ -32,7 +32,7 @@ class Literal extends Expr, TLiteral {
 
   override string getAPrimaryQlClass() { result = "Literal" }
 
-  Literal() { literal = toTreeSitter(this) }
+  Literal() { literal = toHclTreeSitter(this) }
 
   string getValue() { none() }
 
@@ -88,9 +88,9 @@ class BinaryOperation extends Expr {
 
   BinaryOperation() { this = TBinaryOperation(binaryOp) }
 
-  Expr getLeftOperand() { toTreeSitter(result) = binaryOp.getLeft() }
+  Expr getLeftOperand() { toHclTreeSitter(result) = binaryOp.getLeft() }
 
-  Expr getRightOperand() { toTreeSitter(result) = binaryOp.getRight() }
+  Expr getRightOperand() { toHclTreeSitter(result) = binaryOp.getRight() }
 
   string getOperator() { result = binaryOp.getOperator() }
 
@@ -118,7 +118,7 @@ class Block extends Expr, TBlock {
 
   override string toString() { result = this.getType() }
 
-  Block getABlock() { toTreeSitter(result) = block.getBody().getChild(_) }
+  Block getABlock() { toHclTreeSitter(result) = block.getBody().getChild(_) }
 
   string getLabel(int i) {
     result = block.getLabel(i).(HCL::Identifier).getValue() or
@@ -136,7 +136,7 @@ class Block extends Expr, TBlock {
   Expr getAttribute(string name) {
     exists(HCL::Attribute attr | attr = block.getBody().getChild(_) |
       attr.getKey().getValue() = name and
-      toTreeSitter(result) = attr.getVal()
+      toHclTreeSitter(result) = attr.getVal()
     )
     or
     result = this.getABlock() and result.(Block).hasType(name)
@@ -164,7 +164,7 @@ class Tuple extends Expr, TTuple {
 
   Tuple() { this = TTuple(tuple) }
 
-  Expr getElement(int i) { toTreeSitter(result) = tuple.getElement(i) }
+  Expr getElement(int i) { toHclTreeSitter(result) = tuple.getElement(i) }
 }
 
 class FunctionCall extends Expr, TFunctionCall {
@@ -174,9 +174,9 @@ class FunctionCall extends Expr, TFunctionCall {
 
   FunctionCall() { this = TFunctionCall(functionCall) }
 
-  Expr getCallee() { toTreeSitter(result) = functionCall.getFunction() }
+  Expr getCallee() { toHclTreeSitter(result) = functionCall.getFunction() }
 
-  Expr getArgument(int i) { toTreeSitter(result) = functionCall.getArgument(i) }
+  Expr getArgument(int i) { toHclTreeSitter(result) = functionCall.getArgument(i) }
 
   override AstNode getAChild(string pred) {
     pred = "getCallee" and result = this.getCallee()
@@ -206,9 +206,9 @@ class GetAttrExpr extends Expr, TGetAttrExpr {
 
   GetAttrExpr() { this = TGetAttrExpr(getAttr) }
 
-  Expr getExpr() { toTreeSitter(result) = getAttr.getExpr() }
+  Expr getExpr() { toHclTreeSitter(result) = getAttr.getExpr() }
 
-  Identifier getKey() { toTreeSitter(result) = getAttr.getKey() }
+  Identifier getKey() { toHclTreeSitter(result) = getAttr.getKey() }
 
   override string toString() { result = getExpr() + "." + getKey().getName() }
 
