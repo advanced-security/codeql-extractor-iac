@@ -27,6 +27,11 @@ class ContainerImageName extends AstNode, TImageName {
   override string getAPrimaryQlClass() { result = "ImageName" }
 
   ContainerImageName() { this = TImageName(imageName) }
+
+  /**
+   * Returns the name of the image.
+   */
+  string getValue() { none() }
 }
 
 /**
