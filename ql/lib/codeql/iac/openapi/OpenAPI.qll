@@ -5,9 +5,11 @@ predicate openapiFiles(Location loc) {
   loc.getFile().getBaseName() =
     [
       // Swagger JSON / YAML
-      "swagger.yml", "swagger.yaml", "swagger.json",
+      "swagger.yml", "swagger.yaml",
+      // "swagger.json",
       // OpenAPI JSON / YAML
-      "openapi.json", "openapi.yml", "openapi.yaml",
+      "openapi.yml", "openapi.yaml",
+      // "openapi.json",
     ]
 }
 
