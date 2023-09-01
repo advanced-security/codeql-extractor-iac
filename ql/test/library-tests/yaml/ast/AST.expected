@@ -1,0 +1,26 @@
+| Chart.yml:1:1:1:10 | apiVersion |
+| Chart.yml:1:1:7:21 | apiVersion: v2 |
+| Chart.yml:1:13:1:14 | v2 |
+| Chart.yml:2:1:2:4 | name |
+| Chart.yml:2:7:2:17 | hello-world |
+| Chart.yml:3:1:3:11 | description |
+| Chart.yml:3:14:3:40 | A Helm  ... ernetes |
+| Chart.yml:5:1:5:4 | type |
+| Chart.yml:5:7:5:17 | application |
+| Chart.yml:6:1:6:7 | version |
+| Chart.yml:6:10:6:14 | 0.1.0 |
+| Chart.yml:7:1:7:10 | appVersion |
+| Chart.yml:7:13:7:20 | "1.16.0" |
+| sample.yml:1:1:1:4 | this |
+| sample.yml:1:1:6:11 | this: is |
+| sample.yml:1:7:1:8 | is |
+| sample.yml:2:1:2:1 | a |
+| sample.yml:3:3:3:6 | test |
+| sample.yml:3:3:4:13 | test: yaml |
+| sample.yml:3:9:3:12 | yaml |
+| sample.yml:4:3:4:6 | file |
+| sample.yml:4:9:4:12 | true |
+| sample.yml:5:1:5:4 | with |
+| sample.yml:6:3:6:7 | lines |
+| sample.yml:6:3:6:11 | lines: 7 |
+| sample.yml:6:10:6:10 | 7 |
