@@ -13,3 +13,5 @@ import codeql.iac.containers.Images
 import codeql.iac.helmcharts.HelmChart
 // Terraform / HCL
 import hcl
+// YAML
+import codeql.iac.YAML
