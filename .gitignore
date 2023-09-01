@@ -9,3 +9,6 @@ ql/test/**/CONSISTENCY
 work
 testing/
 *.tar.gz
+
+# Ignore MacOS files
+.DS_Store
