@@ -1,12 +1,12 @@
 private import codeql.iac.ast.internal.AstNodes
-private import codeql.iac.ast.AstNode::Containers
+private import codeql.iac.ast.Container
 private import codeql.Locations
 private import codeql.files.FileSystem
 
 /**
  * A container image.
  */
-class ContainerImage extends AstNode, TImageSpec {
+class ContainerImage extends ContainerAstNode, TImageSpec {
   private DOCKERFILE::ImageSpec imageSpec;
 
   override string getAPrimaryQlClass() { result = "Image" }
@@ -21,7 +21,7 @@ class ContainerImage extends AstNode, TImageSpec {
 /**
  * A container image name.
  */
-class ContainerImageName extends AstNode, TImageName {
+class ContainerImageName extends ContainerAstNode, TImageName {
   private DOCKERFILE::ImageName imageName;
 
   override string getAPrimaryQlClass() { result = "ImageName" }
@@ -37,7 +37,7 @@ class ContainerImageName extends AstNode, TImageName {
 /**
  * A container image tag.
  */
-class ContainerImageTag extends AstNode, TImageTag {
+class ContainerImageTag extends ContainerAstNode, TImageTag {
   private DOCKERFILE::ImageTag imageTag;
 
   override string getAPrimaryQlClass() { result = "ImageTag" }
@@ -53,7 +53,7 @@ class ContainerImageTag extends AstNode, TImageTag {
 /**
  * A container image alias.
  */
-class ContainerImageAlias extends AstNode, TImageAlias {
+class ContainerImageAlias extends ContainerAstNode, TImageAlias {
   private DOCKERFILE::ImageAlias imageAlias;
 
   override string getAPrimaryQlClass() { result = "ImageAlias" }

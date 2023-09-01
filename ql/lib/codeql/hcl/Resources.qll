@@ -1,6 +1,5 @@
 private import codeql.Locations
-private import codeql.iac.ast.AstNode
-private import codeql.hcl.ast.AST
+private import codeql.hcl.AST
 
 // Resources are the most important element in the Terraform language.
 // Each resource block describes one or more infrastructure objects, such as

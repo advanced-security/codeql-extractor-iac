@@ -5,41 +5,41 @@ import TreeSitter
  */
 cached
 newtype TJsonAstNode =
-  TReservedWord(JSON::ReservedWord node) or
-  TComment(JSON::Comment node) or
-  TArray(JSON::Array node) or
-  TDocument(JSON::Document node) or
-  TFalse(JSON::False node) or
-  TTrue(JSON::True node) or
-  TNull(JSON::Null node) or
-  TNumber(JSON::Number node) or
-  TObject(JSON::Object node) or
-  TPair(JSON::Pair node) or
-  TString(JSON::String node) or
-  TStringContent(JSON::StringContent node) or
-  TValue(JSON::Value node)
+  TJsonReservedWord(JSON::ReservedWord node) or
+  TJsonComment(JSON::Comment node) or
+  TJsonArray(JSON::Array node) or
+  TJsonDocument(JSON::Document node) or
+  TJsonFalse(JSON::False node) or
+  TJsonTrue(JSON::True node) or
+  TJsonNull(JSON::Null node) or
+  TJsonNumber(JSON::Number node) or
+  TJsonObject(JSON::Object node) or
+  TJsonPair(JSON::Pair node) or
+  TJsonString(JSON::String node) or
+  TJsonStringContent(JSON::StringContent node) or
+  TJsonValue(JSON::Value node)
 
-class TBooleanLiteral = TFalse or TTrue;
+class TJsonBooleanLiteral = TJsonFalse or TJsonTrue;
 
-class TLiteral = TBooleanLiteral or TNumber or TString or TNull;
+class TJsonLiteral = TJsonBooleanLiteral or TJsonNumber or TJsonString or TJsonNull;
 
 /**
- * Gets the underlying TreeSitter entity for a given AST node.
+ * Gets TJsonhe underlying TJsonreeSitter entity for a given AST node.
  */
 cached
 JSON::AstNode toJsonTreeSitter(TJsonAstNode n) {
-  //   n = TAttribute(result) or
-  n = TReservedWord(result) or
-  n = TComment(result) or
-  n = TArray(result) or
-  n = TDocument(result) or
-  n = TFalse(result) or
-  n = TTrue(result) or
-  n = TNull(result) or
-  n = TNumber(result) or
-  n = TObject(result) or
-  n = TPair(result) or
-  n = TString(result) or
-  n = TStringContent(result) or
-  n = TValue(result)
+  //   n = TJsonAttribute(result) or
+  n = TJsonReservedWord(result) or
+  n = TJsonComment(result) or
+  n = TJsonArray(result) or
+  n = TJsonDocument(result) or
+  n = TJsonFalse(result) or
+  n = TJsonTrue(result) or
+  n = TJsonNull(result) or
+  n = TJsonNumber(result) or
+  n = TJsonObject(result) or
+  n = TJsonPair(result) or
+  n = TJsonString(result) or
+  n = TJsonStringContent(result) or
+  n = TJsonValue(result)
 }

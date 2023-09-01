@@ -1,4 +1,7 @@
 private import TreeSitter
+import Hcl
+import Container
+import Json
 
 /**
  * AST Common Type
@@ -8,11 +11,3 @@ newtype TAstNode =
   THclAstNode(HCL::AstNode node) or
   TContainerAstNode(DOCKERFILE::AstNode node) or
   TJsonAstNode(JSON::AstNode node)
-
-// TODO
-cached
-AST toTreeSitter(TAstNode n) {
-  n = THclAstNode(result) or
-  n = TContainerAstNode(result) or
-  n = TJsonAstNode(result)
-}
