@@ -12,11 +12,10 @@ flate2 = "1.0"
 tree-sitter = ">= 0.20, < 0.21"
 tree-sitter-hcl = { git = "https://github.com/GeekMasher/tree-sitter-hcl", rev = "5e045dd1ff7852511c249c4c5d919d9556751d98" }
 tree-sitter-json = { git = "https://github.com/tausbn/tree-sitter-json.git", rev = "745663ee997f1576fe1e7187e6347e0db36ec7a9" }
-tree-sitter-dockerfile = { git = "https://github.com/camdencheek/tree-sitter-dockerfile", rev = "c0a9d694d9bf8ab79a919f5f9c7bc9c169caf321" }
+tree-sitter-dockerfile = { git = "https://github.com/GeekMasher/tree-sitter-dockerfile", rev = "c0a9d694d9bf8ab79a919f5f9c7bc9c169caf321" }
 clap = { version = "4.2", features = ["derive"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
 rayon = "1.7.0"
 regex = "1.9.3"
-# codeql-extractor = { git = "https://github.com/github/codeql", rev = "6d7a75d1b945cfbd5bc5a7f71155e45bd73e676c" }
-codeql-extractor = { git = "https://github.com/hmac/codeql", rev = "5645322252c8511b585556208a567efb69b92a0d" }
+codeql-extractor = { git = "https://github.com/github/codeql", rev = "67a0112fcbd02c797f070fe9a534394a11218b98" }
