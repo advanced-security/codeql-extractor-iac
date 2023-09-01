@@ -8,7 +8,8 @@
  * to hold for only the AST nodes you wish to view.
  */
 
-import codeql.iac.ast.AstNode
+import codeql.iac.ast.Hcl
+import codeql.iac.ast.Container
 private import codeql.Locations
 import codeql.iac.ast.internal.AstNodes
 
@@ -21,16 +22,16 @@ class PrintAstConfiguration extends string {
   /**
    * Holds if the given node should be printed.
    */
-  predicate shouldPrintNode(AstNode n) { any() }
+  predicate shouldPrintNode(HclAstNode n) { any() }
 }
 
 /**
  * Gets the `i`th child of parent.
  * The ordering is location based and pretty arbitrary.
  */
-AstNode getAstChild(PrintAstNode parent, int i) {
+HclAstNode getAstChild(PrintAstNode parent, int i) {
   result =
-    rank[i](AstNode child, Location l |
+    rank[i](HclAstNode child, Location l |
       child.getParent() = parent and
       child.getLocation() = l
     |
@@ -43,7 +44,7 @@ AstNode getAstChild(PrintAstNode parent, int i) {
 /**
  * A node in the output tree.
  */
-class PrintAstNode extends AstNode {
+class PrintAstNode extends HclAstNode {
   PrintAstNode() { shouldPrintNode(this) }
 
   string getProperty(string key) {
@@ -69,7 +70,7 @@ class PrintAstNode extends AstNode {
   PrintAstNode getChild(string edgeName) { result = this.getAChild(edgeName) }
 }
 
-private predicate shouldPrintNode(AstNode n) {
+private predicate shouldPrintNode(HclAstNode n) {
   exists(PrintAstConfiguration config | config.shouldPrintNode(n))
 }
 

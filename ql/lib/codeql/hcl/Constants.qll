@@ -1,4 +1,4 @@
-import hcl
+import codeql.hcl.AST
 import Locals
 
 private string evalStringConstant(Expr e) {

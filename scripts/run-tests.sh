@@ -9,4 +9,9 @@ else
   CODEQL_BINARY="gh codeql"
 fi
 
-$CODEQL_BINARY test run ql/test
+$CODEQL_BINARY pack install ql/test
+
+$CODEQL_BINARY test run \
+  --check-databases --check-unused-labels --check-repeated-labels --check-redefined-labels --check-use-before-definition \
+  --search-path ./extractor-pack \
+  ql/test
