@@ -18,11 +18,9 @@ private class Node extends YamlNode {
 }
 
 class OpenAPI extends Node, YamlDocument, YamlMapping {
-  string getApiVersion() { result = this.lookup("apiVersion").toString() }
+  string getApiVersion() { result = this.lookup("openapi").toString() }
 
-  string getVersion() { result = this.lookup("version").toString() }
+  YamlMapping getInfo() { result = this.lookup("info") }
 
-  string getName() { result = this.lookup("name").toString() }
-
-  string getType() { result = this.lookup("type").toString() }
+  YamlSequence getServers() { result = this.lookup("servers") }
 }
