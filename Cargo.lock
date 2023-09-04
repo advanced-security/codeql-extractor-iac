@@ -214,7 +214,6 @@ dependencies = [
  "tree-sitter",
  "tree-sitter-dockerfile",
  "tree-sitter-hcl",
- "tree-sitter-json",
 ]
 
 [[package]]
@@ -844,15 +843,6 @@ dependencies = [
 name = "tree-sitter-hcl"
 version = "0.0.1"
 source = "git+https://github.com/GeekMasher/tree-sitter-hcl?rev=5e045dd1ff7852511c249c4c5d919d9556751d98#5e045dd1ff7852511c249c4c5d919d9556751d98"
-dependencies = [
- "cc",
- "tree-sitter",
-]
-
-[[package]]
-name = "tree-sitter-json"
-version = "0.20.0"
-source = "git+https://github.com/tausbn/tree-sitter-json.git?rev=745663ee997f1576fe1e7187e6347e0db36ec7a9#745663ee997f1576fe1e7187e6347e0db36ec7a9"
 dependencies = [
  "cc",
  "tree-sitter",
