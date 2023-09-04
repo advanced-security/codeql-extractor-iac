@@ -5,6 +5,10 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   compile:
     runs-on: ubuntu-latest
