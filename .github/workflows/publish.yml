@@ -17,6 +17,11 @@ jobs:
       contents: read
       packages: write
 
+    strategy:
+      fail-fast: false
+      matrix:
+        packs: ["all", "queries"]
+
     steps:
       - uses: actions/checkout@v3
 
@@ -24,13 +29,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PUBLISHED_VERSION=$(gh api /orgs/advanced-security/packages/container/codeql-${{ matrix.language }}/versions --jq '.[0].metadata.container.tags[0]')
-          CURRENT_VERSION=$(grep version ${{ matrix.language }}/qlpack.yml | awk '{print $2}')
+          PUBLISHED_VERSION=$(gh api /orgs/advanced-security/packages/container/iac-${{ matrix.packs }}/versions --jq '.[0].metadata.container.tags[0]')
+          CURRENT_VERSION=$(grep version ${{ matrix.packs }}/qlpack.yml | awk '{print $2}')
 
           if [ "$PUBLISHED_VERSION" != "$CURRENT_VERSION" ]; then
             gh extension install github/gh-codeql
-            gh codeql pack install "${{ matrix.language }}"
-            gh codeql pack publish "${{ matrix.language }}"
+            gh codeql pack install "ql/${{ matrix.packs }}"
+            gh codeql pack publish "ql/${{ matrix.packs }}"
           fi
 
   compile:
