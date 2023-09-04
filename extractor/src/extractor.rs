@@ -37,12 +37,6 @@ pub fn run(options: Options) -> std::io::Result<()> {
                 file_globs: vec!["*.hcl".into(), "*.tf".into(), "*.tfvar".into()],
             },
             simple::LanguageSpec {
-                prefix: "json",
-                ts_language: tree_sitter_json::language(),
-                node_types: tree_sitter_json::NODE_TYPES,
-                file_globs: vec!["*.json".into(), "*.jsonl".into(), "*.jsonc".into()],
-            },
-            simple::LanguageSpec {
                 prefix: "dockerfile",
                 ts_language: tree_sitter_dockerfile::language(),
                 node_types: tree_sitter_dockerfile::NODE_TYPES,
