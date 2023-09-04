@@ -1,7 +1,6 @@
 private import TreeSitter
 import Hcl
 import Container
-import Json
 
 /**
  * AST Common Type
@@ -9,5 +8,4 @@ import Json
 cached
 newtype TAstNode =
   THclAstNode(HCL::AstNode node) or
-  TContainerAstNode(DOCKERFILE::AstNode node) or
-  TJsonAstNode(JSON::AstNode node)
+  TContainerAstNode(DOCKERFILE::AstNode node)

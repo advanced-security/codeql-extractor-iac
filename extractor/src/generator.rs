@@ -28,10 +28,6 @@ pub fn run(options: Options) -> std::io::Result<()> {
             node_types: tree_sitter_hcl::NODE_TYPES,
         },
         Language {
-            name: "JSON".to_owned(),
-            node_types: tree_sitter_json::NODE_TYPES,
-        },
-        Language {
             name: "DOCKERFILE".to_owned(),
             node_types: tree_sitter_dockerfile::NODE_TYPES,
         },

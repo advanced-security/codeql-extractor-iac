@@ -11,6 +11,17 @@
 | Chart.yml:6:10:6:14 | 0.1.0 |
 | Chart.yml:7:1:7:10 | appVersion |
 | Chart.yml:7:13:7:20 | "1.16.0" |
+| sample.json:1:1:8:1 | { |
+| sample.json:2:5:2:10 | "this" |
+| sample.json:2:13:2:16 | "is" |
+| sample.json:3:5:3:7 | "a" |
+| sample.json:3:10:6:5 | { |
+| sample.json:4:9:4:16 | "sample" |
+| sample.json:4:19:4:24 | "json" |
+| sample.json:5:9:5:14 | "file" |
+| sample.json:5:17:5:17 | 4 |
+| sample.json:7:5:7:13 | "testing" |
+| sample.json:7:16:7:19 | true |
 | sample.yml:1:1:1:4 | this |
 | sample.yml:1:1:6:11 | this: is |
 | sample.yml:1:7:1:8 | is |

@@ -17,10 +17,7 @@ pub fn run(_: Options) -> std::io::Result<()> {
         .include_extensions(&[
             ".hcl",
             ".tf",
-            ".ftvars", // Terraform / HCL files
-            ".json",
-            ".jsonc",
-            ".jsonl",      // JSON files
+            ".ftvars",     // Terraform / HCL files
             ".Dockerfile", // Docker files
         ])
         .include_globs(&[
