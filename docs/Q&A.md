@@ -13,7 +13,7 @@ It is designed to find security vulnerabilities, misconfigurations, and best pra
 ## Q: What support does GitHub / CodeQL provide to `codeql-extractor-iac`?
 
 The CodeQL IaC extractor is a community extractor and is not supported by GitHub or CodeQL teams.
-All issues should be reported to the `codeql-extractor-iac` [Issues] or [Discussions] and is not officially supported.
+All issues should be reported to the `codeql-extractor-iac` [Issues] or [Discussions] and is not officially supported as part of the [GitHub Advanced Security] offering..
 
 ## Q: What languages does the `codeql-extractor-iac` support?
 
@@ -45,13 +45,14 @@ _levels grades are based on completeness, higher the grade the better its suppor
 
 If a framework or technology is not listed above and you would like to see it supported, [please open an issue](https://github.com/advanced-security/codeql-extractor-iac/issues).
 
+## Q: What can I do to support this project?
+
+We are always looking for help and support from the community.
+Everything from staring on GitHub to updating documentation to contributing code is greatly appreciated!
+
 <!-- Resources -->
 
 [Issues]: https://github.com/advanced-security/codeql-extractor-iac/issues
 [Discussions]: https://github.com/advanced-security/codeql-extractor-iac/discussions
 [CodeQL]: https://codeql.github.com
-
-## Q: What can I do to support this project?
-
-We are always looking for help and support from the community.
-Everything from staring on GitHub to updating documentation to contributing code is greatly appreciated!
+[GitHub Advanced Security]: https://github.com/features/security
