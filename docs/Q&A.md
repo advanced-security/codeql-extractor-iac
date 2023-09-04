@@ -2,7 +2,7 @@
 
 ## Q: What is `codeql-extractor-iac`?
 
-The `codeql-extractor-iac` is a community extractor for the CodeQL static analysis engine.
+The `codeql-extractor-iac` is a community extractor for the [CodeQL] static analysis engine.
 It is a community extractor that is designed to extract and analyze Infrastructure as Code (IaC) files.
 
 ## Q: What is the `codeql-extractor-iac` used for?
@@ -49,3 +49,9 @@ If a framework or technology is not listed above and you would like to see it su
 
 [Issues]: https://github.com/advanced-security/codeql-extractor-iac/issues
 [Discussions]: https://github.com/advanced-security/codeql-extractor-iac/discussions
+[CodeQL]: https://codeql.github.com
+
+## Q: What can I do to support this project?
+
+We are always looking for help and support from the community.
+Everything from staring on GitHub to updating documentation to contributing code is greatly appreciated!
