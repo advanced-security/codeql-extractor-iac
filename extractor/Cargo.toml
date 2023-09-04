@@ -11,7 +11,6 @@ flate2 = "1.0"
 
 tree-sitter = ">= 0.20, < 0.21"
 tree-sitter-hcl = { git = "https://github.com/GeekMasher/tree-sitter-hcl", rev = "5e045dd1ff7852511c249c4c5d919d9556751d98" }
-tree-sitter-json = { git = "https://github.com/tausbn/tree-sitter-json.git", rev = "745663ee997f1576fe1e7187e6347e0db36ec7a9" }
 tree-sitter-dockerfile = { git = "https://github.com/GeekMasher/tree-sitter-dockerfile", rev = "c0a9d694d9bf8ab79a919f5f9c7bc9c169caf321" }
 clap = { version = "4.2", features = ["derive"] }
 tracing = "0.1"
