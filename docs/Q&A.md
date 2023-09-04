@@ -1,0 +1,51 @@
+# Questions and Answers
+
+## Q: What is `codeql-extractor-iac`?
+
+The `codeql-extractor-iac` is a community extractor for the CodeQL static analysis engine.
+It is a community extractor that is designed to extract and analyze Infrastructure as Code (IaC) files.
+
+## Q: What is the `codeql-extractor-iac` used for?
+
+The `codeql-extractor-iac` is used to extract and analyze IaC files.
+It is designed to find security vulnerabilities, misconfigurations, and best practices for different IaC frameworks and technologies.
+
+## Q: What support does GitHub / CodeQL provide to `codeql-extractor-iac`?
+
+The CodeQL IaC extractor is a community extractor and is not supported by GitHub or CodeQL teams.
+All issues should be reported to the `codeql-extractor-iac` [Issues] or [Discussions] and is not officially supported.
+
+## Q: What languages does the `codeql-extractor-iac` support?
+
+The `codeql-extractor-iac` supports the following languages:
+
+| Name            | Extension(s)                    |
+| --------------- | ------------------------------- |
+| Terraform / HCL | `.tf`, `.tfvars`, `.hcl`        |
+| JSON            | `.json`, `.jsonl`, `.jsonc`     |
+| YAML            | `.yaml`, `.yml`                 |
+| Container files | `*Dockerfile`, `*Containerfile` |
+
+## Q: What frameworks and technologies does the `codeql-extractor-iac` support?
+
+The `codeql-extractor-iac` is a community extractor and supports a number of frameworks and technologies. The following table lists the supported frameworks and technologies:
+
+| Name                       | Level Grade | Support Level                   |
+| -------------------------- | :---------: | ------------------------------- |
+| Terraform (HCL)            |      3      | extractor, library, and queries |
+| ARM Template (YAML / JSON) |      2      | extractor and library           |
+| AWS CloudFormation         |      2      | extractor and library           |
+| Compose (Docker/Podman)    |      2      | extractor and library           |
+| Docker / Container file(s) |      2      | extractor and library           |
+| HelmChart (Kubernetes)     |      2      | extractor and library           |
+| OpenAPI / Swagger          |      2      | extractor and library           |
+| Azure Bicep                |      0      | currently unsupported           |
+
+_levels grades are based on completeness, higher the grade the better its supported._
+
+If a framework or technology is not listed above and you would like to see it supported, [please open an issue](https://github.com/advanced-security/codeql-extractor-iac/issues).
+
+<!-- Resources -->
+
+[Issues]: https://github.com/advanced-security/codeql-extractor-iac/issues
+[Discussions]: https://github.com/advanced-security/codeql-extractor-iac/discussions
