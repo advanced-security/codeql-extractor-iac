@@ -9,6 +9,8 @@ import codeql.iac.cloudformation.AWSCloudFormation
 // Containers / Docker
 import codeql.iac.containers.Containers
 import codeql.iac.containers.Images
+// Compose
+import codeql.iac.compose.Compose
 // HelmCharts
 import codeql.iac.helmcharts.HelmChart
 // Terraform / HCL
