@@ -1,3 +1,3 @@
 private import iac
 
-query predicate helmchart(HelmChart::Document n) { any() }
+query predicate helmchart(HelmChart::HelmChartDocument n) { any() }

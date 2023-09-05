@@ -9,13 +9,13 @@ module HelmChart {
   /**
    * Helm Chart document.
    */
-  class Document extends Node, YamlDocument, YamlMapping {
-    string getApiVersion() { result = this.lookup("apiVersion").toString() }
+  class HelmChartDocument extends Node, YamlDocument, YamlMapping {
+    string getApiVersion() { result = yamlToString(this.lookup("apiVersion")) }
 
-    string getVersion() { result = this.lookup("version").toString() }
+    string getVersion() { result = yamlToString(this.lookup("version")) }
 
-    string getName() { result = this.lookup("name").toString() }
+    string getName() { result = yamlToString(this.lookup("name")) }
 
-    string getType() { result = this.lookup("type").toString() }
+    string getType() { result = yamlToString(this.lookup("type")) }
   }
 }
