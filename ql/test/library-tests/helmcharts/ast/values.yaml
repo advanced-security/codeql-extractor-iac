@@ -1,0 +1,104 @@
+# Default values for Traefik
+image:
+  # -- Traefik image host registry
+  registry: docker.io
+  # -- Traefik image repository
+  repository: traefik
+  # -- defaults to appVersion
+  tag: ""
+  # -- Traefik image pull policy
+  pullPolicy: IfNotPresent
+
+commonLabels: {}
+
+# Configure the deployment
+deployment:
+  # -- Enable deployment
+  enabled: true
+  # -- Deployment or DaemonSet
+  kind: Deployment
+  # -- Number of pods of the deployment (only applies when kind == Deployment)
+  replicas: 1
+  # -- Number of old history to retain to allow rollback (If not set, default Kubernetes value is set to 10)
+  # revisionHistoryLimit: 1
+  # -- Amount of time (in seconds) before Kubernetes will send the SIGKILL signal if Traefik does not shut down
+  terminationGracePeriodSeconds: 60
+  # -- The minimum number of seconds Traefik needs to be up and running before the DaemonSet/Deployment controller considers it available
+  minReadySeconds: 0
+  ## Override the liveness/readiness port. This is useful to integrate traefik
+  ## with an external Load Balancer that performs healthchecks.
+  ## Default: ports.traefik.port
+  # healthchecksPort: 9000
+  ## Override the liveness/readiness scheme. Useful for getting ping to
+  ## respond on websecure entryPoint.
+  # healthchecksScheme: HTTPS
+  # -- Additional deployment annotations (e.g. for jaeger-operator sidecar injection)
+  annotations: {}
+  # -- Additional deployment labels (e.g. for filtering deployment by custom labels)
+  labels: {}
+  # -- Additional pod annotations (e.g. for mesh injection or prometheus scraping)
+  podAnnotations: {}
+  # -- Additional Pod labels (e.g. for filtering Pod by custom labels)
+  podLabels: {}
+  # -- Additional containers (e.g. for metric offloading sidecars)
+  additionalContainers:
+    []
+    # https://docs.datadoghq.com/developers/dogstatsd/unix_socket/?tab=host
+    # - name: socat-proxy
+    #   image: alpine/socat:1.0.5
+    #   args: ["-s", "-u", "udp-recv:8125", "unix-sendto:/socket/socket"]
+    #   volumeMounts:
+    #     - name: dsdsocket
+    #       mountPath: /socket
+  # -- Additional volumes available for use with initContainers and additionalContainers
+  additionalVolumes:
+    []
+    # - name: dsdsocket
+    #   hostPath:
+    #     path: /var/run/statsd-exporter
+  # -- Additional initContainers (e.g. for setting file permission as shown below)
+  initContainers:
+    []
+    # The "volume-permissions" init container is required if you run into permission issues.
+    # Related issue: https://github.com/traefik/traefik-helm-chart/issues/396
+    # - name: volume-permissions
+    #   image: busybox:latest
+    #   command: ["sh", "-c", "touch /data/acme.json; chmod -v 600 /data/acme.json"]
+    #   securityContext:
+    #     runAsNonRoot: true
+    #     runAsGroup: 65532
+    #     runAsUser: 65532
+    #   volumeMounts:
+    #     - name: data
+    #       mountPath: /data
+  # -- Use process namespace sharing
+  shareProcessNamespace: false
+  # -- Custom pod DNS policy. Apply if `hostNetwork: true`
+  # dnsPolicy: ClusterFirstWithHostNet
+  dnsConfig:
+    {}
+    # nameservers:
+    #   - 192.0.2.1 # this is an example
+    # searches:
+    #   - ns1.svc.cluster-domain.example
+    #   - my.dns.search.suffix
+    # options:
+    #   - name: ndots
+    #     value: "2"
+    #   - name: edns0
+  # -- Additional imagePullSecrets
+  imagePullSecrets:
+    []
+    # - name: myRegistryKeySecretName
+  # -- Pod lifecycle actions
+  lifecycle:
+    {}
+    # preStop:
+    #   exec:
+    #     command: ["/bin/sh", "-c", "sleep 40"]
+    # postStart:
+    #   httpGet:
+    #     path: /ping
+    #     port: 9000
+    #     host: localhost
+    #     scheme: HTTP

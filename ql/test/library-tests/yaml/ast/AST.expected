@@ -1,5 +1,5 @@
 | Chart.yml:1:1:1:10 | apiVersion |
-| Chart.yml:1:1:7:21 | apiVersion: v2 |
+| Chart.yml:1:1:7:21 | HelmChart Document |
 | Chart.yml:1:13:1:14 | v2 |
 | Chart.yml:2:1:2:4 | name |
 | Chart.yml:2:7:2:17 | hello-world |
