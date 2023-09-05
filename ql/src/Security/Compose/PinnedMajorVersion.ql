@@ -11,6 +11,6 @@
 
 import iac
 
-from Compose compose
+from Compose::Document compose
 where compose.getApiVersion() = ["2", "3"]
 select compose, "pinned version of Compose spec"
