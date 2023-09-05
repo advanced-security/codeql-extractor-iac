@@ -29,22 +29,28 @@ module OpenApi {
      */
     OpenApiInfo getInfo() { result = this.lookup("info") }
 
-    string getApiVersion() { result = this.lookup("openapi").toString() }
+    string getApiVersion() { result = yamlToString(this.lookup("openapi")) }
 
-    string getHost() { result = this.lookup("host").toString() }
+    string getHost() { result = yamlToString(this.lookup("host")) }
 
     string getSchemes() {
-      result =
-        this.lookup("schemes")
-            .(YamlCollection)
-            .getAChild()
-            .toString()
-            .regexpReplaceAll("(\"|')", "")
+      result = yamlToString(this.lookup("schemes").(YamlCollection).getAChild())
     }
 
-    string getBasePath() { result = this.lookup("basePath").toString() }
+    /**
+     * Get the base path.
+     */
+    string getBasePath() { result = yamlToString(this.lookup("basePath")) }
 
-    string getProduces() { result = this.lookup("produces").toString() }
+    /**
+     * Get the full base path.
+     */
+    string getFullBasePath() { result = this.getHost() + this.getBasePath() }
+
+    /**
+     * Get the OpenAPI consumes.
+     */
+    string getProduces() { result = yamlToString(this.lookup("produces")) }
 
     /**
      * Get the OpenAPI servers.
@@ -73,17 +79,17 @@ module OpenApi {
     /**
      * Get the API title.
      */
-    string getTitle() { result = this.lookup("title").toString() }
+    string getTitle() { result = yamlToString(this.lookup("title")) }
 
     /**
      * Get the API description.
      */
-    string getDescription() { result = this.lookup("description").toString() }
+    string getDescription() { result = yamlToString(this.lookup("description")) }
 
     /**
      * Get the API version.
      */
-    string getVersion() { result = this.lookup("version").toString() }
+    string getVersion() { result = yamlToString(this.lookup("version")) }
   }
 
   /**
@@ -105,9 +111,9 @@ module OpenApi {
 
     OpenApiServer() { oapis.getAChild() = this }
 
-    string getUrl() { result = this.lookup("url").(YamlString).toString() }
+    string getUrl() { result = yamlToString(this.lookup("url")) }
 
-    string getDescription() { result = this.lookup("description").(YamlString).toString() }
+    string getDescription() { result = yamlToString(this.lookup("description")) }
   }
 
   /**
