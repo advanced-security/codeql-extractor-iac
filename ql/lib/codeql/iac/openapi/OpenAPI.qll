@@ -85,6 +85,8 @@ module OpenApi {
 
     OpenApiInfo() { oapi.lookup("info") = this }
 
+    override string toString() { result = "OpenApi Information" }
+
     /**
      * Get the API title.
      */
@@ -109,6 +111,8 @@ module OpenApi {
 
     OpenApiServers() { oapi.lookup("servers") = this }
 
+    override string toString() { result = "OpenApi Servers" }
+
     OpenApiServer getServers() { result = this.getAChild() }
   }
 
@@ -119,6 +123,8 @@ module OpenApi {
     private OpenApiServers oapis;
 
     OpenApiServer() { oapis.getAChild() = this }
+
+    override string toString() { result = "OpenApi Server" }
 
     string getUrl() { result = yamlToString(this.lookup("url")) }
 
@@ -133,6 +139,8 @@ module OpenApi {
 
     OpenApiPath() { oapi.lookup("paths") = this }
 
+    override string toString() { result = "OpenApi Path" }
+
     /**
      * Get all paths.
      */
@@ -146,5 +154,7 @@ module OpenApi {
     private OpenApi oapi;
 
     OpenApiDefinitions() { oapi.lookup("definitions") = this }
+
+    override string toString() { result = "OpenApi Definitions" }
   }
 }
