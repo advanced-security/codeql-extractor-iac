@@ -1,0 +1,10 @@
+oapi
+| swagger.yml:1:1:24:31 | openapi: 3.0.0 |
+| uber.json:1:1:370:1 | { |
+oapiInfo
+| swagger.yml:3:3:5:17 | title: Sample API |
+| uber.json:3:13:7:5 | { |
+oapiServers
+| swagger.yml:7:3:10:87 | - url:  ... .com/v1 |
+oapiPaths
+| swagger.yml:12:3:24:31 | /users: |
