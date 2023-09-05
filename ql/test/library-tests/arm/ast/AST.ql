@@ -1,7 +1,7 @@
 private import iac
 
-query predicate armAstNodes(AzureResourceManager n) { any() }
+query predicate armAstNodes(ARM::Document n) { any() }
 
-query predicate armResource(ArmResource n) { any() }
+query predicate armResource(ARM::Resource n) { any() }
 
-query predicate armResourceProps(ArmResourceProperties n) { any() }
+query predicate armResourceProps(ARM::ResourceProperties n) { any() }

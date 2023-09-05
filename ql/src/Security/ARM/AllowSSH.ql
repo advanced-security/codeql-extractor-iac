@@ -11,7 +11,7 @@
 
 import iac
 
-from ArmResource resource, ArmSecurityRule security
+from ARM::Resource resource, ARM::SecurityRule security
 where
   security = resource.getProperties().getSecurityRules() and
   security.getProperty("destinationPortRange").toString() = "\"22\""
