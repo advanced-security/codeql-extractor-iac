@@ -1,0 +1,32 @@
+name: Technology Support Request
+description: Request a new technology
+title: "[Feat]: "
+labels: ["enhancement", "technology"]
+assignees:
+  - GeekMasher
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this request for new technology support!
+
+  - type: textarea
+    id: technology
+    attributes:
+      label: What technology?
+      description: Also please provide resources to the technology
+      placeholder: Technology...
+      value: "Requesting a new technology..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why should we support this technology?
+      description: Why are you requesting support?
+      placeholder: The why
+      value: "The why"
+    validations:
+      required: true
