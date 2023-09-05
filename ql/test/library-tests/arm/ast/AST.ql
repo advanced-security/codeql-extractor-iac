@@ -1,4 +1,4 @@
-private import codeql.iac.arm.ARM
+private import iac
 
 query predicate armAstNodes(AzureResourceManager n) { any() }
 
