@@ -1,0 +1,55 @@
+name: False Negative Report
+description: File a false negative report
+title: "[FN]: "
+labels: ["false-negative"]
+assignees:
+  - GeekMasher
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this false negative report!
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+      value: "A false positive happened!"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: What version of codeql-extractor-iac are you running?
+      options:
+        - 0.1.0
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: technologies
+    attributes:
+      label: What technology are you seeing the problem on?
+      multiple: true
+      options:
+        - Terraform (HCL)
+        - Azure Resource Manager Templates
+        - Azure Bicep
+        - AWS CloudFormation
+        - Compose (Docker / Podman)
+        - Docker / Container file(s)
+        - GitHub Actions
+        - HelmChart (Kubernetes)
+        - OpenAPI / Swagger
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant data / samples
