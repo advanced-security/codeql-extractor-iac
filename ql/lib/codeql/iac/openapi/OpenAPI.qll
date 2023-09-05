@@ -24,6 +24,8 @@ module OpenApi {
    * OpenAPI document.
    */
   class OpenApi extends Node, YamlDocument, YamlMapping {
+    override string toString() { result = "OpenApi Document" }
+
     /**
      * Get the OpenAPI info.
      */
@@ -45,7 +47,14 @@ module OpenApi {
     /**
      * Get the full base path.
      */
-    string getFullBasePath() { result = this.getHost() + this.getBasePath() }
+    string getFullBasePath() {
+      // No scheme
+      not exists(this.getSchemes()) and
+      result = this.getHost() + this.getBasePath()
+      or
+      // With scheme
+      result = this.getSchemes() + "://" + this.getHost() + this.getBasePath()
+    }
 
     /**
      * Get the OpenAPI consumes.
