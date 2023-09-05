@@ -1,4 +1,4 @@
-name: codeql/iac-tests
+name: advanced-security/iac-tests
 groups: [iac, test]
 dependencies:
 dependencies:
