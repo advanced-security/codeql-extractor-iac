@@ -16,6 +16,6 @@ import codeql.iac.helmcharts.HelmChart
 // Terraform / HCL
 import hcl
 // OpenAPI / Swagger
-import codeql.iac.openapi.OpenAPI
+import codeql.iac.openapi.OpenApi
 // YAML
 import codeql.iac.YAML
