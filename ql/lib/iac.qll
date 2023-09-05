@@ -1,7 +1,7 @@
 import codeql.Locations
 import codeql.files.FileSystem
 // Actions
-import codeql.iac.actions.GitHubActions
+import codeql.iac.actions.Actions
 // Azure Resource Manager
 import codeql.iac.arm.ARM
 // AWS CloudFormation
