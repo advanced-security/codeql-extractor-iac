@@ -33,7 +33,14 @@ module OpenApi {
 
     string getHost() { result = this.lookup("host").toString() }
 
-    string getSchemes() { result = this.lookup("schemes").toString() }
+    string getSchemes() {
+      result =
+        this.lookup("schemes")
+            .(YamlCollection)
+            .getAChild()
+            .toString()
+            .regexpReplaceAll("(\"|')", "")
+    }
 
     string getBasePath() { result = this.lookup("basePath").toString() }
 
