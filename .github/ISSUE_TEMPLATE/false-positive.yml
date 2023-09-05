@@ -1,6 +1,6 @@
 name: False Positive Report
 description: File a false positive report
-title: "[Bug]: "
+title: "[FP]: "
 labels: ["false-positive"]
 assignees:
   - GeekMasher
@@ -9,7 +9,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        Thanks for taking the time to fill out this false positive report!
 
   - type: textarea
     id: what-happened
