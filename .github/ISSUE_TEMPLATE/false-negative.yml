@@ -33,9 +33,9 @@ body:
       required: true
 
   - type: dropdown
-    id: browsers
+    id: technologies
     attributes:
-      label: What browsers are you seeing the problem on?
+      label: What technology are you seeing the problem on?
       multiple: true
       options:
         - Terraform (HCL)
