@@ -22,7 +22,7 @@ class GetAttrExpr extends Expr, TGetAttrExpr {
 
   Identifier getKey() { toHclTreeSitter(result) = getAttr.getKey() }
 
-  override string toString() { result = getExpr() + "." + getKey().getName() }
+  override string toString() { result = this.getExpr() + "." + this.getKey().getName() }
 
   override HclAstNode getAChild(string pred) {
     pred = "getExpr" and result = this.getExpr()
