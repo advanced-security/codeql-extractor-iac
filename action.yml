@@ -23,7 +23,7 @@ runs:
         CODEQL="$(find $RUNNER_TOOL_CACHE/CodeQL/*/x64/codeql -iname "codeql" -print -quit)/codeql"
 
         "$CODEQL" resolve extractor --search-path ~/.codeql/extractors/extractor-pack -l=iac
-        // download packs
+
         "$CODEQL" pack download advanced-security/iac-queries
 
         "$CODEQL" database create \
