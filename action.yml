@@ -24,8 +24,6 @@ runs:
 
         "$CODEQL" resolve extractor --search-path ~/.codeql/extractors/extractor-pack -l=iac
 
-        "$CODEQL" pack download advanced-security/iac-queries
-
         "$CODEQL" database create \
           --language=iac --overwrite \
           --search-path ~/.codeql/extractors/extractor-pack \
@@ -36,7 +34,7 @@ runs:
           --format sarif-latest \
           --output "${{ inputs.sarif }}" \
           ../codeql-iac-db \
-          advanced-security/iac-queries
+          ${{ github.action_path }}/ql/src
 
     # https://github.com/github/codeql-action/blob/main/upload-sarif/action.yml
     - uses: github/codeql-action/upload-sarif@v2
