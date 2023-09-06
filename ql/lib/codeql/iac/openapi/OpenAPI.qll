@@ -23,13 +23,13 @@ module OpenApi {
   /**
    * OpenAPI document.
    */
-  class OpenApi extends Node, YamlDocument, YamlMapping {
+  class Document extends Node, YamlDocument, YamlMapping {
     override string toString() { result = "OpenApi Document" }
 
     /**
      * Get the OpenAPI info.
      */
-    OpenApiInfo getInfo() { result = this.lookup("info") }
+    Info getInfo() { result = this.lookup("info") }
 
     string getApiVersion() { result = yamlToString(this.lookup("openapi")) }
 
@@ -64,26 +64,26 @@ module OpenApi {
     /**
      * Get the OpenAPI servers.
      */
-    OpenApiServers getServers() { result = this.lookup("servers") }
+    Servers getServers() { result = this.lookup("servers") }
 
     /**
      * Get the OpenAPI definitions.
      */
-    OpenApiDefinitions getDefinitions() { result = this.lookup("definitions") }
+    Definitions getDefinitions() { result = this.lookup("definitions") }
 
     /**
      * Get the OpenAPI paths.
      */
-    OpenApiPath getPaths() { result = this.lookup("paths") }
+    Path getPaths() { result = this.lookup("paths") }
   }
 
   /**
    * OpenAPI info.
    */
-  class OpenApiInfo extends YamlMapping {
-    private OpenApi oapi;
+  class Info extends YamlMapping {
+    private Document oapi;
 
-    OpenApiInfo() { oapi.lookup("info") = this }
+    Info() { oapi.lookup("info") = this }
 
     override string toString() { result = "OpenApi Information" }
 
@@ -106,23 +106,23 @@ module OpenApi {
   /**
    * OpenAPI servers.
    */
-  class OpenApiServers extends YamlSequence {
-    private OpenApi oapi;
+  class Servers extends YamlSequence {
+    private Document oapi;
 
-    OpenApiServers() { oapi.lookup("servers") = this }
+    Servers() { oapi.lookup("servers") = this }
 
     override string toString() { result = "OpenApi Servers" }
 
-    OpenApiServer getServers() { result = this.getAChild() }
+    Server getServers() { result = this.getAChild() }
   }
 
   /**
    * OpenAPI server.
    */
-  class OpenApiServer extends Node, YamlMapping {
-    private OpenApiServers oapis;
+  class Server extends Node, YamlMapping {
+    private Servers oapis;
 
-    OpenApiServer() { oapis.getAChild() = this }
+    Server() { oapis.getAChild() = this }
 
     override string toString() { result = "OpenApi Server" }
 
@@ -134,10 +134,10 @@ module OpenApi {
   /**
    * OpenAPI paths.
    */
-  class OpenApiPath extends Node, YamlMapping {
-    private OpenApi oapi;
+  class Path extends Node, YamlMapping {
+    private Document oapi;
 
-    OpenApiPath() { oapi.lookup("paths") = this }
+    Path() { oapi.lookup("paths") = this }
 
     override string toString() { result = "OpenApi Path" }
 
@@ -150,10 +150,10 @@ module OpenApi {
   /**
    * OpenAPI definitions.
    */
-  class OpenApiDefinitions extends YamlMapping {
-    private OpenApi oapi;
+  class Definitions extends YamlMapping {
+    private Document oapi;
 
-    OpenApiDefinitions() { oapi.lookup("definitions") = this }
+    Definitions() { oapi.lookup("definitions") = this }
 
     override string toString() { result = "OpenApi Definitions" }
   }

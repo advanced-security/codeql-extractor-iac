@@ -11,6 +11,6 @@
 
 import iac
 
-from OpenApi::OpenApi oapi
+from OpenApi::Document oapi
 where oapi.getSchemes() = "http"
 select oapi.lookup("schemes"), "http scheme is not secure"

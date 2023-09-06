@@ -1,9 +1,9 @@
 private import iac::OpenApi
 
-query predicate oapi(OpenApi n) { any() }
+query predicate oapi(Document n) { any() }
 
-query predicate oapiInfo(OpenApiInfo n) { any() }
+query predicate oapiInfo(Info n) { any() }
 
-query predicate oapiServers(OpenApiServers n) { any() }
+query predicate oapiServers(Servers n) { any() }
 
-query predicate oapiPaths(OpenApiPath n) { any() }
+query predicate oapiPaths(Path n) { any() }
