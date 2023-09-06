@@ -31,10 +31,19 @@ module OpenApi {
      */
     Info getInfo() { result = this.lookup("info") }
 
+    /**
+     * Get the OpenAPI version.
+     */
     string getApiVersion() { result = yamlToString(this.lookup("openapi")) }
 
+    /**
+     * Get the OpenAPI host.
+     */
     string getHost() { result = yamlToString(this.lookup("host")) }
 
+    /**
+     * Get the OpenAPI schemes.
+     */
     string getSchemes() {
       result = yamlToString(this.lookup("schemes").(YamlCollection).getAChild())
     }
@@ -113,6 +122,9 @@ module OpenApi {
 
     override string toString() { result = "OpenApi Servers" }
 
+    /**
+     * Get a server from the servers list.
+     */
     Server getServers() { result = this.getAChild() }
   }
 
@@ -126,8 +138,14 @@ module OpenApi {
 
     override string toString() { result = "OpenApi Server" }
 
+    /**
+     * Get the server URL.
+     */
     string getUrl() { result = yamlToString(this.lookup("url")) }
 
+    /**
+     * Get the server description.
+     */
     string getDescription() { result = yamlToString(this.lookup("description")) }
   }
 
