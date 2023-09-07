@@ -6,6 +6,10 @@ inputs:
     description: GitHub Token
     default: ${{ github.token }}
 
+  source-root:
+    description: "Path of the root source code directory, relative to $GITHUB_WORKSPACE."
+    default: "./"
+
   sarif:
     description: "SARIF File Output"
     default: "result.sarif"
@@ -27,6 +31,7 @@ runs:
         "$CODEQL" database create \
           --language=iac --overwrite \
           --search-path ~/.codeql/extractors/extractor-pack \
+          --source-root "${{ inputs.source-root }}" \
           ../codeql-iac-db
 
         "$CODEQL" database analyze \
