@@ -7,6 +7,7 @@
  * @precision very-high
  * @id iac/helmcharts/old-api-version
  * @tags security
+ *       experimental
  */
 
 import iac

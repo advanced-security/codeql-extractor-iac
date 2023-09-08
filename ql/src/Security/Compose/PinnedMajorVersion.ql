@@ -7,6 +7,7 @@
  * @precision very-high
  * @id iac/containers/latest-images
  * @tags maintainability
+ *       experimental
  */
 
 import iac
