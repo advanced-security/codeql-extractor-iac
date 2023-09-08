@@ -1,56 +1,58 @@
 private import codeql.iac.YAML
 private import codeql.files.FileSystem
 
-/**
- * A Compose file node.
- */
-private class Node extends YamlNode {
-  Node() {
-    this.getFile().getBaseName() =
-      [
-        // Compose
-        "compose.yml", "compose.yaml",
-        // Docker
-        "docker-compose.yml", "docker-compose.yaml",
-        // Podman
-        "podman-compose.yml", "podman-compose.yaml",
-      ]
-  }
-}
-
-/**
- * Docker / Podman Compose file.
- */
-class Compose extends Node, YamlDocument, YamlMapping {
+module Compose {
   /**
-   * Returns the version of the Compose file.
+   * A Compose file node.
    */
-  string getApiVersion() {
-    result = this.lookup("version").toString().regexpReplaceAll("('|\")", "")
+  private class Node extends YamlNode {
+    Node() {
+      this.getFile().getBaseName() =
+        [
+          // Compose
+          "compose.yml", "compose.yaml",
+          // Docker
+          "docker-compose.yml", "docker-compose.yaml",
+          // Podman
+          "podman-compose.yml", "podman-compose.yaml",
+        ]
+    }
   }
 
   /**
-   * Returns the services defined in the Compose file.
+   * Docker / Podman Compose file.
    */
-  ComposeService getServices() { result = this.lookup("services").getAChildNode() }
-}
+  class Document extends Node, YamlDocument, YamlMapping {
+    /**
+     * Returns the version of the Compose file.
+     */
+    string getApiVersion() {
+      result = this.lookup("version").toString().regexpReplaceAll("('|\")", "")
+    }
 
-/**
- * A service defined in a Compose file.
- */
-class ComposeService extends YamlMapping {
-  Compose compose;
+    /**
+     * Returns the services defined in the Compose file.
+     */
+    Service getServices() { result = this.lookup("services").getAChildNode() }
+  }
 
   /**
-   * Compose Service
+   * A service defined in a Compose file.
    */
-  ComposeService() { compose.lookup("services").getAChildNode() = this }
+  class Service extends YamlMapping {
+    Document compose;
 
-  /**
-   * Returns the name of the service.
-   */
-  string getName() {
-    result = this.lookup("container_name").toString()
-    // TODO get parent key name
+    /**
+     * Compose Service
+     */
+    Service() { compose.lookup("services").getAChildNode() = this }
+
+    /**
+     * Returns the name of the service.
+     */
+    string getName() {
+      result = this.lookup("container_name").toString()
+      // TODO get parent key name
+    }
   }
 }

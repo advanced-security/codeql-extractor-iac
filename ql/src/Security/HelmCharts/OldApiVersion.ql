@@ -11,6 +11,6 @@
 
 import iac
 
-from HelmChart chart
+from HelmChart::Document chart
 where chart.getApiVersion() = "v1"
 select chart, "old API version used"

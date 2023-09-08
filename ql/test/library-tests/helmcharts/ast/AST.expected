@@ -1,0 +1,17 @@
+helmchart
+| Chart.yml:1:1:19:53 | HelmChart Document |
+helmchartValues
+| values.yaml:2:1:104:23 | HelmChart Value Document |
+| values.yaml:4:3:10:27 | HelmChart Value Document |
+| values.yaml:12:15:12:16 | HelmChart Value Document |
+| values.yaml:17:3:104:23 | HelmChart Value Document |
+| values.yaml:36:16:36:17 | HelmChart Value Document |
+| values.yaml:38:11:38:12 | HelmChart Value Document |
+| values.yaml:40:19:40:20 | HelmChart Value Document |
+| values.yaml:42:14:42:15 | HelmChart Value Document |
+| values.yaml:79:5:79:6 | HelmChart Value Document |
+| values.yaml:95:5:95:6 | HelmChart Value Document |
+helmchartAssignedValues
+helmchartDeps
+| Chart.yml:14:5:17:2 | nginx |
+| Chart.yml:17:5:19:53 | memcached |

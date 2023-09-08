@@ -49,3 +49,8 @@ private module YamlSig implements LibYaml::InputSig {
 }
 
 import LibYaml::Make<YamlSig>
+
+/**
+ * A YAML Node to string and removes quotes.
+ */
+string yamlToString(YamlString str) { result = str.toString().regexpReplaceAll("(\"|')", "") }

@@ -1,0 +1,10 @@
+oapi
+| swagger.yml:1:1:24:31 | OpenApi Document |
+| uber.json:1:1:370:1 | OpenApi Document |
+oapiInfo
+| swagger.yml:3:3:5:17 | OpenApi Information |
+| uber.json:3:13:7:5 | OpenApi Information |
+oapiServers
+| swagger.yml:7:3:10:87 | OpenApi Servers |
+oapiPaths
+| swagger.yml:12:3:24:31 | OpenApi Path |
