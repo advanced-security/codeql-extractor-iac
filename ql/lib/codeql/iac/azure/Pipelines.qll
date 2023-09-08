@@ -19,6 +19,20 @@ module AzurePipelines {
     Pool getPool() { result = this.lookup("pool") }
 
     /**
+     * Get the pipeline variables.
+     */
+    Variable getVariables() { result = this.lookup("variables").getAChild() }
+
+    /**
+     * Get the pipeline variable with the given name.
+     */
+    YamlValue getVariable(string name) {
+      exists(Variable var | var = this.getVariables() and var.getName() = name |
+        result = var.getValue()
+      )
+    }
+
+    /**
      * Get the pipeline steps.
      */
     Step getSteps() { result = this.lookup("steps").getAChild() }
@@ -60,6 +74,34 @@ module AzurePipelines {
     string getDemands() { result = yamlToString(this.lookup("demands")) }
   }
 
+  /**
+   * Azure DevOps Pipeline variables.
+   *
+   * https://learn.microsoft.com/en-us/azure/devops/pipelines/process/variables
+   */
+  class Variable extends YamlNode, YamlMapping {
+    private Document document;
+
+    Variable() { document.lookup("variables").getChild(_) = this }
+
+    override string toString() { result = "Variable '" + this.getName() + "'" }
+
+    /**
+     * Get the variable name.
+     */
+    string getName() { result = yamlToString(this.lookup("name")) }
+
+    /**
+     * Get the variable value.
+     */
+    YamlValue getValue() { result = this.lookup("value") }
+  }
+
+  /**
+   * Azure DevOps Pipeline step.
+   *
+   * https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/steps
+   */
   class Step extends YamlNode, YamlMapping {
     private Document pipeline;
 
@@ -82,6 +124,9 @@ module AzurePipelines {
     }
   }
 
+  /**
+   * Azure DevOps Pipeline task step.
+   */
   class Task extends Step {
     Task() { this.getType() = "task" }
 
@@ -99,6 +144,9 @@ module AzurePipelines {
     YamlValue getInput(string name) { result = this.lookup(name) }
   }
 
+  /**
+   * Azure DevOps Pipeline script step.
+   */
   class Script extends Step {
     Script() { this.getType() = "script" }
   }
