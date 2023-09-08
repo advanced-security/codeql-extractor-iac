@@ -2,10 +2,12 @@ import codeql.Locations
 import codeql.files.FileSystem
 // Actions
 import codeql.iac.actions.Actions
-// Azure Resource Manager
-import codeql.iac.arm.ARM
-// AWS CloudFormation
-import codeql.iac.cloudformation.CloudFormation
+// Azure
+import codeql.iac.azure.ARM
+import codeql.iac.azure.Bicep
+import codeql.iac.azure.Pipelines
+// AWS
+import codeql.iac.aws.CloudFormation
 // Containers / Docker
 import codeql.iac.containers.Containers
 import codeql.iac.containers.Images
