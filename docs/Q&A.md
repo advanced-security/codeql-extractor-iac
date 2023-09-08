@@ -33,6 +33,7 @@ The `codeql-extractor-iac` is a community extractor and supports a number of fra
 | Name                       | Level Grade | Support Level                   |
 | -------------------------- | :---------: | ------------------------------- |
 | Terraform (HCL)            |      3      | extractor, library, and queries |
+| GitHub Actions             |      3      | extractor, library, and queries |
 | ARM Template (YAML / JSON) |      2      | extractor and library           |
 | AWS CloudFormation         |      2      | extractor and library           |
 | Compose (Docker/Podman)    |      2      | extractor and library           |
