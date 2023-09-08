@@ -1,1 +1,2 @@
-| .github/workflows/nopermissions.yml:1:1:13:29 | name: "Sample" | Workflow does not contain permissions |
+| .github/workflows/jobspermission.yml:19:5:26:29 | runs-on ... -latest | Workflow does not contain permissions |
+| .github/workflows/nopermissions.yml:7:5:13:29 | runs-on ... -latest | Workflow does not contain permissions |
