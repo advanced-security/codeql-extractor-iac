@@ -1,11 +1,11 @@
-# Actions Permissions not set to least privilege
+# Actions Job and Workflow Permissions are not set
 
-Action jobs should be configured with the least privilege required to complete the task.
-An Action job by default without the `permissions` key will run with all the permissions which can be given to a repository workflow.
+A GitHub Actions job or workflow hasn't set permissions to restrict privileges to the workflow job.
+A workflow job by default without the `permissions` key or a root workflow `permissions` will run with all the permissions which can be given to a workflow.
 
 ## Recommendation
 
-Add the `permissions` key to the job or workflow (for all jobs) and set the permissions to the least privilege required to complete the task.
+Add the `permissions` key to the job or workflow (applied to all jobs) and set the permissions to the least privilege required to complete the task:
 
 ```yaml
 name: "My workflow"

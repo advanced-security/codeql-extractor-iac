@@ -1,2 +1,2 @@
-| .github/workflows/jobspermission.yml:19:5:26:29 | runs-on ... -latest | Workflow does not contain permissions |
-| .github/workflows/nopermissions.yml:7:5:13:29 | runs-on ... -latest | Workflow does not contain permissions |
+| .github/workflows/jobspermission.yml:19:5:26:29 | runs-on ... -latest | Actions Job or Workflow does not set permissions |
+| .github/workflows/nopermissions.yml:7:5:13:29 | runs-on ... -latest | Actions Job or Workflow does not set permissions |
