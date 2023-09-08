@@ -1,0 +1,15 @@
+adopipeline
+| azure-pipelines.yml:1:1:33:26 | Azure DevOps Pipeline |
+adopipelineVariable
+| azure-pipelines.yml:16:5:17:24 | Variable 'one' |
+adopipelineSteps
+| azure-pipelines.yml:20:5:25:2 | Azure DevOps Pipeline step |
+| azure-pipelines.yml:25:5:30:2 | Azure DevOps Pipeline step |
+| azure-pipelines.yml:30:5:33:26 | Azure DevOps Pipeline step |
+adopipelinePool
+| azure-pipelines.yml:5:3:5:25 | vmImage ... -latest |
+adopipelineTask
+| azure-pipelines.yml:20:5:25:2 | Azure DevOps Pipeline step |
+adopipelineScript
+| azure-pipelines.yml:25:5:30:2 | Azure DevOps Pipeline step |
+| azure-pipelines.yml:30:5:33:26 | Azure DevOps Pipeline step |
