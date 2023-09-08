@@ -17,7 +17,7 @@ jobs:
           ./scripts/create-coverage.sh
 
       - name: "Upload Coverage Report"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: coverage.csv
