@@ -20,4 +20,4 @@ where
     not exists(job.lookup("permissions"))
   ) and
   node = job
-select node, "Workflow does not contain permissions"
+select node, "Workflow Job does not set permissions"
