@@ -1,11 +1,15 @@
-- description: Standard Code Scanning queries for HCL
+- description: Standard Code Scanning queries for IaC
 - queries: .
+
 - include:
     kind:
-    - problem
+      - problem
+      - path-problem
     tags contain:
-    - security
+      - security
+      - maintainability
 
 - exclude:
     tags contain:
       - experimental
+      - testing
