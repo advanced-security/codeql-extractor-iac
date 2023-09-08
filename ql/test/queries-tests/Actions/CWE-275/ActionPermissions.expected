@@ -1,1 +1,0 @@
-| .github/workflows/nopermissions.yml:1:1:13:29 | name: "Sample" | Workflow does not contain permissions |

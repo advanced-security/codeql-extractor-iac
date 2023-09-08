@@ -12,11 +12,12 @@
 
 import iac
 
-from Actions::Workflow workflow, Actions::Job job
+from Actions::Workflow workflow, Actions::Job job, YamlNode node
 where
   job = workflow.getJob(_) and
   (
     not exists(workflow.lookup("permissions")) and
     not exists(job.lookup("permissions"))
-  )
-select workflow, "Workflow does not contain permissions"
+  ) and
+  node = job
+select node, "Actions Job or Workflow does not set permissions"
