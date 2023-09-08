@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 9.3
  * @precision high
- * @id js/actions/unpinned-tag
+ * @id iac/actions/unpinned-tag
  * @tags actions
  *       security
  *       external/cwe/cwe-829
