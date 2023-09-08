@@ -10,5 +10,7 @@ work
 testing/
 *.tar.gz
 
+coverage.csv
+
 # Ignore MacOS files
 .DS_Store

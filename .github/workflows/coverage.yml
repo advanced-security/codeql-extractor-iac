@@ -1,0 +1,23 @@
+name: Query Coverage Report
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Run Coverage Report"
+        run: |
+          ./scripts/create-coverage.sh
+
+      - name: "Upload Coverage Report"
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage.csv
