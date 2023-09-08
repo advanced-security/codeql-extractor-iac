@@ -23,7 +23,7 @@ jobs:
         packs: ["all", "queries"]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: "Check and Publish CodeQL Packs"
         env:
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: "Build Extractor"
         env:
