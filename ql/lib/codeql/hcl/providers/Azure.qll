@@ -12,13 +12,30 @@ module Azure {
 
   /**
    * Azure provider.
+   *
+   * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
    */
   class AzureProvider extends Provider {
-    AzureProvider() { this.getName() = "Azure" }
+    AzureProvider() { this.getName() = "azurerm" }
 
     Expr getHost() { result = this.getAttribute("host") }
 
     Expr getConfigPath() { result = this.getAttribute("config_path") }
+
+    Expr getFeatures() { result = this.getAttribute("features") }
+  }
+
+  /**
+   * Azure Resource Group.
+   */
+  class ResourceGroup extends AzureResource {
+    ResourceGroup() { this.getResourceType() = "azurerm_resource_group" }
+
+    override string toString() { result = "ResourceGroup " + this.getName() }
+
+    override string getName() { result = this.getAttribute("name").(StringLiteral).getValue() }
+
+    Expr getResourceLocation() { result = this.getAttribute("location") }
   }
 
   /**
@@ -51,6 +68,9 @@ module Azure {
     KeyVaultSecret() { this.getResourceType() = "azurerm_key_vault_secret" }
   }
 
+  /**
+   * Azure Security Center Contact.
+   */
   class SecurityCenterContact extends AzureResource {
     SecurityCenterContact() { this.getResourceType() = "azurerm_security_center_contact" }
 
