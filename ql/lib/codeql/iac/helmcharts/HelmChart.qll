@@ -39,6 +39,8 @@ module HelmChart {
      */
     string getType() { result = yamlToString(this.lookup("type")) }
 
+    Spec getSpec() { result = this.lookup("spec") }
+
     /**
      * Get the Helm Chart dependencies.
      */
@@ -48,6 +50,56 @@ module HelmChart {
      * Get the Helm Chart values.
      */
     HelmChartValues::Document getValues() { none() }
+  }
+
+  /**
+   * Helm Chart spec.
+   */
+  class Spec extends Node, YamlMapping {
+    private HelmChart::Document helm;
+
+    Spec() { helm.lookup("spec") = this }
+
+    boolean getPrivileged() { result = this.lookup("privileged").(YamlBool).getBoolValue() }
+
+    SecurityContext getSecurityContext() { result = this.lookup("securityContext") }
+
+    Container getContainers() { result = this.lookup("containers").(YamlSequence).getAChild() }
+  }
+
+  /**
+   * Helm Chart container.
+   */
+  class Container extends Node, YamlMapping {
+    private HelmChart::Spec spec;
+
+    Container() { spec.lookup("containers").getAChild() = this }
+
+    SecurityContext getSecurityContext() { result = this.lookup("securityContext") }
+  }
+
+  /**
+   * Helm Chart security context.
+   */
+  class SecurityContext extends Node, YamlMapping {
+    private HelmChart::Spec spec;
+    private HelmChart::Container container;
+
+    SecurityContext() {
+      spec.lookup("securityContext") = this or container.lookup("securityContext") = this
+    }
+
+    override string toString() { result = "SecurityContext" }
+
+    int getRunAsUser() { result = this.lookup("runAsUser").(YamlInteger).getIntValue() }
+
+    int getRunAsGroup() { result = this.lookup("runAsUser").(YamlInteger).getIntValue() }
+
+    boolean getPrivileged() { result = this.lookup("privileged").(YamlBool).getBoolValue() }
+
+    boolean getAllowPrivilegeEscalation() {
+      result = this.lookup("allowPrivilegeEscalation").(YamlBool).getBoolValue()
+    }
   }
 
   class Dependency extends Node, YamlMapping {
