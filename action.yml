@@ -39,7 +39,7 @@ runs:
           --format sarif-latest \
           --output "${{ inputs.sarif }}" \
           ../codeql-iac-db \
-          ${{ github.action_path }}/ql/src
+          ${{ github.action_path }}/ql/src/codeql-suites/iac-code-scanning.qls
 
     # https://github.com/github/codeql-action/blob/main/upload-sarif/action.yml
     - uses: github/codeql-action/upload-sarif@v2
