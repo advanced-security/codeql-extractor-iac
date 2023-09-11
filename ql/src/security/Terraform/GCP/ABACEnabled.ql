@@ -11,9 +11,6 @@
 
 import hcl
 
-from Resource resource, Expr attr
-where
-  resource.getResourceType() = "google_container_cluster" and
-  attr = resource.getAttribute("enable_legacy_abac")
-// TODO check if set to true
+from GCP::ContainerCluster resource, Expr attr
+where attr = resource.getAttribute("enable_legacy_abac")
 select attr, "ABAC Enabled"

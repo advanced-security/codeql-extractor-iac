@@ -18,3 +18,9 @@ class Resource extends Block {
     result = "resource " + this.getResourceType() + " " + this.getName()
   }
 }
+
+class Provider extends Block {
+  Provider() { this.hasType("provider") }
+
+  string getName() { result = this.getLabel(0) }
+}
