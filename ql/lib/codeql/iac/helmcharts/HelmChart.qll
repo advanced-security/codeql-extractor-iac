@@ -75,6 +75,26 @@ module HelmChart {
 
     Container() { spec.lookup("containers").getAChild() = this }
 
+    override string toString() { result = "Container" }
+
+    /**
+     * Get the container name.
+     */
+    string getName() { result = yamlToString(this.lookup("name")) }
+
+    /**
+     * Get the container image.
+     */
+    string getImage() { result = yamlToString(this.lookup("image")) }
+
+    /**
+     * Get the container command.
+     */
+    YamlSequence getCommand() { result = this.lookup("command").(YamlSequence) }
+
+    /**
+     * Get the container security context.
+     */
     SecurityContext getSecurityContext() { result = this.lookup("securityContext") }
   }
 
@@ -91,12 +111,24 @@ module HelmChart {
 
     override string toString() { result = "SecurityContext" }
 
+    /**
+     * Get the container runAsUser.
+     */
     int getRunAsUser() { result = this.lookup("runAsUser").(YamlInteger).getIntValue() }
 
+    /**
+     * Get the container runAsGroup.
+     */
     int getRunAsGroup() { result = this.lookup("runAsUser").(YamlInteger).getIntValue() }
 
+    /**
+     * Get the container privilege.
+     */
     boolean getPrivileged() { result = this.lookup("privileged").(YamlBool).getBoolValue() }
 
+    /**
+     * Get the container allowPrivilegeEscalation.
+     */
     boolean getAllowPrivilegeEscalation() {
       result = this.lookup("allowPrivilegeEscalation").(YamlBool).getBoolValue()
     }
