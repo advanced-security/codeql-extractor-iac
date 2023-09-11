@@ -1,6 +1,6 @@
 /**
- * @name Cluster Pod Security Policy
- * @description Cluster Pod Security Policy
+ * @name Cluster Pod Security Policy (legacy)
+ * @description Cluster Pod Security Policy (legacy)
  * @kind problem
  * @problem.severity warning
  * @security-severity 5.0
@@ -11,11 +11,10 @@
 
 import hcl
 
-from Resource resource
+from GCP::ContainerCluster resource, GCP::PodSecurityPolicyConfig pspc
 where
-  resource.getResourceType() = "google_container_cluster" and
-  not resource.hasAttribute("pod_security_policy_config")
-// or
-// attr = resource.getAttribute("pod_security_policy_config")
-// TODO check if set to true
+  pspc = resource.getPodSecurityPolicyConfig() and
+  not exists(pspc)
+  or
+  pspc.getEnabled() = false
 select resource, "No Pod Security Policy Defined"
