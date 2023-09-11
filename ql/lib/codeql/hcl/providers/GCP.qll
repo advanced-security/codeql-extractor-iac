@@ -9,7 +9,7 @@ module GCP {
   /**
    * Google Cloud Platform (GCP) resource.
    */
-  private class GcpResource extends Resource, Block {
+  class GcpResource extends Resource, Block {
     GcpResource() { this.getResourceType().regexpMatch("^google.*") }
   }
 
