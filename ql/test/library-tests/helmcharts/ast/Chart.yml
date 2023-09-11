@@ -17,3 +17,11 @@ dependencies:
   - name: memcached
     version: "3.2.1"
     repository: "https://another.example.com/charts"
+
+spec:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+  containers:
+    - name: example1
+      image: busybox:1.28
