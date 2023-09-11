@@ -31,6 +31,8 @@ class NumericLiteral extends Literal, TNumericLit {
   NumericLiteral() { this = TNumericLit(literal) }
 
   override string getValue() { result = literal.getValue() }
+
+  int getInt() { result = literal.getValue().toInt() }
 }
 
 class BooleanLiteral extends Literal, TBooleanLiteral {

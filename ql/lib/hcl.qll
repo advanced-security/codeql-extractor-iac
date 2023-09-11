@@ -4,3 +4,7 @@ import codeql.hcl.ast.AstNodes
 import codeql.hcl.Resources
 import codeql.hcl.Constants
 import codeql.hcl.Locals
+// providers
+import codeql.hcl.providers.AWS
+import codeql.hcl.providers.Azure
+import codeql.hcl.providers.GCP
