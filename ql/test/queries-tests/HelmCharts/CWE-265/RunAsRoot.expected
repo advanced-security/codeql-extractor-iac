@@ -1,0 +1,2 @@
+| Chart.yml:9:5:11:2 | SecurityContext | root user set |
+| Chart.yml:31:9:32:25 | SecurityContext | root user set |
