@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 8.0
  * @precision high
- * @id iac/helmcharts/pob-run-as-root
+ * @id iac/helmcharts/pod-run-as-root
  * @tags security
  *       helmchart
  *       external/cwe/cwe-265
