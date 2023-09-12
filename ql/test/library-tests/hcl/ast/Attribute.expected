@@ -1,0 +1,14 @@
+attributeExpr
+| sample.hcl:3:5:6:5 | Attribute |
+| sample.hcl:9:3:9:31 | Attribute |
+| sample.hcl:13:3:13:15 | Attribute |
+| sample.hcl:21:3:21:32 | Attribute |
+| sample.hcl:22:3:22:22 | Attribute |
+| sample.hcl:26:3:26:36 | Attribute |
+| sample.hcl:27:3:27:64 | Attribute |
+| sample.hcl:28:3:28:60 | Attribute |
+| sample.hcl:29:3:29:39 | Attribute |
+| sample.hcl:30:3:30:32 | Attribute |
+| sample.hcl:31:3:31:38 | Attribute |
+attributeRef
+| sample.hcl:31:3:31:38 | Attribute | sample.hcl:13:13:13:15 | 1 |
