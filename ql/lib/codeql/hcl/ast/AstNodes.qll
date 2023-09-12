@@ -64,16 +64,6 @@ class Comment extends HclAstNode, TComment {
   string getContents() { result = comment.getValue() }
 }
 
-class Identifier extends HclAstNode, TIdentifier {
-  private HCL::Identifier identifier;
-
-  override string getAPrimaryQlClass() { result = "Identifier" }
-
-  Identifier() { this = TIdentifier(identifier) }
-
-  string getName() { result = identifier.getValue() }
-}
-
 class Expr extends HclAstNode, TExpr {
   override string getAPrimaryQlClass() { result = "Expr" }
 }
@@ -100,6 +90,16 @@ class BinaryOperation extends Expr {
     or
     pred = "getRightOperand" and result = this.getRightOperand()
   }
+}
+
+class Identifier extends Expr, TIdentifier {
+  private HCL::Identifier identifier;
+
+  override string getAPrimaryQlClass() { result = "Identifier" }
+
+  Identifier() { this = TIdentifier(identifier) }
+
+  string getName() { result = identifier.getValue() }
 }
 
 class Block extends Expr, TBlock {
@@ -147,7 +147,7 @@ class Block extends Expr, TBlock {
 }
 
 class Object extends Expr, TObject {
-  HCL::Object object;
+  private HCL::Object object;
 
   override string getAPrimaryQlClass() { result = "Object" }
 
@@ -155,7 +155,7 @@ class Object extends Expr, TObject {
 }
 
 class Tuple extends Expr, TTuple {
-  HCL::Tuple tuple;
+  private HCL::Tuple tuple;
 
   override string getAPrimaryQlClass() { result = "Tuple" }
 
@@ -165,7 +165,7 @@ class Tuple extends Expr, TTuple {
 }
 
 class HereDoc extends Expr, THeredocTemplate {
-  HCL::HeredocTemplate hereDoc;
+  private HCL::HeredocTemplate hereDoc;
 
   HereDoc() { this = THeredocTemplate(hereDoc) }
 }

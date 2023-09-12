@@ -45,10 +45,11 @@ class TTemplateDirective = TTemplateFor or TTemplateIf;
 class TLiteral = TBooleanLiteral or TNumericLit or TStringLit or TNullLiteral;
 
 class TExpr =
-  TLiteral or TVariable or TFunctionCall or TUnaryOperation or TBinaryOperation or TConditional or
-      TGetAttrExpr or TIndex or TTemplateLiteral or TTemplateInterpolation or TTemplateFor or
-      TTemplateIf or TForExpr or TForObjectExpr or TForTupleExpr or TTuple or TObject or
-      TAttrSplat or TFullSplat or TSplatExpr or TQuotedTemplate or TBlock or THeredocTemplate;
+  TLiteral or TIdentifier or TAttribute or TVariable or TFunctionCall or TUnaryOperation or
+      TBinaryOperation or TConditional or TGetAttrExpr or TIndex or TTemplateLiteral or
+      TTemplateInterpolation or TTemplateFor or TTemplateIf or TForExpr or TForObjectExpr or
+      TForTupleExpr or TTuple or TObject or TAttrSplat or TFullSplat or TSplatExpr or
+      TQuotedTemplate or TBlock or THeredocTemplate;
 
 /**
  * Gets the underlying TreeSitter entity for a given AST node.
