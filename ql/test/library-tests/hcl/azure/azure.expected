@@ -1,0 +1,13 @@
+azure
+| databases.hcl:1:1:4:1 | ResourceGroup example-resources |
+| databases.hcl:6:1:11:1 | Database myexamplesqlserver |
+| databases.hcl:13:1:18:1 | Database mariadb-svr |
+| databases.hcl:20:1:25:1 | Database example-sqlserver |
+| storage.hcl:1:1:4:1 | ResourceGroup example-resources |
+| storage.hcl:6:1:13:1 | ManagedDisk acctestmd |
+azureManagedDisk
+| storage.hcl:6:1:13:1 | ManagedDisk acctestmd |
+azureDatabases
+| databases.hcl:6:1:11:1 | Database myexamplesqlserver |
+| databases.hcl:13:1:18:1 | Database mariadb-svr |
+| databases.hcl:20:1:25:1 | Database example-sqlserver |

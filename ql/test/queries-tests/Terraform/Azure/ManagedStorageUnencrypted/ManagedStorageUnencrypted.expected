@@ -1,0 +1,2 @@
+| storage.hcl:6:1:13:1 | ManagedDisk acctestmd | Azure Storage is Unencrypted for 'acctestmd' |
+| storage.hcl:23:3:25:3 | ManagedDiskEncryptionSettings | Azure Storage is Unencrypted for 'acctestmd' |

@@ -12,15 +12,11 @@
 import hcl
 
 // https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk
-from Resource r, Block encryption_settings, Expr attr
+from Azure::ManagedDisk managed_disk, Azure::ManagedDiskEncryptionSettings settings, Expr sink
 where
-  r.getResourceType() = "azurerm_managed_disk" and
-  // resource azurerm_managed_disk {
-  //   encryption_settings {
-  //     enabled = false
-  //   }
-  // }
-  encryption_settings = r.getAttribute("encryption_settings") and
-  attr = encryption_settings.getAttribute("enabled") and
-  attr.(BooleanLiteral).getBool() = false
-select attr, "Azure Storage is Unencrypted for '" + r.getName() + "'"
+  not exists(managed_disk.getEncryptionSettings()) and sink = managed_disk
+  or
+  settings = managed_disk.getEncryptionSettings() and
+  settings.getEnabled() = false and
+  sink = settings
+select sink, "Azure Storage is Unencrypted for '" + managed_disk.getName() + "'"
