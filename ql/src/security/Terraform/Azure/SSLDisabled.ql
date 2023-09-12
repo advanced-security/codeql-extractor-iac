@@ -11,9 +11,6 @@
 
 import hcl
 
-from Resource resource, Expr attr
-where
-  resource.getResourceType() = ["azurerm_mysql_server", "azurerm_postgresql_server"] and
-  attr = resource.getAttribute("ssl_enforcement_enabled")
-// TODO: attr check to make sure its false
-select attr, "TLS/SSL Disabled"
+from Azure::Database database
+where database.getSslEnforcementEnabled() = false
+select database.getAttribute("ssl_enforcement_enabled"), "TLS/SSL Disabled"

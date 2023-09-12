@@ -9,3 +9,5 @@ import codeql.hcl.Locals
 import codeql.hcl.providers.AWS
 import codeql.hcl.providers.Azure
 import codeql.hcl.providers.GCP
+// security
+import codeql.hcl.security.HardcodedPasswords
