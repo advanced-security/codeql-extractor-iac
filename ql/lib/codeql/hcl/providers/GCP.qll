@@ -51,8 +51,12 @@ module GCP {
     }
   }
 
-  class PodSecurityPolicyConfig extends GcpResource {
-    boolean getEnabled() { result = this.getAttribute("enabled").(BooleanLiteral).getBool() }
+  class PodSecurityPolicyConfig extends Block {
+    private ContainerCluster cluster;
+
+    PodSecurityPolicyConfig() { cluster.getAttribute("pod_security_policy_config") = this }
+
+    string getEnabled() { result = this.getAttribute("enabled").(StringLiteral).getValue() }
   }
 
   class ContainerNodePool extends GcpResource {

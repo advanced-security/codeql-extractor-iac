@@ -14,7 +14,5 @@ import hcl
 from GCP::ContainerCluster resource, GCP::PodSecurityPolicyConfig pspc
 where
   pspc = resource.getPodSecurityPolicyConfig() and
-  not exists(pspc)
-  or
-  pspc.getEnabled() = false
+  pspc.getEnabled() = "false"
 select resource, "No Pod Security Policy Defined"

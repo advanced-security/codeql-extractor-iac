@@ -1,0 +1,1 @@
+| pods.hcl:7:1:15:1 | resource google_container_cluster cluster2 | No Pod Security Policy Defined |
