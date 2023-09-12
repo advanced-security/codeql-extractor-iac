@@ -1,0 +1,1 @@
+| security_center.hcl:5:1:9:1 | resource azurerm_security_center_contact contact | disabled notifications |

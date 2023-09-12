@@ -12,7 +12,15 @@ class Resource extends Block {
 
   string getName() { result = this.getLabel(1) }
 
+  /**
+   * Returns the resource type.
+   */
   string getResourceType() { result = this.getLabel(0) }
+
+  /**
+   * Checks to see if the resource type matches the given type.
+   */
+  predicate hasResourceType(string type) { this.getResourceType() = type }
 
   override string toString() {
     result = "resource " + this.getResourceType() + " " + this.getName()

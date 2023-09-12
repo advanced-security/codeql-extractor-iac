@@ -5,6 +5,8 @@ private import codeql.hcl.Constants
 module Azure {
   /**
    * Azure resources.
+   *
+   * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
    */
   class AzureResource extends Resource, Block {
     AzureResource() { this.getResourceType().regexpMatch("^azurerm.*") }
@@ -36,6 +38,53 @@ module Azure {
     override string getName() { result = this.getAttribute("name").(StringLiteral).getValue() }
 
     Expr getResourceLocation() { result = this.getAttribute("location") }
+  }
+
+  /**
+   * Azure Managed Disk.
+   */
+  class ManagedDisk extends AzureResource {
+    ManagedDisk() { this.getResourceType() = "azurerm_managed_disk" }
+
+    override string toString() { result = "ManagedDisk " + this.getName() }
+
+    override string getName() { result = this.getAttribute("name").(StringLiteral).getValue() }
+
+    string getStorageAccountType() {
+      result = this.getAttribute("storage_account_type").(StringLiteral).getValue()
+    }
+
+    ManagedDiskEncryptionSettings getEncryptionSettings() {
+      result = this.getAttribute("encryption_settings")
+    }
+  }
+
+  /**
+   * Azure Managed Disk Encryption Settings.
+   */
+  class ManagedDiskEncryptionSettings extends Block {
+    private ManagedDisk disk;
+
+    ManagedDiskEncryptionSettings() { disk.getAttribute("encryption_settings").(Block) = this }
+
+    override string toString() { result = "ManagedDiskEncryptionSettings" }
+
+    boolean getEnabled() { result = this.getAttribute("enabled").(BooleanLiteral).getBool() }
+  }
+
+  /**
+   * Azure Databases
+   */
+  class Database extends AzureResource {
+    Database() {
+      this.getResourceType().regexpMatch("^azurerm_(sql|mariadb|mssql|postgresql)_server")
+    }
+
+    override string toString() { result = "Database " + this.getName() }
+
+    override string getName() { result = this.getAttribute("name").(StringLiteral).getValue() }
+
+    string getVersion() { result = this.getAttribute("version").(StringLiteral).getValue() }
   }
 
   /**
