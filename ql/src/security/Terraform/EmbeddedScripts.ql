@@ -2,7 +2,7 @@
  * @name Embedded Scripts
  * @description Embedded Scripts
  * @kind problem
- * @problem.severity note
+ * @problem.severity info
  * @security-severity 2.0
  * @precision high
  * @id hcl/machine-embedded-scripts
