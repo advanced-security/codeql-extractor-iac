@@ -12,7 +12,7 @@ class Variable extends Expr, TVariable {
 }
 
 class GetAttrExpr extends Expr, TGetAttrExpr {
-  HCL::GetAttrExpr getAttr;
+  private HCL::GetAttrExpr getAttr;
 
   override string getAPrimaryQlClass() { result = "GetExpr" }
 
