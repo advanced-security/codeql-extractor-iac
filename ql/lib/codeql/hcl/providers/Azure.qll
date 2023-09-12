@@ -77,7 +77,8 @@ module Azure {
    */
   class Database extends AzureResource {
     Database() {
-      this.getResourceType().regexpMatch("^azurerm_(sql|mariadb|mssql|postgresql)_server")
+      this.getResourceType()
+          .regexpMatch("^azurerm_(sql|mariadb|mssql|postgresql)_(server|database)")
     }
 
     override string toString() { result = "Database " + this.getName() }
@@ -85,6 +86,20 @@ module Azure {
     override string getName() { result = this.getAttribute("name").(StringLiteral).getValue() }
 
     string getVersion() { result = this.getAttribute("version").(StringLiteral).getValue() }
+
+    boolean getSslEnforcementEnabled() {
+      result = this.getAttribute("ssl_enforcement_enabled").(BooleanLiteral).getBool()
+    }
+
+    boolean getInfrastructureEncryptionEnabled() {
+      result = this.getAttribute("infrastructure_encryption_enabled").(BooleanLiteral).getBool()
+    }
+
+    boolean getGeoRedundantBackupEnabled() {
+      result = this.getAttribute("geo_redundant_backup_enabled").(BooleanLiteral).getBool()
+    }
+
+    Expr getAdministratorPassword() { result = this.getAttribute("administrator_login_password") }
   }
 
   /**
