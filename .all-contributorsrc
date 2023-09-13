@@ -1,28 +1,61 @@
 {
-    "repoType": "github",
-    "repoHost": "https://github.com",
-    "projectName": "codeql-extractor-iac",
-    "projectOwner": "advanced-security",
-    "files": [
-        "README.md"
-    ],
-    "imageSize": 100,
-    "contributorsPerLine": 10,
-    "commitConvention": "gitmoji",
-    "skipCi": true,
-    "contributors": [
-        {
-            "login": "geekmasher",
-            "name": "Mathew Payne",
-            "avatar_url": "https://avatars.githubusercontent.com/u/2772944?v=3",
-            "profile": "https://geekmasher.dev",
-            "contributions": [
-                "code",
-                "research",
-                "maintenance",
-                "security",
-                "ideas"
-            ]
-        }
-    ]
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "codeql-extractor-iac",
+  "projectOwner": "advanced-security",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "contributorsPerLine": 10,
+  "commitConvention": "gitmoji",
+  "skipCi": true,
+  "contributors": [
+    {
+      "login": "geekmasher",
+      "name": "Mathew Payne",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2772944?v=3",
+      "profile": "https://geekmasher.dev",
+      "contributions": [
+        "code",
+        "research",
+        "maintenance",
+        "security",
+        "ideas"
+      ]
+    },
+    {
+      "login": "aibaars",
+      "name": "Arthur Baars",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10979737?v=4",
+      "profile": "https://lgtm.com/",
+      "contributions": [
+        "code",
+        "ideas",
+        "mentoring"
+      ]
+    },
+    {
+      "login": "egregius313",
+      "name": "Edward Minnix III",
+      "avatar_url": "https://avatars.githubusercontent.com/u/18200959?v=4",
+      "profile": "https://github.com/egregius313",
+      "contributions": [
+        "code",
+        "design",
+        "ideas"
+      ]
+    },
+    {
+      "login": "joefarebrother",
+      "name": "Joe Farebrother",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5400608?v=4",
+      "profile": "https://github.com/joefarebrother",
+      "contributions": [
+        "code",
+        "design",
+        "ideas"
+      ]
+    }
+  ]
 }
