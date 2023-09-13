@@ -11,6 +11,9 @@ To use the CodeQL Extractor, Library, and Queries for Infrastructure as Code, yo
 
 ### Uploading SARIF files to GitHub
 
+The CodeQL Extractor will produce a SARIF file but will not upload it for you.
+This has to be done manually or using the `github/codeql-action/upload-sarif` action like so:
+
 ```yaml
 - name: Upload SARIF file
   uses: github/codeql-action/upload-sarif@v2
@@ -46,11 +49,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Initialize and Analyze IaC
-        id: codeql-iac
+        id: codeql_iac
         uses: advanced-security/codeql-extractor-iac@main
 
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: ${{ steps.changes.outputs.sarif }}
+          sarif_file: ${{ steps.codeql_iac.outputs.sarif }}
 ```
