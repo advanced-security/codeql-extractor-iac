@@ -52,6 +52,10 @@ This project is licensed under the terms of the MIT open source license. Please 
 
 ## Support
 
-Support is via [GitHub Issues](https://github.com/advanced-security/codeql-extractor-iac/issues)
+Support is via [GitHub Issues][issues] or [GitHub Discussions][discussions].
 
+<!-- Resources -->
+
+[issues]: https://github.com/advanced-security/codeql-extractor-iac/issues
+[discussions]: https://github.com/advanced-security/codeql-extractor-iac/discussions
 [docs-workflows]: ./docs/workflows.md
