@@ -156,8 +156,20 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
   core.debug(`Extractor extracted to ${config.path}`);
 }
 
-export async function downloadPack(codeql: CodeQLConfig): Promise<void> {
-  await runCommand(codeql, ["pack", "download", codeql.pack]);
+export async function downloadPack(codeql: CodeQLConfig): Promise<boolean> {
+  try {
+    await runCommand(codeql, [
+      "pack",
+      "download",
+      "--github-auth-stdin",
+      core.getInput("token"),
+      codeql.pack,
+    ]);
+    return true;
+  } catch (error) {
+    core.warning("Failed to download pack from GitHub...");
+  }
+  return false;
 }
 
 export async function codeqlDatabaseCreate(

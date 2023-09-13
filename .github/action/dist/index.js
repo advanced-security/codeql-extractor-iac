@@ -13634,7 +13634,20 @@ async function downloadExtractor(config) {
 }
 exports.downloadExtractor = downloadExtractor;
 async function downloadPack(codeql) {
-    await runCommand(codeql, ["pack", "download", codeql.pack]);
+    try {
+        await runCommand(codeql, [
+            "pack",
+            "download",
+            "--github-auth-stdin",
+            core.getInput("token"),
+            codeql.pack,
+        ]);
+        return true;
+    }
+    catch (error) {
+        core.warning("Failed to download pack from GitHub...");
+    }
+    return false;
 }
 exports.downloadPack = downloadPack;
 async function codeqlDatabaseCreate(codeql) {
@@ -13704,6 +13717,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
+const path = __importStar(__nccwpck_require__(1017));
 const core = __importStar(__nccwpck_require__(2186));
 const cql = __importStar(__nccwpck_require__(950));
 /**
@@ -13734,11 +13748,22 @@ async function run() {
             }
             // download pack
             core.info(`Downloading CodeQL IaC pack '${codeql.pack}'`);
-            await cql.downloadPack(codeql);
+            var pack_downloaded = await cql.downloadPack(codeql);
+            if (!pack_downloaded) {
+                // get action_path from environment
+                var action_path = process.env.GITHUB_ACTION_PATH;
+                if (action_path === undefined) {
+                    core.setFailed("Failed to get CodeQL IaC pack");
+                    throw new Error("Failed to get CodeQL IaC pack");
+                }
+                codeql.pack = path.join(action_path, "ql", "src");
+                core.info(`Pack defaulting back to local pack: '${codeql.pack}'`);
+            }
             core.info("Setup complete");
         })
             .catch((error) => {
             core.setFailed(error.message);
+            throw error;
         });
         core
             .group("Analysis", async () => {
@@ -13746,10 +13771,11 @@ async function run() {
             var database_path = await cql.codeqlDatabaseCreate(codeql);
             core.info("Running CodeQL analysis...");
             var sarif = await cql.codeqlDatabaseAnalyze(codeql, database_path);
-            core.info(`SARIF results: '${codeql.output}'`);
+            core.info(`SARIF results: '${sarif}'`);
         })
             .catch((error) => {
             core.setFailed(error.message);
+            throw error;
         });
     }
     catch (error) {

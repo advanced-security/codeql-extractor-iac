@@ -1,3 +1,4 @@
+import * as path from "path";
 import * as core from "@actions/core";
 import * as cql from "./codeql";
 
@@ -37,12 +38,25 @@ export async function run(): Promise<void> {
 
         // download pack
         core.info(`Downloading CodeQL IaC pack '${codeql.pack}'`);
-        await cql.downloadPack(codeql);
+        var pack_downloaded = await cql.downloadPack(codeql);
+
+        if (!pack_downloaded) {
+          // get action_path from environment
+          var action_path = process.env.GITHUB_ACTION_PATH;
+          if (action_path === undefined) {
+            core.setFailed("Failed to get CodeQL IaC pack");
+            throw new Error("Failed to get CodeQL IaC pack");
+          }
+
+          codeql.pack = path.join(action_path, "ql", "src");
+          core.info(`Pack defaulting back to local pack: '${codeql.pack}'`);
+        }
 
         core.info("Setup complete");
       })
       .catch((error) => {
         core.setFailed(error.message);
+        throw error;
       });
 
     core
@@ -53,10 +67,11 @@ export async function run(): Promise<void> {
         core.info("Running CodeQL analysis...");
         var sarif = await cql.codeqlDatabaseAnalyze(codeql, database_path);
 
-        core.info(`SARIF results: '${codeql.output}'`);
+        core.info(`SARIF results: '${sarif}'`);
       })
       .catch((error) => {
         core.setFailed(error.message);
+        throw error;
       });
   } catch (error) {
     // Fail the workflow run if an error occurs
