@@ -51,11 +51,15 @@ async function findCodeQlInToolcache(): Promise<string | undefined> {
       folder: toolcache.find("CodeQL", version),
       version,
     }))
-    .filter(({ folder }) => fs.existsSync(path.join(folder, "pinned-version")));
+    .filter((root) =>
+      fs.existsSync(path.join(root.folder, root.version, "codeql")),
+    );
 
   if (candidates.length === 1) {
     const candidate = candidates[0];
-    core.debug(`CodeQL tools version ${candidate.version} in toolcache.`);
+    core.debug(`CodeQL tools found in toolcache: '${candidate.folder}'.`);
+    core.debug(`CodeQL toolcache version: '${candidate.version}'.`);
+
     return path.join(candidate.folder, "codeql");
   }
 
