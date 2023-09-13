@@ -51,7 +51,7 @@ async function findCodeQlInToolcache(): Promise<string | undefined> {
       folder: toolcache.find("CodeQL", version),
       version,
     }))
-    .filter((root) => fs.existsSync(path.join(root.folder, "codeql")));
+    .filter(({ folder }) => fs.existsSync(path.join(folder, "pinned-version")));
 
   if (candidates.length === 1) {
     const candidate = candidates[0];
@@ -62,6 +62,8 @@ async function findCodeQlInToolcache(): Promise<string | undefined> {
 
     return path.join(candidate.folder, "codeql");
   }
+
+  core.warning(`No CodeQL tools found in toolcache.`);
 
   return undefined;
 }

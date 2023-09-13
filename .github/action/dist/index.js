@@ -6650,13 +6650,14 @@ async function findCodeQlInToolcache() {
         folder: toolcache.find("CodeQL", version),
         version,
     }))
-        .filter((root) => fs.existsSync(path.join(root.folder, "codeql")));
+        .filter(({ folder }) => fs.existsSync(path.join(folder, "pinned-version")));
     if (candidates.length === 1) {
         const candidate = candidates[0];
         core.info(`CodeQL tools found in toolcache: '${candidate.folder}' (${candidate.version}).`);
         core.debug(`CodeQL toolcache version: '${candidate.version}'.`);
         return path.join(candidate.folder, "codeql");
     }
+    core.warning(`No CodeQL tools found in toolcache.`);
     return undefined;
 }
 async function downloadExtractor(config) {
