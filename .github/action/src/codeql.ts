@@ -160,13 +160,7 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<string> {
 
 export async function downloadPack(codeql: CodeQLConfig): Promise<boolean> {
   try {
-    await runCommand(codeql, [
-      "pack",
-      "download",
-      "--github-auth-stdin",
-      core.getInput("token"),
-      codeql.pack,
-    ]);
+    await runCommand(codeql, ["pack", "download", codeql.pack]);
     return true;
   } catch (error) {
     core.warning("Failed to download pack from GitHub...");

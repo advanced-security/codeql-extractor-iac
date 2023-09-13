@@ -13636,13 +13636,7 @@ async function downloadExtractor(config) {
 exports.downloadExtractor = downloadExtractor;
 async function downloadPack(codeql) {
     try {
-        await runCommand(codeql, [
-            "pack",
-            "download",
-            "--github-auth-stdin",
-            core.getInput("token"),
-            codeql.pack,
-        ]);
+        await runCommand(codeql, ["pack", "download", codeql.pack]);
         return true;
     }
     catch (error) {
