@@ -40,7 +40,7 @@ export async function run(): Promise<void> {
         core.info(`Downloading CodeQL IaC pack '${codeql.pack}'`);
         var pack_downloaded = await cql.downloadPack(codeql);
 
-        if (!pack_downloaded) {
+        if (pack_downloaded === false) {
           // get action_path from environment
           var action_path = process.env.GITHUB_ACTION_PATH;
           if (action_path === undefined) {
@@ -50,6 +50,8 @@ export async function run(): Promise<void> {
 
           codeql.pack = path.join(action_path, "ql", "src");
           core.info(`Pack defaulting back to local pack: '${codeql.pack}'`);
+        } else {
+          core.info(`Pack downloaded '${codeql.pack}'`);
         }
 
         core.info("Setup complete");
