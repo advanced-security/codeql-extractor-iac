@@ -5,19 +5,27 @@ import * as core from "@actions/core";
 import * as toolcache from "@actions/tool-cache";
 import * as github from "@actions/github";
 import * as toolrunner from "@actions/exec/lib/toolrunner";
-import { release } from "os";
 
 export const EXTRACTOR_REPOSITORY = "advanced-security/codeql-extractor-iac";
 export const EXTRACTOR_VERSION = "v0.0.3";
 
 export interface CodeQLConfig {
-  repository: string;
-
-  version: string;
-  /**
-   * The path to the codeql bundle.
-   */
+  // The path to the codeql bundle.
   path: string;
+  // The language to use for analysis.
+  language: string;
+  // The repository to the extractor.
+  repository: string;
+  // The version of the extractor to use.
+  version: string;
+  // CodeQL pack to use for analysis.
+  pack: string;
+  // The codeql suite to use for analysis.
+  suite?: string;
+  // The source root to use for analysis.
+  source_root?: string;
+  // The output file for the SARIF file.
+  output?: string;
 }
 
 export async function newCodeQL(): Promise<CodeQLConfig> {
@@ -27,9 +35,14 @@ export async function newCodeQL(): Promise<CodeQLConfig> {
   }
 
   return {
+    language: "iac",
     repository: EXTRACTOR_REPOSITORY,
     version: version,
     path: await findCodeQL(),
+    pack: "advanced-security/iac-queries",
+    suite: "codeql-suites/iac-code-scanning.qls",
+    source_root: core.getInput("source-root"),
+    output: core.getInput("sarif"),
   };
 }
 
@@ -141,4 +154,49 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
   // extract the tarball to codeql path
   await toolcache.extractTar(extractorPath, config.path);
   core.debug(`Extractor extracted to ${config.path}`);
+}
+
+export async function downloadPack(codeql: CodeQLConfig): Promise<void> {
+  await runCommand(codeql, ["pack", "download", codeql.pack]);
+}
+
+export async function codeqlDatabaseCreate(
+  codeql: CodeQLConfig,
+): Promise<string> {
+  // get runner temp directory for database
+  var temp = process.env["RUNNER_TEMP"];
+  if (temp === undefined) {
+    temp = "/tmp";
+  }
+  var database_path = path.join(temp, "codeql-iac-db");
+  // TODO: source root
+  await runCommand(codeql, [
+    "database",
+    "create",
+    "--language",
+    codeql.language,
+    database_path,
+  ]);
+
+  return database_path;
+}
+
+export async function codeqlDatabaseAnalyze(
+  codeql: CodeQLConfig,
+  database_path: string,
+): Promise<string> {
+  var codeql_output = codeql.output || "codeql-iac.sarif";
+
+  await runCommand(codeql, [
+    "database",
+    "analyze",
+    "--format",
+    "sarif-latest",
+    "--output",
+    codeql_output,
+    database_path,
+    codeql.pack + ":" + codeql.suite,
+  ]);
+
+  return codeql_output;
 }

@@ -7,10 +7,10 @@ import * as cql from "./codeql";
  */
 export async function run(): Promise<void> {
   try {
-    core.group("Setup", async () => {
-      // set up codeql
-      var codeql = await cql.newCodeQL();
+    // set up codeql
+    var codeql = await cql.newCodeQL();
 
+    core.group("Setup", async () => {
       core.debug(`CodeQL CLI found at '${codeql.path}'`);
 
       // parse as JSON
@@ -38,6 +38,22 @@ export async function run(): Promise<void> {
         core.setFailed("CodeQL IaC extension not installed");
         throw new Error("CodeQL IaC extension not installed");
       }
+
+      // download pack
+      core.info(`Downloading CodeQL IaC pack '${codeql.pack}'`);
+      await cql.downloadPack(codeql);
+
+      core.info("Setup complete");
+    });
+
+    core.group("Analysis", async () => {
+      core.info("Creating CodeQL database...");
+      var database_path = await cql.codeqlDatabaseCreate(codeql);
+
+      core.info("Running CodeQL analysis...");
+      var sarif = await cql.codeqlDatabaseAnalyze(codeql, database_path);
+
+      core.info(`SARIF results: '${codeql.output}'`);
     });
   } catch (error) {
     // Fail the workflow run if an error occurs

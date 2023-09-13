@@ -13522,7 +13522,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.downloadExtractor = exports.runCommandJson = exports.runCommand = exports.newCodeQL = exports.EXTRACTOR_VERSION = exports.EXTRACTOR_REPOSITORY = void 0;
+exports.codeqlDatabaseAnalyze = exports.codeqlDatabaseCreate = exports.downloadPack = exports.downloadExtractor = exports.runCommandJson = exports.runCommand = exports.newCodeQL = exports.EXTRACTOR_VERSION = exports.EXTRACTOR_REPOSITORY = void 0;
 const fs = __importStar(__nccwpck_require__(7147));
 const path = __importStar(__nccwpck_require__(1017));
 const core = __importStar(__nccwpck_require__(2186));
@@ -13537,9 +13537,14 @@ async function newCodeQL() {
         version = exports.EXTRACTOR_VERSION;
     }
     return {
+        language: "iac",
         repository: exports.EXTRACTOR_REPOSITORY,
         version: version,
         path: await findCodeQL(),
+        pack: "advanced-security/iac-queries",
+        suite: "codeql-suites/iac-code-scanning.qls",
+        source_root: core.getInput("source-root"),
+        output: core.getInput("sarif"),
     };
 }
 exports.newCodeQL = newCodeQL;
@@ -13628,6 +13633,43 @@ async function downloadExtractor(config) {
     core.debug(`Extractor extracted to ${config.path}`);
 }
 exports.downloadExtractor = downloadExtractor;
+async function downloadPack(codeql) {
+    await runCommand(codeql, ["pack", "download", codeql.pack]);
+}
+exports.downloadPack = downloadPack;
+async function codeqlDatabaseCreate(codeql) {
+    // get runner temp directory for database
+    var temp = process.env["RUNNER_TEMP"];
+    if (temp === undefined) {
+        temp = "/tmp";
+    }
+    var database_path = path.join(temp, "codeql-iac-db");
+    // TODO: source root
+    await runCommand(codeql, [
+        "database",
+        "create",
+        "--language",
+        codeql.language,
+        database_path,
+    ]);
+    return database_path;
+}
+exports.codeqlDatabaseCreate = codeqlDatabaseCreate;
+async function codeqlDatabaseAnalyze(codeql, database_path) {
+    var codeql_output = codeql.output || "codeql-iac.sarif";
+    await runCommand(codeql, [
+        "database",
+        "analyze",
+        "--format",
+        "sarif-latest",
+        "--output",
+        codeql_output,
+        database_path,
+        codeql.pack + ":" + codeql.suite,
+    ]);
+    return codeql_output;
+}
+exports.codeqlDatabaseAnalyze = codeqlDatabaseAnalyze;
 
 
 /***/ }),
@@ -13670,9 +13712,9 @@ const cql = __importStar(__nccwpck_require__(950));
  */
 async function run() {
     try {
+        // set up codeql
+        var codeql = await cql.newCodeQL();
         core.group("Setup", async () => {
-            // set up codeql
-            var codeql = await cql.newCodeQL();
             core.debug(`CodeQL CLI found at '${codeql.path}'`);
             // parse as JSON
             var version = await cql.runCommand(codeql, [
@@ -13694,6 +13736,17 @@ async function run() {
                 core.setFailed("CodeQL IaC extension not installed");
                 throw new Error("CodeQL IaC extension not installed");
             }
+            // download pack
+            core.info(`Downloading CodeQL IaC pack '${codeql.pack}'`);
+            await cql.downloadPack(codeql);
+            core.info("Setup complete");
+        });
+        core.group("Analysis", async () => {
+            core.info("Creating CodeQL database...");
+            var database_path = await cql.codeqlDatabaseCreate(codeql);
+            core.info("Running CodeQL analysis...");
+            var sarif = await cql.codeqlDatabaseAnalyze(codeql, database_path);
+            core.info(`SARIF results: '${codeql.output}'`);
         });
     }
     catch (error) {
