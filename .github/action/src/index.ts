@@ -19,7 +19,7 @@ export async function run(): Promise<void> {
 
         // download the extractor
         core.info(
-          `Download CodeQL IaC extractor ${codeql.repository}@${codeql.version}`,
+          `Download Extractor '${codeql.repository}@${codeql.version}'`,
         );
         await cql.downloadExtractor(codeql);
 

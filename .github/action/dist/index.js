@@ -13629,8 +13629,10 @@ async function downloadExtractor(config) {
     });
     core.debug(`Extractor downloaded to ${extractorPath}`);
     // extract the tarball to codeql path
-    await toolcache.extractTar(extractorPath, config.path);
-    core.debug(`Extractor extracted to ${config.path}`);
+    var extractor_path = path.join(config.path, "iac");
+    core.debug(`Extracting extractor to ${extractor_path}`);
+    await toolcache.extractTar(extractorPath, extractor_path);
+    core.debug(`Successfully installed extractor`);
 }
 exports.downloadExtractor = downloadExtractor;
 async function downloadPack(codeql) {
@@ -13733,7 +13735,7 @@ async function run() {
             core.debug(`CodeQL CLI found at '${codeql.path}'`);
             await cql.runCommand(codeql, ["version", "--format", "terse"]);
             // download the extractor
-            core.info(`Download CodeQL IaC extractor ${codeql.repository}@${codeql.version}`);
+            core.info(`Download Extractor '${codeql.repository}@${codeql.version}'`);
             await cql.downloadExtractor(codeql);
             var languages = await cql.runCommandJson(codeql, [
                 "resolve",

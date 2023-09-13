@@ -152,8 +152,11 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
   core.debug(`Extractor downloaded to ${extractorPath}`);
 
   // extract the tarball to codeql path
-  await toolcache.extractTar(extractorPath, config.path);
-  core.debug(`Extractor extracted to ${config.path}`);
+  var extractor_path = path.join(config.path, "iac");
+  core.debug(`Extracting extractor to ${extractor_path}`);
+  await toolcache.extractTar(extractorPath, extractor_path);
+
+  core.debug(`Successfully installed extractor`);
 }
 
 export async function downloadPack(codeql: CodeQLConfig): Promise<boolean> {
