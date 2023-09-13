@@ -21,9 +21,14 @@ export interface CodeQLConfig {
 }
 
 export async function newCodeQL(): Promise<CodeQLConfig> {
+  var version = core.getInput("codeql-version");
+  if (version === "") {
+    version = EXTRACTOR_VERSION;
+  }
+
   return {
     repository: EXTRACTOR_REPOSITORY,
-    version: EXTRACTOR_VERSION,
+    version: version,
     path: await findCodeQL(),
   };
 }
@@ -90,11 +95,18 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
   const octokit = github.getOctokit(core.getInput("token"));
   const owner_repo = config.repository.split("/");
 
+  core.debug(`Downloading and installing extractor...`);
+
   if (config.version === "latest") {
     var release = await octokit.rest.repos.getLatestRelease({
       owner: owner_repo[0],
       repo: owner_repo[1],
     });
+  } else if (config.version === "compile") {
+    core.info("Compiling extractor from source...");
+    core.warning("This is not recommended for production use");
+    core.warning("Feature not yet implemented");
+    return;
   } else {
     var release = await octokit.rest.repos.getReleaseByTag({
       owner: owner_repo[0],
@@ -102,6 +114,7 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
       tag: config.version,
     });
   }
+  // we assume there is only one tar.gz asset
   const assets = release.data.assets
     .map((asset) => asset.browser_download_url)
     .filter((url) => url.endsWith(".tar.gz"));
@@ -115,7 +128,11 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
   core.debug(`Downloading extractor from ${asset}`);
 
   // use the toolcache to download the extractor
-  var extractorPath = await toolcache.downloadTool(asset);
+  var extractorPath = await toolcache.downloadTool(
+    asset,
+    undefined,
+    core.getInput("token"),
+  );
   core.debug(`Extractor downloaded to ${extractorPath}`);
 
   // extract the tarball to codeql path
