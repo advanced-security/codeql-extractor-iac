@@ -13714,14 +13714,10 @@ async function run() {
     try {
         // set up codeql
         var codeql = await cql.newCodeQL();
-        core.group("Setup", async () => {
+        core
+            .group("Setup", async () => {
             core.debug(`CodeQL CLI found at '${codeql.path}'`);
-            // parse as JSON
-            var version = await cql.runCommand(codeql, [
-                "version",
-                "--format",
-                "terse",
-            ]);
+            await cql.runCommand(codeql, ["version", "--format", "terse"]);
             // download the extractor
             core.info(`Download CodeQL IaC extractor ${codeql.repository}@${codeql.version}`);
             await cql.downloadExtractor(codeql);
@@ -13740,13 +13736,20 @@ async function run() {
             core.info(`Downloading CodeQL IaC pack '${codeql.pack}'`);
             await cql.downloadPack(codeql);
             core.info("Setup complete");
+        })
+            .catch((error) => {
+            core.setFailed(error.message);
         });
-        core.group("Analysis", async () => {
+        core
+            .group("Analysis", async () => {
             core.info("Creating CodeQL database...");
             var database_path = await cql.codeqlDatabaseCreate(codeql);
             core.info("Running CodeQL analysis...");
             var sarif = await cql.codeqlDatabaseAnalyze(codeql, database_path);
             core.info(`SARIF results: '${codeql.output}'`);
+        })
+            .catch((error) => {
+            core.setFailed(error.message);
         });
     }
     catch (error) {
