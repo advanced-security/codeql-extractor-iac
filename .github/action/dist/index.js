@@ -6654,7 +6654,7 @@ async function findCodeQlInToolcache() {
     if (candidates.length === 1) {
         const candidate = candidates[0];
         core.debug(`CodeQL tools version ${candidate.version} in toolcache.`);
-        return candidate.folder;
+        return path.join(candidate.folder, "codeql");
     }
     return undefined;
 }

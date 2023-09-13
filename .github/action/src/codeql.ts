@@ -28,7 +28,7 @@ export async function newCodeQL(): Promise<CodeQLConfig> {
 
 export async function runCommand(
   config: CodeQLConfig,
-  args: string[]
+  args: string[],
 ): Promise<any> {
   var bin = path.join(config.path, "codeql");
   return await new toolrunner.ToolRunner(bin, args).exec();
@@ -56,7 +56,7 @@ async function findCodeQlInToolcache(): Promise<string | undefined> {
   if (candidates.length === 1) {
     const candidate = candidates[0];
     core.debug(`CodeQL tools version ${candidate.version} in toolcache.`);
-    return candidate.folder;
+    return path.join(candidate.folder, "codeql");
   }
 
   return undefined;
