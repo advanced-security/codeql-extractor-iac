@@ -177,12 +177,16 @@ export async function codeqlDatabaseCreate(
     temp = "/tmp";
   }
   var database_path = path.join(temp, "codeql-iac-db");
-  // TODO: source root
+  var source_root =
+    codeql.source_root || process.env["GITHUB_WORKSPACE"] || "./";
+
   await runCommand(codeql, [
     "database",
     "create",
     "--language",
     codeql.language,
+    "--source-root",
+    source_root,
     database_path,
   ]);
 
