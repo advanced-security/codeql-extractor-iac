@@ -48,7 +48,7 @@ export async function newCodeQL(): Promise<CodeQLConfig> {
 
 export async function runCommand(
   config: CodeQLConfig,
-  args: string[],
+  args: string[]
 ): Promise<any> {
   var bin = path.join(config.path, "codeql");
   let output = "";
@@ -68,7 +68,7 @@ export async function runCommand(
 
 export async function runCommandJson(
   config: CodeQLConfig,
-  args: string[],
+  args: string[]
 ): Promise<object> {
   return JSON.parse(await runCommand(config, args));
 }
@@ -104,7 +104,7 @@ async function findCodeQlInToolcache(): Promise<string | undefined> {
   return undefined;
 }
 
-export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
+export async function downloadExtractor(config: CodeQLConfig): Promise<string> {
   const octokit = github.getOctokit(core.getInput("token"));
   const owner_repo = config.repository.split("/");
 
@@ -119,7 +119,7 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
     core.info("Compiling extractor from source...");
     core.warning("This is not recommended for production use");
     core.warning("Feature not yet implemented");
-    return;
+    return "";
   } else {
     var release = await octokit.rest.repos.getReleaseByTag({
       owner: owner_repo[0],
@@ -129,12 +129,12 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
   }
   // we assume there is only one tar.gz asset
   const assets = release.data.assets.filter((asset) =>
-    asset.browser_download_url.endsWith(".tar.gz"),
+    asset.browser_download_url.endsWith(".tar.gz")
   );
 
   if (assets.length !== 1) {
     throw new Error(
-      `Expected 1 asset to be found, but found ${assets.length} instead.`,
+      `Expected 1 asset to be found, but found ${assets.length} instead.`
     );
   }
   var asset = assets[0];
@@ -147,16 +147,15 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
     `token ${core.getInput("token")}`,
     {
       accept: "application/octet-stream",
-    },
+    }
   );
   core.debug(`Extractor downloaded to ${extractorPath}`);
 
-  // extract the tarball to codeql path
-  var extractor_path = path.join(config.path, "iac");
-  core.debug(`Extracting extractor to ${extractor_path}`);
-  await toolcache.extractTar(extractorPath, extractor_path);
+  core.debug(`Extracting extractor to ${config.path}`);
+  await toolcache.extractTar(extractorPath, config.path);
 
   core.debug(`Successfully installed extractor`);
+  return config.path;
 }
 
 export async function downloadPack(codeql: CodeQLConfig): Promise<boolean> {
@@ -176,7 +175,7 @@ export async function downloadPack(codeql: CodeQLConfig): Promise<boolean> {
 }
 
 export async function codeqlDatabaseCreate(
-  codeql: CodeQLConfig,
+  codeql: CodeQLConfig
 ): Promise<string> {
   // get runner temp directory for database
   var temp = process.env["RUNNER_TEMP"];
@@ -198,7 +197,7 @@ export async function codeqlDatabaseCreate(
 
 export async function codeqlDatabaseAnalyze(
   codeql: CodeQLConfig,
-  database_path: string,
+  database_path: string
 ): Promise<string> {
   var codeql_output = codeql.output || "codeql-iac.sarif";
 

@@ -13607,7 +13607,7 @@ async function downloadExtractor(config) {
         core.info("Compiling extractor from source...");
         core.warning("This is not recommended for production use");
         core.warning("Feature not yet implemented");
-        return;
+        return "";
     }
     else {
         var release = await octokit.rest.repos.getReleaseByTag({
@@ -13628,11 +13628,10 @@ async function downloadExtractor(config) {
         accept: "application/octet-stream",
     });
     core.debug(`Extractor downloaded to ${extractorPath}`);
-    // extract the tarball to codeql path
-    var extractor_path = path.join(config.path, "iac");
-    core.debug(`Extracting extractor to ${extractor_path}`);
-    await toolcache.extractTar(extractorPath, extractor_path);
+    core.debug(`Extracting extractor to ${config.path}`);
+    await toolcache.extractTar(extractorPath, config.path);
     core.debug(`Successfully installed extractor`);
+    return config.path;
 }
 exports.downloadExtractor = downloadExtractor;
 async function downloadPack(codeql) {
@@ -13730,58 +13729,45 @@ async function run() {
     try {
         // set up codeql
         var codeql = await cql.newCodeQL();
-        core
-            .group("Setup", async () => {
-            core.debug(`CodeQL CLI found at '${codeql.path}'`);
-            await cql.runCommand(codeql, ["version", "--format", "terse"]);
-            // download the extractor
-            core.info(`Download Extractor '${codeql.repository}@${codeql.version}'`);
-            await cql.downloadExtractor(codeql);
-            var languages = await cql.runCommandJson(codeql, [
-                "resolve",
-                "languages",
-                "--format",
-                "json",
-            ]);
-            core.info(`CodeQL languages: ${languages}`);
-            if (!languages.hasOwnProperty("iac")) {
-                core.setFailed("CodeQL IaC extension not installed");
-                throw new Error("CodeQL IaC extension not installed");
+        core.debug(`CodeQL CLI found at '${codeql.path}'`);
+        await cql.runCommand(codeql, ["version", "--format", "terse"]);
+        // download the extractor
+        core.info(`Download Extractor '${codeql.repository}@${codeql.version}'`);
+        await cql.downloadExtractor(codeql);
+        var languages = await cql.runCommandJson(codeql, [
+            "resolve",
+            "languages",
+            "--format",
+            "json",
+        ]);
+        core.info(`CodeQL languages: ${languages}`);
+        if (!languages.hasOwnProperty("iac")) {
+            core.setFailed("CodeQL IaC extension not installed");
+            throw new Error("CodeQL IaC extension not installed");
+        }
+        // download pack
+        core.info(`Downloading CodeQL IaC pack '${codeql.pack}'`);
+        var pack_downloaded = await cql.downloadPack(codeql);
+        if (pack_downloaded === false) {
+            // get action_path from environment
+            var action_path = process.env.GITHUB_ACTION_PATH;
+            if (action_path === undefined) {
+                core.setFailed("Failed to get CodeQL IaC pack");
+                throw new Error("Failed to get CodeQL IaC pack");
             }
-            // download pack
-            core.info(`Downloading CodeQL IaC pack '${codeql.pack}'`);
-            var pack_downloaded = await cql.downloadPack(codeql);
-            if (pack_downloaded === false) {
-                // get action_path from environment
-                var action_path = process.env.GITHUB_ACTION_PATH;
-                if (action_path === undefined) {
-                    core.setFailed("Failed to get CodeQL IaC pack");
-                    throw new Error("Failed to get CodeQL IaC pack");
-                }
-                codeql.pack = path.join(action_path, "ql", "src");
-                core.info(`Pack defaulting back to local pack: '${codeql.pack}'`);
-            }
-            else {
-                core.info(`Pack downloaded '${codeql.pack}'`);
-            }
-            core.info("Setup complete");
-        })
-            .catch((error) => {
-            core.setFailed(error.message);
-            throw error;
-        });
-        core
-            .group("Analysis", async () => {
-            core.info("Creating CodeQL database...");
-            var database_path = await cql.codeqlDatabaseCreate(codeql);
-            core.info("Running CodeQL analysis...");
-            var sarif = await cql.codeqlDatabaseAnalyze(codeql, database_path);
-            core.info(`SARIF results: '${sarif}'`);
-        })
-            .catch((error) => {
-            core.setFailed(error.message);
-            throw error;
-        });
+            codeql.pack = path.join(action_path, "ql", "src");
+            core.info(`Pack defaulting back to local pack: '${codeql.pack}'`);
+        }
+        else {
+            core.info(`Pack downloaded '${codeql.pack}'`);
+        }
+        core.info("Setup complete");
+        core.info("Creating CodeQL database...");
+        var database_path = await cql.codeqlDatabaseCreate(codeql);
+        core.info("Running CodeQL analysis...");
+        var sarif = await cql.codeqlDatabaseAnalyze(codeql, database_path);
+        core.info(`SARIF results: '${sarif}'`);
+        core.info("Finished CodeQL analysis");
     }
     catch (error) {
         // Fail the workflow run if an error occurs
