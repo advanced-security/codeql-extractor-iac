@@ -27,7 +27,8 @@ CodeQL Extractor, Library, and Queries for Infrastructure as Code.
 
 ## License
 
-This project is licensed under the terms of the MIT open source license. Please refer to [MIT](./LICENSE.md) for the full terms.
+This project is licensed under the terms of the MIT open source license.
+Please refer to [MIT](./LICENSE.md) for the full terms.
 
 ## Maintainers
 
