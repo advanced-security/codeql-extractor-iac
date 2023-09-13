@@ -12,13 +12,24 @@ export async function run(): Promise<void> {
 
     core.debug(`CodeQL CLI found at '${codeql.path}'`);
 
-    var version = await cql.runCommand(codeql, ["version"]);
+    // parse as JSON
+    var version = await cql.runCommand(codeql, [
+      "version",
+      "--format",
+      "terse",
+    ]);
     core.info(`CodeQL CLI version: ${version}`);
 
     // download the extractor
-    await cql.downloadExtractor(codeql);
+    // await cql.downloadExtractor(codeql);
 
-    //
+    var languages = await cql.runCommandJson(codeql, [
+      "resolve",
+      "languages",
+      "--format",
+      "json",
+    ]);
+    core.info(`CodeQL languages: ${languages}`);
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message);

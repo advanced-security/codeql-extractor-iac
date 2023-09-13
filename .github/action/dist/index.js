@@ -6613,7 +6613,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.downloadExtractor = exports.runCommand = exports.newCodeQL = exports.EXTRACTOR_VERSION = exports.EXTRACTOR_REPOSITORY = void 0;
+exports.downloadExtractor = exports.runCommandJson = exports.runCommand = exports.newCodeQL = exports.EXTRACTOR_VERSION = exports.EXTRACTOR_REPOSITORY = void 0;
 const fs = __importStar(__nccwpck_require__(7147));
 const path = __importStar(__nccwpck_require__(1017));
 const core = __importStar(__nccwpck_require__(2186));
@@ -6631,9 +6631,23 @@ async function newCodeQL() {
 exports.newCodeQL = newCodeQL;
 async function runCommand(config, args) {
     var bin = path.join(config.path, "codeql");
-    return await new toolrunner.ToolRunner(bin, args).exec();
+    let output = "";
+    var options = {
+        listeners: {
+            stdout: (data) => {
+                output += data.toString();
+            },
+        },
+    };
+    await new toolrunner.ToolRunner(bin, args, options).exec();
+    core.debug(`Finished running command :: ${bin} ${args.join(" ")}`);
+    return output.trim();
 }
 exports.runCommand = runCommand;
+async function runCommandJson(config, args) {
+    return JSON.parse(await runCommand(config, args));
+}
+exports.runCommandJson = runCommandJson;
 async function findCodeQL() {
     // check if codeql is in the toolcache
     var codeqlPath = await findCodeQlInToolcache();
@@ -6717,11 +6731,22 @@ async function run() {
         // set up codeql
         var codeql = await cql.newCodeQL();
         core.debug(`CodeQL CLI found at '${codeql.path}'`);
-        var version = await cql.runCommand(codeql, ["version"]);
+        // parse as JSON
+        var version = await cql.runCommand(codeql, [
+            "version",
+            "--format",
+            "terse",
+        ]);
         core.info(`CodeQL CLI version: ${version}`);
         // download the extractor
-        await cql.downloadExtractor(codeql);
-        //
+        // await cql.downloadExtractor(codeql);
+        var languages = await cql.runCommandJson(codeql, [
+            "resolve",
+            "languages",
+            "--format",
+            "json",
+        ]);
+        core.info(`CodeQL languages: ${languages}`);
     }
     catch (error) {
         // Fail the workflow run if an error occurs

@@ -31,9 +31,27 @@ export async function runCommand(
   args: string[],
 ): Promise<any> {
   var bin = path.join(config.path, "codeql");
-  return await new toolrunner.ToolRunner(bin, args).exec();
+  let output = "";
+  var options = {
+    listeners: {
+      stdout: (data: Buffer) => {
+        output += data.toString();
+      },
+    },
+  };
+
+  await new toolrunner.ToolRunner(bin, args, options).exec();
+  core.debug(`Finished running command :: ${bin} ${args.join(" ")}`);
+
+  return output.trim();
 }
 
+export async function runCommandJson(
+  config: CodeQLConfig,
+  args: string[],
+): Promise<object> {
+  return JSON.parse(await runCommand(config, args));
+}
 async function findCodeQL(): Promise<string> {
   // check if codeql is in the toolcache
   var codeqlPath = await findCodeQlInToolcache();
