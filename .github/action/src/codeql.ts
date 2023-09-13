@@ -8,7 +8,7 @@ import * as toolrunner from "@actions/exec/lib/toolrunner";
 import { release } from "os";
 
 export const EXTRACTOR_REPOSITORY = "advanced-security/codeql-extractor-iac";
-export const EXTRACTOR_VERSION = "v0.3.0";
+export const EXTRACTOR_VERSION = "v0.0.3";
 
 export interface CodeQLConfig {
   repository: string;
@@ -89,11 +89,19 @@ async function findCodeQlInToolcache(): Promise<string | undefined> {
 export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
   const octokit = github.getOctokit(core.getInput("token"));
   const owner_repo = config.repository.split("/");
-  const release = await octokit.rest.repos.getReleaseByTag({
-    owner: owner_repo[0],
-    repo: owner_repo[1],
-    tag: config.version,
-  });
+
+  if (config.version === "latest") {
+    var release = await octokit.rest.repos.getLatestRelease({
+      owner: owner_repo[0],
+      repo: owner_repo[1],
+    });
+  } else {
+    var release = await octokit.rest.repos.getReleaseByTag({
+      owner: owner_repo[0],
+      repo: owner_repo[1],
+      tag: config.version,
+    });
+  }
   const assets = release.data.assets
     .map((asset) => asset.browser_download_url)
     .filter((url) => url.endsWith(".tar.gz"));

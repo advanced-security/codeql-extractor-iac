@@ -13530,7 +13530,7 @@ const toolcache = __importStar(__nccwpck_require__(7784));
 const github = __importStar(__nccwpck_require__(5438));
 const toolrunner = __importStar(__nccwpck_require__(8159));
 exports.EXTRACTOR_REPOSITORY = "advanced-security/codeql-extractor-iac";
-exports.EXTRACTOR_VERSION = "v0.3.0";
+exports.EXTRACTOR_VERSION = "v0.0.3";
 async function newCodeQL() {
     return {
         repository: exports.EXTRACTOR_REPOSITORY,
@@ -13587,11 +13587,19 @@ async function findCodeQlInToolcache() {
 async function downloadExtractor(config) {
     const octokit = github.getOctokit(core.getInput("token"));
     const owner_repo = config.repository.split("/");
-    const release = await octokit.rest.repos.getReleaseByTag({
-        owner: owner_repo[0],
-        repo: owner_repo[1],
-        tag: config.version,
-    });
+    if (config.version === "latest") {
+        var release = await octokit.rest.repos.getLatestRelease({
+            owner: owner_repo[0],
+            repo: owner_repo[1],
+        });
+    }
+    else {
+        var release = await octokit.rest.repos.getReleaseByTag({
+            owner: owner_repo[0],
+            repo: owner_repo[1],
+            tag: config.version,
+        });
+    }
     const assets = release.data.assets
         .map((asset) => asset.browser_download_url)
         .filter((url) => url.endsWith(".tar.gz"));
