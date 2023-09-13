@@ -10,6 +10,9 @@ inputs:
     description: "Path of the root source code directory, relative to $GITHUB_WORKSPACE."
     default: "./"
 
+  extractor-version:
+    description: "Pin to a version of the IaC Extractor to use (release tag)."
+
   sarif:
     description: "SARIF File Output"
     default: "codeql-iac.sarif"
