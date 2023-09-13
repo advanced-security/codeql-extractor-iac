@@ -10,38 +10,13 @@ inputs:
     description: "Path of the root source code directory, relative to $GITHUB_WORKSPACE."
     default: "./"
 
+  extractor-version:
+    description: "Pin to a version of the IaC Extractor to use (release tag)."
+
   sarif:
     description: "SARIF File Output"
-    default: "result.sarif"
+    default: "codeql-iac.sarif"
 
 runs:
-  using: "composite"
-  steps:
-    - shell: bash
-      env:
-        GH_TOKEN: ${{ inputs.token }}
-      run: |
-        set -e
-        bash -c ${{ github.action_path }}/scripts/install-extractor.sh "iac"
-
-        CODEQL="$(find $RUNNER_TOOL_CACHE/CodeQL/*/x64/codeql -iname "codeql" -print -quit)/codeql"
-
-        "$CODEQL" resolve extractor --search-path ~/.codeql/extractors/extractor-pack -l=iac
-
-        "$CODEQL" database create \
-          --language=iac --overwrite \
-          --search-path ~/.codeql/extractors/extractor-pack \
-          --source-root "${{ inputs.source-root }}" \
-          ../codeql-iac-db
-
-        "$CODEQL" database analyze \
-          --search-path="${{ github.action_path }}" \
-          --format sarif-latest \
-          --output "${{ inputs.sarif }}" \
-          ../codeql-iac-db \
-          ${{ github.action_path }}/ql/src/codeql-suites/iac-code-scanning.qls
-
-    # https://github.com/github/codeql-action/blob/main/upload-sarif/action.yml
-    - uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: "${{ inputs.sarif }}"
+  using: "node16"
+  main: ".github/action/dist/index.js"

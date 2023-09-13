@@ -1,6 +1,9 @@
 docs:
   - "docs/**"
 
+action:
+  - ".github/action/**"
+
 extractor:
   - "extractor/**"
   - "tools/**"
