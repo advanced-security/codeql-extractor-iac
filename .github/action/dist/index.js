@@ -13619,7 +13619,7 @@ async function downloadExtractor(config) {
     var asset = assets[0];
     core.debug(`Downloading extractor from ${asset}`);
     // use the toolcache to download the extractor
-    var extractorPath = await toolcache.downloadTool(asset.browser_download_url, undefined, `token ${core.getInput("token")}`, {
+    var extractorPath = await toolcache.downloadTool(asset.url, undefined, `token ${core.getInput("token")}`, {
         accept: "application/octet-stream",
     });
     core.debug(`Extractor downloaded to ${extractorPath}`);

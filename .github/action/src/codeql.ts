@@ -129,7 +129,7 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
 
   // use the toolcache to download the extractor
   var extractorPath = await toolcache.downloadTool(
-    asset.browser_download_url,
+    asset.url,
     undefined,
     `token ${core.getInput("token")}`,
     {
