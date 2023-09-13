@@ -13763,6 +13763,7 @@ async function run() {
         core.info("Running CodeQL analysis...");
         var sarif = await cql.codeqlDatabaseAnalyze(codeql, database_path);
         core.info(`SARIF results: '${sarif}'`);
+        core.setOutput("sarif", sarif);
         core.info("Finished CodeQL analysis");
     }
     catch (error) {
