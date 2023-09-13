@@ -13612,16 +13612,16 @@ async function downloadExtractor(config) {
         });
     }
     // we assume there is only one tar.gz asset
-    const assets = release.data.assets
-        .map((asset) => asset.browser_download_url)
-        .filter((url) => url.endsWith(".tar.gz"));
+    const assets = release.data.assets.filter((asset) => asset.browser_download_url.endsWith(".tar.gz"));
     if (assets.length !== 1) {
         throw new Error(`Expected 1 asset to be found, but found ${assets.length} instead.`);
     }
     var asset = assets[0];
     core.debug(`Downloading extractor from ${asset}`);
     // use the toolcache to download the extractor
-    var extractorPath = await toolcache.downloadTool(asset, undefined, core.getInput("token"));
+    var extractorPath = await toolcache.downloadTool(asset.browser_download_url, undefined, `token ${core.getInput("token")}`, {
+        accept: "application/octet-stream",
+    });
     core.debug(`Extractor downloaded to ${extractorPath}`);
     // extract the tarball to codeql path
     await toolcache.extractTar(extractorPath, config.path);
