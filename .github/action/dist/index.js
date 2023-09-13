@@ -13585,7 +13585,7 @@ async function findCodeQlInToolcache() {
     return undefined;
 }
 async function downloadExtractor(config) {
-    const octokit = github.getOctokit(core.getInput("github-token"));
+    const octokit = github.getOctokit(core.getInput("token"));
     const owner_repo = config.repository.split("/");
     const release = await octokit.rest.repos.getReleaseByTag({
         owner: owner_repo[0],
