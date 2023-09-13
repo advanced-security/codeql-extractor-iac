@@ -21,7 +21,7 @@ export interface CodeQLConfig {
   // CodeQL pack to use for analysis.
   pack: string;
   // The codeql suite to use for analysis.
-  suite?: string;
+  suite: string;
   // The source root to use for analysis.
   source_root?: string;
   // The output file for the SARIF file.
@@ -195,16 +195,27 @@ export async function codeqlDatabaseAnalyze(
 ): Promise<string> {
   var codeql_output = codeql.output || "codeql-iac.sarif";
 
-  await runCommand(codeql, [
+  var cmd = [
     "database",
     "analyze",
     "--format",
     "sarif-latest",
     "--output",
     codeql_output,
-    database_path,
-    codeql.pack + ":" + codeql.suite,
-  ]);
+  ];
+
+  // remote pack or local pack
+  if (codeql.pack.startsWith("advanced-security/")) {
+    var suite = codeql.pack + ":" + codeql.suite;
+  } else {
+    // assume path
+    var suite = path.join(codeql.pack, codeql.suite);
+    cmd.push("--search-path", codeql.pack);
+  }
+
+  cmd.push(database_path, suite);
+
+  await runCommand(codeql, cmd);
 
   return codeql_output;
 }
