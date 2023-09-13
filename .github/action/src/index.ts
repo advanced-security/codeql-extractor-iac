@@ -7,29 +7,38 @@ import * as cql from "./codeql";
  */
 export async function run(): Promise<void> {
   try {
-    // set up codeql
-    var codeql = await cql.newCodeQL();
+    core.group("Setup", async () => {
+      // set up codeql
+      var codeql = await cql.newCodeQL();
 
-    core.debug(`CodeQL CLI found at '${codeql.path}'`);
+      core.debug(`CodeQL CLI found at '${codeql.path}'`);
 
-    // parse as JSON
-    var version = await cql.runCommand(codeql, [
-      "version",
-      "--format",
-      "terse",
-    ]);
-    core.info(`CodeQL CLI version: ${version}`);
+      // parse as JSON
+      var version = await cql.runCommand(codeql, [
+        "version",
+        "--format",
+        "terse",
+      ]);
 
-    // download the extractor
-    // await cql.downloadExtractor(codeql);
+      // download the extractor
+      core.info(
+        `Download CodeQL IaC extractor ${codeql.repository}@${codeql.version}`,
+      );
+      await cql.downloadExtractor(codeql);
 
-    var languages = await cql.runCommandJson(codeql, [
-      "resolve",
-      "languages",
-      "--format",
-      "json",
-    ]);
-    core.info(`CodeQL languages: ${languages}`);
+      var languages = await cql.runCommandJson(codeql, [
+        "resolve",
+        "languages",
+        "--format",
+        "json",
+      ]);
+      core.info(`CodeQL languages: ${languages}`);
+
+      if (!languages.hasOwnProperty("iac")) {
+        core.setFailed("CodeQL IaC extension not installed");
+        throw new Error("CodeQL IaC extension not installed");
+      }
+    });
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message);

@@ -3,7 +3,9 @@ import * as path from "path";
 
 import * as core from "@actions/core";
 import * as toolcache from "@actions/tool-cache";
+import * as github from "@actions/github";
 import * as toolrunner from "@actions/exec/lib/toolrunner";
+import { release } from "os";
 
 export const EXTRACTOR_REPOSITORY = "advanced-security/codeql-extractor-iac";
 export const EXTRACTOR_VERSION = "v0.3.0";
@@ -73,9 +75,7 @@ async function findCodeQlInToolcache(): Promise<string | undefined> {
 
   if (candidates.length === 1) {
     const candidate = candidates[0];
-    core.info(
-      `CodeQL tools found in toolcache: '${candidate.folder}' (${candidate.version}).`,
-    );
+    core.info(`CodeQL tools found in toolcache: '${candidate.folder}'.`);
     core.debug(`CodeQL toolcache version: '${candidate.version}'.`);
 
     return path.join(candidate.folder, "codeql");
@@ -87,11 +87,27 @@ async function findCodeQlInToolcache(): Promise<string | undefined> {
 }
 
 export async function downloadExtractor(config: CodeQLConfig): Promise<void> {
-  // create github release url from repository owner and name
-  var url = `https://github.com/${config.repository}/releases/download/${config.version}/extractor-iac.tar.gz`;
-  core.info(`Downloading extractor from ${url}`);
+  const octokit = github.getOctokit(core.getInput("github-token"));
+  const owner_repo = config.repository.split("/");
+  const release = await octokit.rest.repos.getReleaseByTag({
+    owner: owner_repo[0],
+    repo: owner_repo[1],
+    tag: config.version,
+  });
+  const assets = release.data.assets
+    .map((asset) => asset.browser_download_url)
+    .filter((url) => url.endsWith(".tar.gz"));
+
+  if (assets.length !== 1) {
+    throw new Error(
+      `Expected 1 asset to be found, but found ${assets.length} instead.`,
+    );
+  }
+  var asset = assets[0];
+  core.debug(`Downloading extractor from ${asset}`);
+
   // use the toolcache to download the extractor
-  var extractorPath = await toolcache.downloadTool(url);
+  var extractorPath = await toolcache.downloadTool(asset);
   core.debug(`Extractor downloaded to ${extractorPath}`);
 
   // extract the tarball to codeql path
