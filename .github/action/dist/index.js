@@ -13740,7 +13740,6 @@ async function run() {
             "--format",
             "json",
         ]);
-        core.info(`CodeQL languages: ${languages}`);
         if (!languages.hasOwnProperty("iac")) {
             core.setFailed("CodeQL IaC extension not installed");
             throw new Error("CodeQL IaC extension not installed");
@@ -13761,7 +13760,6 @@ async function run() {
         else {
             core.info(`Pack downloaded '${codeql.pack}'`);
         }
-        core.info("Setup complete");
         core.info("Creating CodeQL database...");
         var database_path = await cql.codeqlDatabaseCreate(codeql);
         core.info("Running CodeQL analysis...");

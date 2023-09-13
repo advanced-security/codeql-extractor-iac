@@ -25,7 +25,6 @@ export async function run(): Promise<void> {
       "--format",
       "json",
     ]);
-    core.info(`CodeQL languages: ${languages}`);
 
     if (!languages.hasOwnProperty("iac")) {
       core.setFailed("CodeQL IaC extension not installed");
@@ -49,8 +48,6 @@ export async function run(): Promise<void> {
     } else {
       core.info(`Pack downloaded '${codeql.pack}'`);
     }
-
-    core.info("Setup complete");
 
     core.info("Creating CodeQL database...");
     var database_path = await cql.codeqlDatabaseCreate(codeql);
