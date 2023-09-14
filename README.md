@@ -6,7 +6,7 @@
 :warning: **This project is in early development and is not supported by GitHub or CodeQL** :warning:
 
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/advanced-security/codeql-extractor-iac)
-[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/advanced-security/codeql-extractor-iac/release-main.yml?style=for-the-badge)](https://github.com/advanced-security/codeql-extractor-iac/actions/workflows/release-main.yml?query=branch%3Amain)
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/advanced-security/codeql-extractor-iac/publish.yml?style=for-the-badge)](https://github.com/advanced-security/codeql-extractor-iac/actions/workflows/publish.yml?query=branch%3Amain)
 [![GitHub Issues](https://img.shields.io/github/issues/advanced-security/codeql-extractor-iac?style=for-the-badge)](https://github.com/advanced-security/codeql-extractor-iac/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/advanced-security/codeql-extractor-iac?style=for-the-badge)](https://github.com/advanced-security/codeql-extractor-iac)
 [![License](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
