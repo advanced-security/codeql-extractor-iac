@@ -11,10 +11,10 @@
 
 import hcl
 
-from Resource r
+from AWS::S3Bucket buckets
 where
-  r.getResourceType() = "aws_s3_bucket" and
   // Disable by default
-  not r.hasAttribute("logging")
-// target_bucket = "target-bucket"
-select r, "Logging disabled for: \"" + r.getName() + "\""
+  not exists(buckets.getLogging()) and
+  // Only checks buckets that are themselves used for storing logs
+  not buckets.getAclValue() = "log-delivery-write"
+select buckets, "Logging disabled for: \"" + buckets.getName() + "\""
