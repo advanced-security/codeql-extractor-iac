@@ -43,6 +43,11 @@ class Attribute extends Expr, TAttribute {
           resources.getLabel(1) = e.getExpr().(GetAttrExpr).getKey().(Identifier).getName()
         |
           // resource attribute key
+          // ID attribute return the resource itself
+          e.getKey().(Identifier).getName() = "id" and
+          result = resources
+          or
+          // get attribute in resource
           result = resources.getAttribute(e.getKey().(Identifier).getName())
         )
       )

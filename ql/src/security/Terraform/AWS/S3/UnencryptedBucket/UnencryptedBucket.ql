@@ -11,8 +11,8 @@
 
 import hcl
 
-from Resource r
+from AWS::S3Bucket buckets
 where
-  r.getResourceType() = "aws_s3_bucket" and
-  not r.hasAttribute("server_side_encryption_configuration")
-select r, "S3 Bucket Unencrypted: \"" + r.getName() + "\""
+  // Default is unencrypted
+  not exists(buckets.getEncryptionConfiguration())
+select buckets, "S3 Bucket Unencrypted: \"" + buckets.getName() + "\""

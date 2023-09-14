@@ -102,50 +102,6 @@ class Identifier extends Expr, TIdentifier {
   string getName() { result = identifier.getValue() }
 }
 
-class Block extends Expr, TBlock {
-  HCL::Block block;
-
-  override string getAPrimaryQlClass() { result = "Block" }
-
-  Block() { this = TBlock(block) }
-
-  string getType() { result = block.getType().getValue() }
-
-  predicate hasType(string type) { type = this.getType() }
-
-  override string toString() { result = this.getType() }
-
-  Block getABlock() { toHclTreeSitter(result) = block.getBody().getChild(_) }
-
-  string getLabel(int i) {
-    result = block.getLabel(i).(HCL::Identifier).getValue() or
-    result = block.getLabel(i).(HCL::StringLit).getChild().getValue()
-  }
-
-  predicate hasLabel(int i, string label) { label = this.getLabel(i) }
-
-  override HclAstNode getAChild(string pred) {
-    pred = "getABlock" and result = this.getABlock()
-    or
-    pred = "getAttribute" and result = this.getAttribute(_)
-  }
-
-  Expr getAttribute(string name) {
-    exists(HCL::Attribute attr | attr = block.getBody().getChild(_) |
-      attr.getKey().getValue() = name and
-      toHclTreeSitter(result) = attr.getVal()
-    )
-    or
-    result = this.getABlock() and result.(Block).hasType(name)
-  }
-
-  predicate hasAttribute(string name) {
-    exists(HCL::Attribute attr | attr = block.getBody().getChild(_) |
-      attr.getKey().getValue() = name
-    )
-  }
-}
-
 class Object extends Expr, TObject {
   private HCL::Object object;
 

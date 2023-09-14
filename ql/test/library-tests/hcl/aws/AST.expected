@@ -1,0 +1,14 @@
+resource
+| S3.hcl:1:1:3:1 | resource aws_s3_bucket example |
+| S3.hcl:5:1:8:1 | resource aws_s3_bucket_acl example |
+| S3.hcl:10:1:12:1 | resource aws_s3_bucket log_bucket |
+| S3.hcl:14:1:17:1 | resource aws_s3_bucket_acl log_bucket_acl |
+| S3.hcl:19:1:24:1 | resource aws_s3_bucket_logging example |
+buckets
+| S3.hcl:1:1:3:1 | resource aws_s3_bucket example |
+| S3.hcl:10:1:12:1 | resource aws_s3_bucket log_bucket |
+bucketsLogging
+| S3.hcl:1:1:3:1 | resource aws_s3_bucket example | S3.hcl:19:1:24:1 | resource aws_s3_bucket_logging example |
+bucketsAcl
+| S3.hcl:1:1:3:1 | resource aws_s3_bucket example | S3.hcl:5:1:8:1 | resource aws_s3_bucket_acl example |
+| S3.hcl:10:1:12:1 | resource aws_s3_bucket log_bucket | S3.hcl:14:1:17:1 | resource aws_s3_bucket_acl log_bucket_acl |
