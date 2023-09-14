@@ -13,6 +13,11 @@ class Resource extends Block {
   string getName() { result = this.getLabel(1) }
 
   /**
+   * Returns the resource id.
+   */
+  string getId() { result = this.getName() }
+
+  /**
    * Returns the resource type.
    */
   string getResourceType() { result = this.getLabel(0) }
