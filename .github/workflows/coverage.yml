@@ -13,8 +13,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: "Run Coverage Report"
+        if: github.ref == 'refs/heads/main'
         run: |
-          ./scripts/create-coverage.sh
+          pip install ghastoolkit
+          ./scripts/create-coverage.py --markdown > $GITHUB_STEP_SUMMARY
 
       - name: "Upload Coverage Report"
         uses: actions/upload-artifact@v3
