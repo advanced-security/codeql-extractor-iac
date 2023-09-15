@@ -3,7 +3,7 @@
 type NUL && "%CODEQL_DIST%\codeql.exe" database index-files ^
     --prune=**/*.testproj ^
     --include-extension=.hcl ^
-    --include-extension=.yml ^
+    --include-extension=.tf ^
     --size-limit=5m ^
     --language=hcl ^
     --working-dir=. ^
