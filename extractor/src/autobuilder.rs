@@ -19,6 +19,7 @@ pub fn run(_: Options) -> std::io::Result<()> {
             ".tf",
             ".ftvars",     // Terraform / HCL files
             ".Dockerfile", // Docker files
+            ".bicep",      // Bicep files
         ])
         .include_globs(&[
             "**/Dockerfile",

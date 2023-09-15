@@ -42,6 +42,12 @@ pub fn run(options: Options) -> std::io::Result<()> {
                 node_types: tree_sitter_dockerfile::NODE_TYPES,
                 file_globs: vec!["*Dockerfile".into(), "*Containerfile".into()],
             },
+            simple::LanguageSpec {
+                prefix: "bicep",
+                ts_language: tree_sitter_bicep::language(),
+                node_types: tree_sitter_bicep::NODE_TYPES,
+                file_globs: vec!["*.bicep".into()],
+            },
         ],
         trap_dir: options.output_dir,
         trap_compression: trap::Compression::from_env("CODEQL_IAC_TRAP_COMPRESSION"),
