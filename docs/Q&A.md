@@ -25,6 +25,7 @@ The `codeql-extractor-iac` supports the following languages:
 | JSON            | `.json`, `.jsonl`, `.jsonc`     |
 | YAML            | `.yaml`, `.yml`                 |
 | Container files | `*Dockerfile`, `*Containerfile` |
+| Bicep           | `.bicep`                        |
 
 ## Q: What frameworks and technologies does the `codeql-extractor-iac` support?
 
@@ -41,7 +42,7 @@ The `codeql-extractor-iac` is a community extractor and supports a number of fra
 | GitHub Actions             |      2      | extractor and library           |
 | HelmChart (Kubernetes)     |      2      | extractor and library           |
 | OpenAPI / Swagger          |      2      | extractor and library           |
-| Azure Bicep                |      0      | currently unsupported           |
+| Azure Bicep                |      1      | extractor                       |
 
 _levels grades are based on completeness, higher the grade the better its supported._
 

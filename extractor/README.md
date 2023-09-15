@@ -8,3 +8,4 @@
 | JSON            | `.json`, `.jsonl`, `.jsonc`   |
 | YAML            | `.yaml`, `.yml`               |
 | Container files | `Dockerfile`, `Containerfile` |
+| Bicep           | `.bicep`                      |
