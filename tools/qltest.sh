@@ -5,7 +5,9 @@ set -eu
 "${CODEQL_DIST}/codeql" database index-files \
     --prune="**/*.testproj" \
     --include-extension=.hcl \
-    --include-extension=.dbscheme \
+    --include-extension=.tf \
+    --include-extension=.tfvars \
+    --include-extension=.bicep \
     --size-limit=5m \
     --language=iac \
     --working-dir=.\
