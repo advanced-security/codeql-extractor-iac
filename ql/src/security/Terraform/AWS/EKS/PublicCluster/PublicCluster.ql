@@ -6,6 +6,8 @@
  * @security-severity 9.0
  * @precision high
  * @id hcl/aws/eks-public-cluster
+ * @tags security
+ *       aws
  */
 
 import hcl
