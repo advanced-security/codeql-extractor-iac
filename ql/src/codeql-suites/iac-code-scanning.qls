@@ -8,6 +8,7 @@
     tags contain:
       - security
       - maintainability
+      - diagnostic
 
 - exclude:
     tags contain:
