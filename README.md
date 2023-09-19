@@ -32,6 +32,7 @@ The [documentation for CodeQL IaC extractor can be found here][docs].
 **Other Useful Links:**
 
 - [Q&A][docs-qanda]
+- [Languages and Frameworks][docs-languages-and-frameworks]
 - [Coverage][docs-coverage]
 - [Example Workflows][docs-workflows]
 
@@ -71,5 +72,6 @@ Support is via [GitHub Issues][issues] or [GitHub Discussions][discussions].
 [discussions]: https://github.com/advanced-security/codeql-extractor-iac/discussions
 [docs]: ./docs
 [docs-qanda]: ./docs/Q%26A.md
+[docs-languages-and-frameworks]: ./docs/languages-and-frameworks.md
 [docs-coverage]: ./docs/coverage.md
 [docs-workflows]: ./docs/workflows.md
