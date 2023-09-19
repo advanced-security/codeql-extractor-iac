@@ -22,12 +22,13 @@ The following table lists the supported frameworks and technologies:
 | -------------------------- | :---------: | ------------------------------- |
 | Terraform (HCL)            |      3      | extractor, library, and queries |
 | GitHub Actions             |      3      | extractor, library, and queries |
+| HelmChart (Kubernetes)     |      2      | extractor, library, and queries |
 | ARM Template (YAML / JSON) |      2      | extractor and library           |
+| Azure Pipelines            |      2      | extractor and library           |
 | AWS CloudFormation         |      2      | extractor and library           |
 | Compose (Docker/Podman)    |      2      | extractor and library           |
 | Docker / Container file(s) |      2      | extractor and library           |
 | GitHub Actions             |      2      | extractor and library           |
-| HelmChart (Kubernetes)     |      2      | extractor and library           |
 | OpenAPI / Swagger          |      2      | extractor and library           |
 | Azure Bicep                |      0      | currently unsupported           |
 
