@@ -115,6 +115,7 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<string> {
       owner: owner_repo[0],
       repo: owner_repo[1],
     });
+    core.info(`Using extractor version: '${release.data.tag_name}'`);
   } else if (config.version === "compile") {
     core.info("Compiling extractor from source...");
     core.warning("This is not recommended for production use");

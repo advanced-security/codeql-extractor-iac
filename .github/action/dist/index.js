@@ -13602,6 +13602,7 @@ async function downloadExtractor(config) {
             owner: owner_repo[0],
             repo: owner_repo[1],
         });
+        core.info(`Using extractor version: '${release.data.tag_name}'`);
     }
     else if (config.version === "compile") {
         core.info("Compiling extractor from source...");
