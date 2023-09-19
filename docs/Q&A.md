@@ -67,6 +67,14 @@ There are 5 levels of support for each framework or technology:
 
 If a framework or technology is not listed above and you would like to see it supported, [please open an issue](https://github.com/advanced-security/codeql-extractor-iac/issues).
 
+## Q: What Operating Systems does the `codeql-extractor-iac` support?
+
+The `codeql-extractor-iac` is a community extractor and supports the following operating systems:
+
+- Linux (Ubuntu / Debian tested)
+
+In the future other operating systems may be supported.
+
 ## Q: What can I do to support this project?
 
 We are always looking for help and support from the community.
