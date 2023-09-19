@@ -1,6 +1,8 @@
 private import codeql.Locations
 private import codeql.files.FileSystem
 private import codeql.iac.ast.internal.Hcl
+private import codeql.hcl.ast.Literals
+private import codeql.hcl.ast.Variables
 
 /** An AST node of a IAC program */
 class HclAstNode extends THclAstNode {
@@ -108,6 +110,29 @@ class Object extends Expr, TObject {
   override string getAPrimaryQlClass() { result = "Object" }
 
   Object() { this = TObject(object) }
+
+  ObjectElement getElement(int index) { toHclTreeSitter(result) = object.getElement(index) }
+
+  ObjectElement getElements() { toHclTreeSitter(result) = object.getElement(_) }
+
+  Expr getElementByName(string name) {
+    exists(ObjectElement elem | this.getElements() = elem |
+      elem.getKey().getName() = name and
+      result = elem.getExpr()
+    )
+  }
+}
+
+class ObjectElement extends Expr, TObjectElem {
+  private HCL::ObjectElem objectElem;
+
+  override string getAPrimaryQlClass() { result = "ObjectElement" }
+
+  ObjectElement() { this = TObjectElem(objectElem) }
+
+  Variable getKey() { toHclTreeSitter(result) = objectElem.getKey() }
+
+  Expr getExpr() { toHclTreeSitter(result) = objectElem.getVal() }
 }
 
 class Tuple extends Expr, TTuple {

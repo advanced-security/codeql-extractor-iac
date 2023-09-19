@@ -48,7 +48,7 @@ class TExpr =
   TLiteral or TIdentifier or TAttribute or TVariable or TFunctionCall or TUnaryOperation or
       TBinaryOperation or TConditional or TGetAttrExpr or TIndex or TTemplateLiteral or
       TTemplateInterpolation or TTemplateFor or TTemplateIf or TForExpr or TForObjectExpr or
-      TForTupleExpr or TTuple or TObject or TAttrSplat or TFullSplat or TSplatExpr or
+      TForTupleExpr or TTuple or TObject or TObjectElem or TAttrSplat or TFullSplat or TSplatExpr or
       TQuotedTemplate or TBlock or THeredocTemplate;
 
 /**
