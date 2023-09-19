@@ -9,6 +9,10 @@
       - security
       - maintainability
 
+- include:
+    kind:
+      - diagnostic
+
 - exclude:
     tags contain:
       - experimental

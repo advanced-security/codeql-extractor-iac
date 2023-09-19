@@ -1,0 +1,8 @@
+files
+| providers.tf:0:0:0:0 | providers.tf |
+terraformSettings
+| providers.tf:3:1:10:1 | terraform |
+requiredProvider
+| providers.tf:5:15:8:5 | RequiredProvider |
+dependencies
+| providers.tf:5:15:8:5 | hashicorp/azurerm@3.0.0 |

@@ -143,4 +143,38 @@ module AWS {
 
     Expr getPassword() { result = this.getAttribute("password") }
   }
+
+  /**
+   * AWS Elastic Kubernetes Service (EKS) Cluster.
+   */
+  class EKSCluster extends AwsResource {
+    EKSCluster() { this.getResourceType() = "aws_eks_cluster" }
+
+    Block getVpcConfig() { result = this.getAttribute("vpc_config") }
+
+    boolean getEndpointPublicAccess() {
+      result = this.getVpcConfig().getAttribute("endpoint_public_access").(BooleanLiteral).getBool()
+    }
+
+    Expr getPublicAccessCidrs() { result = this.getVpcConfig().getAttribute("public_access_cidrs") }
+
+    Expr getPublicAccessSources() {
+      result = this.getVpcConfig().getAttribute("public_access_sources")
+    }
+
+    Expr getEncryptionConfig() { result = this.getAttribute("encryption_config") }
+  }
+
+  /**
+   * AWS Elastic Kubernetes Service (EKS) Cluster Encryption Config.
+   *
+   * https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster#encryption_config
+   */
+  class EKSClusterEncryptionConfig extends AwsResource {
+    private EKSCluster cluster;
+
+    EKSClusterEncryptionConfig() { this = cluster.getAttribute("encryption_config") }
+
+    Expr getResources() { result = this.getAttribute("resources") }
+  }
 }

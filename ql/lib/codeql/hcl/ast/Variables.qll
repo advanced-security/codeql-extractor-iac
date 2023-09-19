@@ -6,7 +6,11 @@ private import codeql.hcl.ast.AstNodes
 class Variable extends Expr, TVariable {
   HCL::VariableExpr var;
 
+  override string getAPrimaryQlClass() { result = "Variable" }
+
   Variable() { this = TVariable(var) }
+
+  override string toString() { result = this.getName() }
 
   string getName() { result = var.getName().getValue() }
 }

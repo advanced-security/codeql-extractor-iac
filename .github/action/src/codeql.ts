@@ -204,6 +204,7 @@ export async function codeqlDatabaseAnalyze(
     "analyze",
     "--format",
     "sarif-latest",
+    "--sarif-add-query-help",
     "--output",
     codeql_output,
   ];
