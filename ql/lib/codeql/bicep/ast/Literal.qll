@@ -1,5 +1,5 @@
-import codeql.iac.ast.internal.Bicep
-import codeql.bicep.ast.AstNodes
+private import codeql.iac.ast.internal.Bicep
+private import codeql.bicep.ast.AstNodes
 
 class Literal extends BicepAstNode, TLiteral {
   override string getAPrimaryQlClass() { result = "Literal" }

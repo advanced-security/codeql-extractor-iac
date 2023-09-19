@@ -1,5 +1,5 @@
-import codeql.iac.ast.internal.Bicep
-import codeql.bicep.ast.AstNodes
+private import codeql.iac.ast.internal.Bicep
+private import codeql.bicep.ast.AstNodes
 
 class Expr extends BicepAstNode, TExpr {
   override string getAPrimaryQlClass() { result = "Expr" }

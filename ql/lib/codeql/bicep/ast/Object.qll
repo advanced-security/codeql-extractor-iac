@@ -1,7 +1,7 @@
-import codeql.iac.ast.internal.Bicep
-import codeql.bicep.ast.AstNodes
-import codeql.bicep.ast.Literal
-import codeql.bicep.ast.Expr
+private import codeql.iac.ast.internal.Bicep
+private import codeql.bicep.ast.AstNodes
+private import codeql.bicep.ast.Literal
+private import codeql.bicep.ast.Expr
 
 class Object extends BicepAstNode, TObject {
   private BICEP::Object object;
