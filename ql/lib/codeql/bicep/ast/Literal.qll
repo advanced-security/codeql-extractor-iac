@@ -31,6 +31,8 @@ class BooleanLiteral extends Literal, TBoolean {
   override string getAPrimaryQlClass() { result = "BooleanLiteral" }
 
   BooleanLiteral() { this = TBoolean(literal) }
+
+  boolean getBool() { result.toString() = literal.getValue() }
 }
 
 class StringLiteral extends Literal, TString {
@@ -39,4 +41,20 @@ class StringLiteral extends Literal, TString {
   override string getAPrimaryQlClass() { result = "StringLiteral" }
 
   StringLiteral() { this = TString(literal) }
+
+  override string getValue() {
+    exists(StringContent c | toBicepTreeSitter(c) = literal.getAFieldOrChild() |
+      result = c.getValue()
+    )
+  }
+}
+
+class StringContent extends Literal, TStringContent {
+  private BICEP::StringContent literal;
+
+  override string getAPrimaryQlClass() { result = "StringContent" }
+
+  StringContent() { this = TStringContent(literal) }
+
+  override string getValue() { result = literal.getValue() }
 }
