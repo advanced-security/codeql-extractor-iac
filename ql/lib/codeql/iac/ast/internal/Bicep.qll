@@ -3,6 +3,7 @@ import TreeSitter
 cached
 newtype TBicepAstNode =
   TComment(BICEP::Comment c) or
+  TInfrastructure(BICEP::Infrastructure i) or
   // Literals
   TBoolean(BICEP::Boolean b) or
   TNull(BICEP::Null n) or
@@ -33,13 +34,14 @@ class TLiteral = TBoolean or TNull or TNumber or TString or TMultilineStringCont
 class TDeclaration = TResourceDeclaration or TObject or TObjectProperty or TIdentifier;
 
 class TExpr =
-  TAssignmentExpression or TBinaryExpression or TCallExpression or TExpression or
+  TLiteral or TAssignmentExpression or TBinaryExpression or TCallExpression or TExpression or
       TLambdaExpression or TMemberExpression or TParenthesizedExpression or TResourceExpression or
       TSubscriptExpression or TTernaryExpression or TUnaryExpression or TIdentifier;
 
 cached
 BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
   n = TComment(result) or
+  n = TInfrastructure(result) or
   n = TBoolean(result) or
   n = TNull(result) or
   n = TNumber(result) or

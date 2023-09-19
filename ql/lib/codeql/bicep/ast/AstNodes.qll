@@ -57,3 +57,11 @@ class BicepAstNode extends TBicepAstNode {
 class Comment extends BicepAstNode, TComment {
   override string getAPrimaryQlClass() { result = "Comment" }
 }
+
+class Infrastructure extends BicepAstNode, TInfrastructure {
+  private BICEP::Infrastructure infrastructure;
+
+  override string getAPrimaryQlClass() { result = "Infrastructure" }
+
+  Infrastructure() { this = TInfrastructure(infrastructure) }
+}
