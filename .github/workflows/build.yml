@@ -37,6 +37,8 @@ jobs:
 
           ./scripts/create-extractor-pack.sh
 
+          gh codeql resolve languages --format=json --search-path ./extractor-pack
+
       - name: "Run Tests"
         if: steps.changes.outputs.src == 'true'
         run: |

@@ -31,6 +31,10 @@ pub fn run(options: Options) -> std::io::Result<()> {
             name: "DOCKERFILE".to_owned(),
             node_types: tree_sitter_dockerfile::NODE_TYPES,
         },
+        Language {
+            name: "BICEP".to_owned(),
+            node_types: tree_sitter_bicep::NODE_TYPES,
+        },
     ];
 
     generate(languages, options.dbscheme, options.library)

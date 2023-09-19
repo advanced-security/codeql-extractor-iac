@@ -1,14 +1,16 @@
 name: "iac"
 display_name: "IAC"
-version: 0.0.3
+version: 0.0.4
 column_kind: "utf8"
 legacy_qltest_extraction: true
 github_api_languages:
   - HCL
   - Docker
+  - Bicep
 scc_languages:
   - HCL
   - Docker
+  - Bicep
 
 # File types
 file_types:
@@ -16,14 +18,16 @@ file_types:
     display_name: HCL
     extensions:
       - .tf
-      - .ftvars
+      - .tfvars
       - .hcl
-  - name: json
-    display_name: JSON
-    extensions:
-      - .json
+
   - name: dockerfile
     display_name: Dockerfile
     extensions:
       - .Dockerfile
       - .Containerfile
+
+  - name: bicep
+    display_name: Bicep
+    extensions:
+      - .bicep
