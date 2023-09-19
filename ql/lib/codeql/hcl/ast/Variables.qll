@@ -10,6 +10,8 @@ class Variable extends Expr, TVariable {
 
   Variable() { this = TVariable(var) }
 
+  override string toString() { result = this.getName() }
+
   string getName() { result = var.getName().getValue() }
 }
 
