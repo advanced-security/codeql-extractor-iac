@@ -16,7 +16,17 @@ module Terraform {
   class Terraform extends Block {
     Terraform() { this.hasType("terraform") }
 
+    /**
+     * Get the required provider.
+     */
     Object getRequiredProvider() { result = this.getAttribute("required_providers").getAChild() }
+
+    /**
+     * Get required version of Terraform.
+     */
+    string getRequiredVersion() {
+      result = this.getAttribute("required_version").(StringLiteral).getValue()
+    }
   }
 
   /**
