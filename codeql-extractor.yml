@@ -20,12 +20,14 @@ file_types:
       - .tf
       - .tfvars
       - .hcl
+
   - name: dockerfile
     display_name: Dockerfile
     extensions:
       - .Dockerfile
       - .Containerfile
-  - name:
+
+  - name: bicep
     display_name: Bicep
     extensions:
       - .bicep
