@@ -34,5 +34,20 @@ cached
 BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
   n = TComment(result) or
   n = TBoolean(result) or
-  n = TNull(result)
+  n = TNull(result) or
+  n = TNumber(result) or
+  n = TString(result) or
+  n = TMultilineStringContent(result) or
+  n = TAssignmentExpression(result) or
+  n = TBinaryExpression(result) or
+  n = TCallExpression(result) or
+  n = TExpression(result) or
+  n = TLambdaExpression(result) or
+  n = TMemberExpression(result) or
+  n = TParenthesizedExpression(result) or
+  n = TPrimaryExpression(result) or
+  n = TResourceExpression(result) or
+  n = TSubscriptExpression(result) or
+  n = TTernaryExpression(result) or
+  n = TUnaryExpression(result)
 }
