@@ -25,6 +25,16 @@ CodeQL Extractor, Library, and Queries for Infrastructure as Code.
 
 **Note:** See full documentation on [Workflows][docs-workflows].
 
+## Documentation
+
+The [documentation for CodeQL IaC extractor can be found here][docs].
+
+**Other Useful Links:**
+
+- [Q&A][docs-qanda]
+- [Coverage][docs-coverage]
+- [Example Workflows][docs-workflows]
+
 ## License
 
 This project is licensed under the terms of the MIT open source license.
@@ -59,4 +69,7 @@ Support is via [GitHub Issues][issues] or [GitHub Discussions][discussions].
 
 [issues]: https://github.com/advanced-security/codeql-extractor-iac/issues
 [discussions]: https://github.com/advanced-security/codeql-extractor-iac/discussions
+[docs]: ./docs
+[docs-qanda]: ./docs/Q%26A.md
+[docs-coverage]: ./docs/coverage.md
 [docs-workflows]: ./docs/workflows.md
