@@ -5,7 +5,27 @@ class Expr extends BicepAstNode, TExpr {
   override string getAPrimaryQlClass() { result = "Expr" }
 }
 
-class AssignmentExpr extends Expr {
+class Identifier extends Expr, TIdentifier {
+  private BICEP::Identifier identifier;
+
+  override string getAPrimaryQlClass() { result = "Identifier" }
+
+  Identifier() { this = TIdentifier(identifier) }
+
+  override string toString() { result = this.getName() }
+
+  string getName() { result = identifier.getValue() }
+}
+
+class Expression extends Expr, TExpression {
+  private BICEP::Expression expression;
+
+  override string getAPrimaryQlClass() { result = "Expression" }
+
+  Expression() { this = TExpression(expression) }
+}
+
+class AssignmentExpr extends Expr, TAssignmentExpression {
   BICEP::AssignmentExpression aexpr;
 
   override string getAPrimaryQlClass() { result = "AssignmentExpr" }
@@ -13,7 +33,7 @@ class AssignmentExpr extends Expr {
   AssignmentExpr() { this = TAssignmentExpression(aexpr) }
 }
 
-class BinaryExpr extends Expr {
+class BinaryExpr extends Expr, TBinaryExpression {
   BICEP::BinaryExpression bexpr;
 
   override string getAPrimaryQlClass() { result = "BinaryExpr" }
@@ -21,7 +41,7 @@ class BinaryExpr extends Expr {
   BinaryExpr() { this = TBinaryExpression(bexpr) }
 }
 
-class CallExpr extends Expr {
+class CallExpr extends Expr, TCallExpression {
   BICEP::CallExpression cexpr;
 
   override string getAPrimaryQlClass() { result = "CallExpr" }
@@ -29,7 +49,7 @@ class CallExpr extends Expr {
   CallExpr() { this = TCallExpression(cexpr) }
 }
 
-class LambdaExpr extends Expr {
+class LambdaExpr extends Expr, TLambdaExpression {
   BICEP::LambdaExpression lexpr;
 
   override string getAPrimaryQlClass() { result = "LambdaExpr" }
@@ -37,7 +57,7 @@ class LambdaExpr extends Expr {
   LambdaExpr() { this = TLambdaExpression(lexpr) }
 }
 
-class MemberExpr extends Expr {
+class MemberExpr extends Expr, TMemberExpression {
   BICEP::MemberExpression mexpr;
 
   override string getAPrimaryQlClass() { result = "MemberExpr" }
@@ -45,7 +65,7 @@ class MemberExpr extends Expr {
   MemberExpr() { this = TMemberExpression(mexpr) }
 }
 
-class ParenthesizedExpr extends Expr {
+class ParenthesizedExpr extends Expr, TParenthesizedExpression {
   BICEP::ParenthesizedExpression pexpr;
 
   override string getAPrimaryQlClass() { result = "ParenthesizedExpr" }
@@ -53,15 +73,7 @@ class ParenthesizedExpr extends Expr {
   ParenthesizedExpr() { this = TParenthesizedExpression(pexpr) }
 }
 
-class PrimaryExpr extends Expr {
-  BICEP::PrimaryExpression pexpr;
-
-  override string getAPrimaryQlClass() { result = "PrimaryExpr" }
-
-  PrimaryExpr() { this = TPrimaryExpression(pexpr) }
-}
-
-class ResourceExpr extends Expr {
+class ResourceExpr extends Expr, TResourceExpression {
   BICEP::ResourceExpression rexpr;
 
   override string getAPrimaryQlClass() { result = "ResourceExpr" }
@@ -69,7 +81,7 @@ class ResourceExpr extends Expr {
   ResourceExpr() { this = TResourceExpression(rexpr) }
 }
 
-class SubscriptExpr extends Expr {
+class SubscriptExpr extends Expr, TSubscriptExpression {
   BICEP::SubscriptExpression sexpr;
 
   override string getAPrimaryQlClass() { result = "SubscriptExpr" }
@@ -77,7 +89,7 @@ class SubscriptExpr extends Expr {
   SubscriptExpr() { this = TSubscriptExpression(sexpr) }
 }
 
-class TerenaryExpr extends Expr {
+class TerenaryExpr extends Expr, TTernaryExpression {
   BICEP::TernaryExpression texpr;
 
   override string getAPrimaryQlClass() { result = "TerenaryExpr" }
@@ -85,7 +97,7 @@ class TerenaryExpr extends Expr {
   TerenaryExpr() { this = TTernaryExpression(texpr) }
 }
 
-class UnaryExpr extends Expr {
+class UnaryExpr extends Expr, TUnaryExpression {
   BICEP::UnaryExpression uexpr;
 
   override string getAPrimaryQlClass() { result = "UnaryExpr" }

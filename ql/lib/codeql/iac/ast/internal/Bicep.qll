@@ -21,14 +21,21 @@ newtype TBicepAstNode =
   TResourceExpression(BICEP::ResourceExpression r) or
   TSubscriptExpression(BICEP::SubscriptExpression s) or
   TTernaryExpression(BICEP::TernaryExpression t) or
-  TUnaryExpression(BICEP::UnaryExpression u)
+  TUnaryExpression(BICEP::UnaryExpression u) or
+  // Declarations
+  TResourceDeclaration(BICEP::ResourceDeclaration r) or
+  TObject(BICEP::Object o) or
+  TObjectProperty(BICEP::ObjectProperty p) or
+  TIdentifier(BICEP::Identifier i)
 
 class TLiteral = TBoolean or TNull or TNumber or TString or TMultilineStringContent;
 
+class TDeclaration = TResourceDeclaration or TObject or TObjectProperty or TIdentifier;
+
 class TExpr =
   TAssignmentExpression or TBinaryExpression or TCallExpression or TExpression or
-      TLambdaExpression or TMemberExpression or TParenthesizedExpression or TPrimaryExpression or
-      TResourceExpression or TSubscriptExpression or TTernaryExpression or TUnaryExpression;
+      TLambdaExpression or TMemberExpression or TParenthesizedExpression or TResourceExpression or
+      TSubscriptExpression or TTernaryExpression or TUnaryExpression or TIdentifier;
 
 cached
 BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
@@ -49,5 +56,9 @@ BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
   n = TResourceExpression(result) or
   n = TSubscriptExpression(result) or
   n = TTernaryExpression(result) or
-  n = TUnaryExpression(result)
+  n = TUnaryExpression(result) or
+  n = TResourceDeclaration(result) or
+  n = TObject(result) or
+  n = TObjectProperty(result) or
+  n = TIdentifier(result)
 }
