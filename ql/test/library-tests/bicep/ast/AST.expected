@@ -1,0 +1,66 @@
+| sample.bicep:1:7:1:14 | Expr |
+| sample.bicep:1:7:1:14 | PrimaryExpr |
+| sample.bicep:1:25:1:37 | Expr |
+| sample.bicep:1:25:1:37 | PrimaryExpr |
+| sample.bicep:1:25:1:39 | CallExpr |
+| sample.bicep:1:25:1:39 | Expr |
+| sample.bicep:1:25:1:39 | PrimaryExpr |
+| sample.bicep:1:25:1:48 | Expr |
+| sample.bicep:1:25:1:48 | MemberExpr |
+| sample.bicep:1:25:1:48 | PrimaryExpr |
+| sample.bicep:2:7:2:24 | Expr |
+| sample.bicep:2:7:2:24 | PrimaryExpr |
+| sample.bicep:2:35:2:80 | (no string representation) |
+| sample.bicep:2:35:2:80 | Expr |
+| sample.bicep:2:35:2:80 | PrimaryExpr |
+| sample.bicep:2:47:2:58 | Expr |
+| sample.bicep:2:47:2:58 | PrimaryExpr |
+| sample.bicep:2:47:2:78 | CallExpr |
+| sample.bicep:2:47:2:78 | Expr |
+| sample.bicep:2:47:2:78 | PrimaryExpr |
+| sample.bicep:2:60:2:72 | Expr |
+| sample.bicep:2:60:2:72 | PrimaryExpr |
+| sample.bicep:2:60:2:74 | CallExpr |
+| sample.bicep:2:60:2:74 | Expr |
+| sample.bicep:2:60:2:74 | PrimaryExpr |
+| sample.bicep:2:60:2:77 | Expr |
+| sample.bicep:2:60:2:77 | MemberExpr |
+| sample.bicep:2:60:2:77 | PrimaryExpr |
+| sample.bicep:4:10:4:23 | Expr |
+| sample.bicep:4:10:4:23 | PrimaryExpr |
+| sample.bicep:4:25:4:70 | (no string representation) |
+| sample.bicep:4:25:4:70 | Expr |
+| sample.bicep:4:25:4:70 | PrimaryExpr |
+| sample.bicep:4:74:14:1 | Expr |
+| sample.bicep:4:74:14:1 | PrimaryExpr |
+| sample.bicep:5:3:5:6 | Expr |
+| sample.bicep:5:3:5:6 | PrimaryExpr |
+| sample.bicep:5:9:5:26 | Expr |
+| sample.bicep:5:9:5:26 | PrimaryExpr |
+| sample.bicep:6:3:6:10 | Expr |
+| sample.bicep:6:3:6:10 | PrimaryExpr |
+| sample.bicep:6:13:6:20 | Expr |
+| sample.bicep:6:13:6:20 | PrimaryExpr |
+| sample.bicep:7:3:7:5 | Expr |
+| sample.bicep:7:3:7:5 | PrimaryExpr |
+| sample.bicep:7:8:9:3 | Expr |
+| sample.bicep:7:8:9:3 | PrimaryExpr |
+| sample.bicep:8:5:8:8 | Expr |
+| sample.bicep:8:5:8:8 | PrimaryExpr |
+| sample.bicep:8:11:8:24 | (no string representation) |
+| sample.bicep:8:11:8:24 | Expr |
+| sample.bicep:8:11:8:24 | PrimaryExpr |
+| sample.bicep:10:3:10:6 | Expr |
+| sample.bicep:10:3:10:6 | PrimaryExpr |
+| sample.bicep:10:9:10:19 | (no string representation) |
+| sample.bicep:10:9:10:19 | Expr |
+| sample.bicep:10:9:10:19 | PrimaryExpr |
+| sample.bicep:11:3:11:12 | Expr |
+| sample.bicep:11:3:11:12 | PrimaryExpr |
+| sample.bicep:11:15:13:3 | Expr |
+| sample.bicep:11:15:13:3 | PrimaryExpr |
+| sample.bicep:12:5:12:14 | Expr |
+| sample.bicep:12:5:12:14 | PrimaryExpr |
+| sample.bicep:12:17:12:21 | (no string representation) |
+| sample.bicep:12:17:12:21 | Expr |
+| sample.bicep:12:17:12:21 | PrimaryExpr |
