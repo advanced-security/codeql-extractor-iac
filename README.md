@@ -14,7 +14,7 @@
 </div>
 <!-- markdownlint-restore -->
 
-CodeQL Extractor, Library, and Queries for Infrastructure as Code.
+[CodeQL][codeql] Extractor, Library, and Queries for Infrastructure as Code.
 
 ## Usage
 
@@ -40,6 +40,10 @@ The [documentation for CodeQL IaC extractor can be found here][docs].
 
 This project is licensed under the terms of the MIT open source license.
 Please refer to [MIT](./LICENSE.md) for the full terms.
+
+To use this project for Infrastructure as Code, you will need to [use CodeQL][codeql] and follow all terms and conditions of the [CodeQL License][codeql-license].
+
+For use in private repositories and code, you will need to [purchase a GitHub Advanced Security license][advanced-security].
 
 ## Contributors
 
@@ -70,6 +74,9 @@ Support is via [GitHub Issues][issues] or [GitHub Discussions][discussions].
 
 [issues]: https://github.com/advanced-security/codeql-extractor-iac/issues
 [discussions]: https://github.com/advanced-security/codeql-extractor-iac/discussions
+[codeql]: https://codeql.github.com/
+[codeql-license]: https://github.com/github/codeql-cli-binaries/blob/main/LICENSE.md
+[advanced-security]: https://github.com/features/security
 [docs]: ./docs
 [docs-qanda]: ./docs/Q%26A.md
 [docs-languages-and-frameworks]: ./docs/languages-and-frameworks.md
