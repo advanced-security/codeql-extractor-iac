@@ -15,4 +15,4 @@ from Azure::KeyVaultKey key
 where
   key.getKeyType() = "RSA" and
   key.getKeySize() < 2048
-select key, "weak key size"
+select key.getAttribute("key_size"), "weak key size"

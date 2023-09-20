@@ -1,1 +1,1 @@
-| key_vault_key.hcl:1:1:6:1 | KeyVaultKey generated | weak key size |
+| key_vault_key.hcl:5:18:5:21 | 1024 | weak key size |
