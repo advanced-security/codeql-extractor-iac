@@ -13530,7 +13530,7 @@ const toolcache = __importStar(__nccwpck_require__(7784));
 const github = __importStar(__nccwpck_require__(5438));
 const toolrunner = __importStar(__nccwpck_require__(8159));
 exports.EXTRACTOR_REPOSITORY = "advanced-security/codeql-extractor-iac";
-exports.EXTRACTOR_VERSION = "v0.0.3"; // stable version
+exports.EXTRACTOR_VERSION = "v0.0.4"; // stable version
 async function newCodeQL() {
     var version = core.getInput("extractor-version");
     if (version === "") {
