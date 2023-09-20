@@ -23,15 +23,14 @@ The following table lists the supported frameworks and technologies:
 | -------------------------- | :---------: | ------------------------------- |
 | Terraform (HCL)            |      3      | extractor, library, and queries |
 | GitHub Actions             |      3      | extractor, library, and queries |
-| HelmChart (Kubernetes)     |      2      | extractor, library, and queries |
+| HelmChart (Kubernetes)     |      3      | extractor, library, and queries |
+| Azure Bicep                |      3      | extractor, library, and queries |
 | ARM Template (YAML / JSON) |      2      | extractor and library           |
 | Azure Pipelines            |      2      | extractor and library           |
 | AWS CloudFormation         |      2      | extractor and library           |
 | Compose (Docker/Podman)    |      2      | extractor and library           |
 | Docker / Container file(s) |      2      | extractor and library           |
-| GitHub Actions             |      2      | extractor and library           |
 | OpenAPI / Swagger          |      2      | extractor and library           |
-| Azure Bicep                |      2      | extractor and library           |
 
 _levels grades are based on completeness, higher the grade the better its supported._
 
@@ -50,5 +49,6 @@ There are 5 levels of support for each framework or technology:
 - `3` - Extractor, Library and Queries Support
   - This includes the extractor, library and CodeQL queries
   - End users can run and generate alerts without having to write their own CodeQL queries
+  - This only means at least one query is provided, more queries may be added over time
 - `4` - Comprehensive Support
   - This includes the extractor, library, CodeQL queries, tests, and documentation
