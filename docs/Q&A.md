@@ -27,6 +27,13 @@ The list of the supported frameworks and technologies can be found in the [Langu
 
 If a framework or technology is not listed above and you would like to see it supported, [please open an issue](https://github.com/advanced-security/codeql-extractor-iac/issues).
 
+## Q: Can I use the `iac-all` CodeQL Pack to write custom queries?
+
+Yes, if you want to create your own queries and customisations for `codeql-extractor-iac` you can use the `iac-all` CodeQL Pack with your own pack.
+
+Be aware that the `iac-all` CodeQL Pack can be unstable and may change without notice.
+Pinning to a specific version of the `iac-all` CodeQL Pack is recommended along with test cases to make sure your queries are working as expect§d.s
+
 ## Q: What Operating Systems does the `codeql-extractor-iac` support?
 
 The `codeql-extractor-iac` is a community extractor and supports the following operating systems:
