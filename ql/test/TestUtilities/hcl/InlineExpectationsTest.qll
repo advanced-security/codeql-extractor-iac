@@ -7,7 +7,7 @@ private import hcl as HCL
 private import codeql.util.test.InlineExpectationsTest
 
 private module Impl implements InlineExpectationsTestSig {
-  private import codeql.hcl.ast.internal.TreeSitter as TS
+  private import codeql.iac.ast.internal.TreeSitter as TS
 
   private newtype TExpectationComment = MkExpectationComment(TS::HCL::Comment comment)
 
