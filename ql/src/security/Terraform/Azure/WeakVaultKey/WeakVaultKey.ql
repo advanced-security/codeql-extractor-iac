@@ -10,9 +10,7 @@
  */
 
 import hcl
+import codeql.hcl.security.WeakEncryption
 
-from Azure::KeyVaultKey key
-where
-  key.getKeyType() = "RSA" and
-  key.getKeySize() < 2048
-select key.getAttribute("key_size"), "weak key size"
+from WeakEncryption::AzureVaultKey key
+select key, "weak key size"
