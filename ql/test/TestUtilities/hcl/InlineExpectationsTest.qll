@@ -18,7 +18,7 @@ private module Impl implements InlineExpectationsTestSig {
     TS::HCL::Comment comment;
 
     ExpectationComment() {
-      this = MkExpectationComment(comment) and comment.getValue().matches("//%")
+      this = MkExpectationComment(comment) and comment.getValue().matches("#%")
     }
 
     /** Returns the contents of the given comment, _without_ the preceding comment marker (`#`). */
