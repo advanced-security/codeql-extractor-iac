@@ -19,7 +19,9 @@ module Terraform {
     /**
      * Get the required provider.
      */
-    Object getRequiredProvider() { result = this.getAttribute("required_providers").getAChild() }
+    RequiredProvider getRequiredProvider() {
+      result = this.getAttribute("required_providers").getAChild()
+    }
 
     /**
      * Get required version of Terraform.
@@ -29,24 +31,67 @@ module Terraform {
     }
   }
 
-  /**
-   * A Terraform required provider object.
-   */
-  class RequiredProvider extends Object {
-    private Terraform terraform;
-
-    RequiredProvider() { this = terraform.getAttribute("required_providers").getAChild() }
-
-    override string toString() { result = "RequiredProvider" }
-
+  abstract class RequiredProvider extends Expr {
     /**
-     * Gets the source of the provider.
+     * Gets the name of the provider.
      */
-    string getSource() { result = this.getElementByName("source").(StringLiteral).getValue() }
+    abstract string getName();
 
     /**
      * Gets the version of the provider.
      */
-    string getVersion() { result = this.getElementByName("version").(StringLiteral).getValue() }
+    abstract string getVersion();
+
+    /**
+     * Gets the source of the provider.
+     */
+    abstract string getSource();
+  }
+
+  /**
+   * Basic Terraform required provider String.
+   */
+  class BasicRequiredProvider extends RequiredProvider, StringLiteral {
+    private Terraform terraform;
+
+    BasicRequiredProvider() { this = terraform.getAttribute("required_providers").getAChild() }
+
+    override string toString() { result = "RequiredProvider " + this.getName() }
+
+    override string getName() { result = this.getParent().(Block).getAttributeName(this).getName() }
+
+    override string getVersion() { result = this.getValue() }
+
+    /**
+     * Basic providers are assumed to be from the Hashicorp namespace.
+     */
+    override string getSource() { result = "hashicorp/" + this.getName() }
+  }
+
+  /**
+   * A Terraform required provider object.
+   */
+  class ComplexRequiredProvider extends RequiredProvider, Object {
+    private Terraform terraform;
+
+    ComplexRequiredProvider() { this = terraform.getAttribute("required_providers").getAChild() }
+
+    override string toString() { result = "RequiredProvider " + this.getName() }
+
+    override string getName() { result = this.getParent().(Block).getAttributeName(this).getName() }
+
+    /**
+     * Gets the source of the provider.
+     */
+    override string getSource() {
+      result = this.getElementByName("source").(StringLiteral).getValue()
+    }
+
+    /**
+     * Gets the version of the provider.
+     */
+    override string getVersion() {
+      result = this.getElementByName("version").(StringLiteral).getValue()
+    }
   }
 }
