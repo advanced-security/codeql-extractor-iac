@@ -9,5 +9,6 @@ import codeql.hcl.Terraform
 import codeql.hcl.providers.AWS
 import codeql.hcl.providers.Azure
 import codeql.hcl.providers.GCP
+import codeql.hcl.providers.Helm
 // security
 import codeql.hcl.security.HardcodedPasswords

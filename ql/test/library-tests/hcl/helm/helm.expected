@@ -1,0 +1,8 @@
+helm
+| provider.tf:21:1:31:1 | resource helm_release nginx-ingress-controller |
+provider
+| provider.tf:1:1:19:1 | provider |
+release
+| provider.tf:21:1:31:1 | resource helm_release nginx-ingress-controller |
+releaseSets
+| provider.tf:21:1:31:1 | resource helm_release nginx-ingress-controller | provider.tf:27:3:30:3 | set |
