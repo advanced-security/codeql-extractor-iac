@@ -41,9 +41,18 @@ class Block extends Expr, TBlock {
     result = this.getABlock() and result.(Block).hasType(name)
   }
 
+  Attribute getAttributes() { toHclTreeSitter(result) = block.getBody().getChild(_) }
+
   predicate hasAttribute(string name) {
     exists(Attribute attr | block.getBody().getChild(_) = toHclTreeSitter(attr) |
       attr.getKey().(Identifier).getName() = name
+    )
+  }
+
+  Identifier getAttributeName(Expr expr) {
+    exists(Attribute attr | attr = this.getAttributes() |
+      attr.getExpr() = expr and
+      result = attr.getKey()
     )
   }
 }

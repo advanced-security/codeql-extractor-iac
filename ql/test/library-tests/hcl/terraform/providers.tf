@@ -6,6 +6,8 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "=3.0.0"
     }
+    time   = "~>0.7.2"
+    random = "~>3.3.1"
   }
 }
 
