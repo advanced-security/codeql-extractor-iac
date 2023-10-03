@@ -12,9 +12,6 @@ permissions:
   packages: read
   pull-requests: read
 
-env:
-  CODEQL_REPOSITORY_PATH: "${{ runner.temp }}/codeql"
-
 jobs:
   ql:
     runs-on: ubuntu-latest
@@ -27,9 +24,18 @@ jobs:
       - name: "Build QL-for-QL"
         env:
           GH_TOKEN: ${{ github.token }}
+          CODEQL_REPOSITORY_PATH: ${{ runner.temp }}/codeql
         run: |
           ./.github/scripts/ql-build.sh
 
       - name: "Run QL-for-QL"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CODEQL_REPOSITORY_PATH: ${{ runner.temp }}/codeql
         run: |
           ./.github/scripts/ql-scan.sh
+      
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ./ql-for-ql.sarif
