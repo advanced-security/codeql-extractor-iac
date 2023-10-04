@@ -1,1 +1,1 @@
-| s3.yml:4:5:12:2 | CloudFormation Resource | Public S3 Bucket resource |
+| s3.yml:4:5:12:2 | CloudFormation S3 Bucket | Public S3 Bucket resource |
