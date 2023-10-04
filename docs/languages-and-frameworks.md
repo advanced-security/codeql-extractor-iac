@@ -25,9 +25,9 @@ The following table lists the supported frameworks and technologies:
 | GitHub Actions             |      3      | extractor, library, and queries |
 | HelmChart (Kubernetes)     |      3      | extractor, library, and queries |
 | Azure Bicep                |      3      | extractor, library, and queries |
+| AWS CloudFormation         |      3      | extractor, library, and queries |
 | ARM Template (YAML / JSON) |      2      | extractor and library           |
 | Azure Pipelines            |      2      | extractor and library           |
-| AWS CloudFormation         |      2      | extractor and library           |
 | Compose (Docker/Podman)    |      2      | extractor and library           |
 | Docker / Container file(s) |      2      | extractor and library           |
 | OpenAPI / Swagger          |      2      | extractor and library           |
