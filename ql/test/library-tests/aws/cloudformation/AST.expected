@@ -1,0 +1,13 @@
+cloudformation
+| s3.json:1:1:77:1 | CloudFormation Document |
+| s3.yml:1:1:42:59 | CloudFormation Document |
+resources
+| s3.json:4:21:15:9 | CloudFormation Resource |
+| s3.json:16:25:47:9 | CloudFormation Resource |
+| s3.yml:4:5:12:2 | CloudFormation Resource |
+| s3.yml:13:5:28:28 | CloudFormation Resource |
+resourceProperties
+| s3.json:6:27:12:13 | CloudFormation Resource Properties |
+| s3.json:18:27:46:13 | CloudFormation Resource Properties |
+| s3.yml:6:7:10:4 | CloudFormation Resource Properties |
+| s3.yml:15:7:28:28 | CloudFormation Resource Properties |
