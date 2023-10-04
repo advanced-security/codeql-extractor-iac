@@ -1,0 +1,41 @@
+name: QL-for-QL
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+  pull-requests: read
+
+jobs:
+  ql:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@nightly
+
+      - name: "Build QL-for-QL"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CODEQL_REPOSITORY_PATH: ${{ runner.temp }}/codeql
+        run: |
+          ./.github/scripts/ql-build.sh
+
+      - name: "Run QL-for-QL"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CODEQL_REPOSITORY_PATH: ${{ runner.temp }}/codeql
+        run: |
+          ./.github/scripts/ql-scan.sh
+      
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ./ql-for-ql.sarif
