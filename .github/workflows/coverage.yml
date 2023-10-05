@@ -16,7 +16,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           pip install ghastoolkit
-          ./scripts/create-coverage.py --markdown > $GITHUB_STEP_SUMMARY
+          ./scripts/create-coverage.py report --markdown > $GITHUB_STEP_SUMMARY
 
       - name: "Upload Coverage Report"
         uses: actions/upload-artifact@v3
