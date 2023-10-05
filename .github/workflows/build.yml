@@ -82,6 +82,8 @@ jobs:
 
       - name: "Run Tests"
         if: steps.changes.outputs.src == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           ./scripts/run-tests.sh
 
