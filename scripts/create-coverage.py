@@ -147,6 +147,7 @@ class CoverageCommandLine(CommandLine):
         logger.info(f"Loaded {len(rules)} rules.")
         # list of all of the queries included in the pack
         queries = self.generateQueries(codeql, src_suite)
+        queries_ids = []
 
         for query in queries:
             id = query.get("id")
@@ -157,6 +158,7 @@ class CoverageCommandLine(CommandLine):
                 # TODO :: handle this better
                 logger.error(f"  - invalid rule id `{id}`")
                 continue
+            queries_ids.append(id)
 
             # print(f"Rule :: {id_lang} :: {id_provider} :: {id_name}")
             # check: language
@@ -180,12 +182,6 @@ class CoverageCommandLine(CommandLine):
             elif severity_score != rule.severity:
                 logger.error(f"{id} :: severity `{severity_score}` does not match rule `{rule.severity}`")
 
-            # check: required
-            if rule.required:
-                fullname = f"{id_lang}/{id_provider}"
-                if fullname not in rule.required:
-                    logger.error(f"{id} :: required rule `{fullname}` not included")
-
             # tags
             tags = query.get("properties", {}).get("tags", [])
 
@@ -206,6 +202,13 @@ class CoverageCommandLine(CommandLine):
                 if tag not in tags:
                     logger.error(f"{id} :: tag `{tag}` not in tags")
 
+        for rule in rules:
+            # check: required
+            if rule.required:
+                for required in rule.required:
+                    fullname = f"{required}/{rule.name}"
+                    if fullname not in queries_ids:
+                        logger.error(f"{fullname} :: not found in queries")
 
 if __name__ == "__main__":
     cli = CoverageCommandLine()
