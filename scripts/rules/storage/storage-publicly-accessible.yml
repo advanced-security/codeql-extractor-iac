@@ -8,7 +8,7 @@ tags:
   - storage
 
 required:
-  - cloudformation/aws
-  - terraform/aws
-  - terraform/azure
-  - terraform/alicloud
+  - cf/aws
+  - tf/aws
+  - tf/azure
+  - tf/alicloud

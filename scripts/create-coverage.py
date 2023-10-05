@@ -137,12 +137,14 @@ class CoverageCommandLine(CommandLine):
         with open(config_path, "r") as handle:
             config = yaml.safe_load(handle)
 
-        for query_file in os.listdir(arguments.rules):
-            if query_file == "config.yml":
-                continue
+        for root, dirs, files in os.walk(arguments.rules):
+            for query_file in files:
+                if query_file == "config.yml":
+                    continue
 
-            rules.append(Rule.load(os.path.join(arguments.rules, query_file)))
+                rules.append(Rule.load(os.path.join(root, query_file)))
 
+        logger.info(f"Loaded {len(rules)} rules.")
         # list of all of the queries included in the pack
         queries = self.generateQueries(codeql, src_suite)
 
@@ -191,7 +193,10 @@ class CoverageCommandLine(CommandLine):
             if id_provider not in tags:
                 logger.error(f"{id} :: provider `{id_provider}` not in tags")
             # check: language tags
-            if id_lang not in tags:
+            alias = config.get("languages_aliases", {}).get(id_lang)
+            if alias and alias not in tags:
+                logger.error(f"{id} :: language alias `{alias}` not in tags")
+            elif not alias and id_lang not in tags:
                 logger.error(f"{id} :: language `{id_lang}` not in tags")
             # TODO check: category id tags
             # if rule.id not in tags:

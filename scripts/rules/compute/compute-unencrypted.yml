@@ -1,0 +1,7 @@
+id: IAC-050
+name: compute-unencrypted
+severity: 7.0
+
+tags:
+  - security
+  - compute

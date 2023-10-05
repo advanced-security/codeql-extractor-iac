@@ -1,0 +1,7 @@
+id: IAC-010
+name: database-tls-disabled
+severity: 7.0
+
+tags:
+  - security
+  - database

@@ -1,12 +1,17 @@
 # rule: {language}/{cloud_provider}/{category}
 languages:
-  - terraform
+  - tf # terraform
   - bicep
-  - cloudformation
-  - helmcharts
+  - cf # cloudformation
+  - hc # helmchart(s)
   - actions
   - openapi
   - containers
+
+languages_aliases:
+  tf: terraform
+  cf: cloudformation
+  hc: helmcharts
 
 providers:
   - all # impact all providers

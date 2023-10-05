@@ -1,0 +1,7 @@
+id: IAC-050
+name: kubernetes-privileged-pod
+severity: 10.0
+
+tags:
+  - security
+  - kubernetes
