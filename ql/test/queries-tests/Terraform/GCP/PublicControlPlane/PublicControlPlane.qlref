@@ -1,1 +1,1 @@
-security/Terraform/GCP/PublicControlPlane.ql
+security/Terraform/GCP/ContainerCluster/PublicControlPlane.ql
