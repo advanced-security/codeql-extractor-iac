@@ -3,10 +3,13 @@
  * @description Azure Service TLS/SSL Weak Encryption
  * @kind problem
  * @problem.severity error
- * @security-severity 8.0
+ * @security-severity 4.0
  * @precision high
- * @id terraform/azure/weak-encryption
+ * @id tf/azure/database-weak-encryption
  * @tags security
+ *       terraform
+ *       azure
+ *       database
  */
 
 import hcl

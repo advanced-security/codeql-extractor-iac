@@ -5,8 +5,9 @@
  * @problem.severity error
  * @security-severity 8.0
  * @precision high
- * @id terraform/aws/eks-unencrypted-secrets
+ * @id tf/aws/eks-unencrypted-secrets
  * @tags security
+ *       terraform
  *       aws
  */
 

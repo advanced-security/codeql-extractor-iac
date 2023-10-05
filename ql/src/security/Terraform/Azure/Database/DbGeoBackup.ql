@@ -5,7 +5,7 @@
  * @problem.severity info
  * @security-severity 2.0
  * @precision low
- * @id terraform/azure/ssl-disabled
+ * @id tf/azure/database-geo-backup-unset-or-disabled
  * @tags security
  */
 

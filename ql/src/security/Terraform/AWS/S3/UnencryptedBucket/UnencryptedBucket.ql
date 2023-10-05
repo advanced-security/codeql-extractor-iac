@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 6.0
  * @precision high
- * @id terraform/aws/storage-unencrypted
+ * @id tf/aws/storage-unencrypted
  * @tags security
  *       terraform
  *       aws

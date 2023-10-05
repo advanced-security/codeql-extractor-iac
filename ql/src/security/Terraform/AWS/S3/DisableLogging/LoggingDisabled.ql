@@ -5,8 +5,11 @@
  * @problem.severity warning
  * @security-severity 8.0
  * @precision high
- * @id terraform/aws/s3-logging-disabled
+ * @id tf/aws/storage-logging-disabled
  * @tags security
+ *       terraform
+ *       aws
+ *       storage
  */
 
 import hcl

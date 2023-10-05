@@ -5,7 +5,7 @@
  * @problem.severity info
  * @security-severity 2.0
  * @precision high
- * @id terraform/all/machine-embedded-scripts
+ * @id tf/all/machine-embedded-scripts
  * @tags security
  *       experimental
  */

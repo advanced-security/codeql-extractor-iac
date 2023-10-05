@@ -5,7 +5,7 @@
  * @problem.severity error
  * @security-severity 10.0
  * @precision high
- * @id terraform/alicloud/storage-publicly-accessible
+ * @id tf/alicloud/storage-publicly-accessible
  * @tags security
  *       terraform
  *       alicloud

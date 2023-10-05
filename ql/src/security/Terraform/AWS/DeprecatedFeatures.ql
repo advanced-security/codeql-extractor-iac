@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 3.0
  * @precision high
- * @id terraform/aws/deprecated-features
+ * @id tf/aws/deprecated-features
  * @tags maintenance
  */
 

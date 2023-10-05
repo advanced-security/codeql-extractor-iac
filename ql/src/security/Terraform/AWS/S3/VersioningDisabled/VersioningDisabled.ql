@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 6.0
  * @precision high
- * @id terraform/aws/storage-versioning-disabled
+ * @id tf/aws/storage-versioning-disabled
  * @tags security
  *       terraform
  *       aws

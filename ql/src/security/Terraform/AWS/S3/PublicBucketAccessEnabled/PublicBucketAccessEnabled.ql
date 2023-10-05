@@ -5,8 +5,9 @@
  * @problem.severity warning
  * @security-severity 5.0
  * @precision high
- * @id terraform/aws/s3-public-access-disabled
+ * @id tf/aws/s3-public-access-disabled
  * @tags security
+ *       terraform
  */
 
 import hcl

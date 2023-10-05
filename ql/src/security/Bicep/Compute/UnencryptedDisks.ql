@@ -3,12 +3,13 @@
  * @description Unencrypted compute disks
  * @kind problem
  * @severity warning
- * @security-severity 4.0
+ * @security-severity 7.0
  * @precision very-high
- * @id bicep/azure/unencrypted-disks
+ * @id bicep/azure/compute-unencrypted
  * @tags security
  *       bicep
  *       azure
+ *       compute
  */
 
 import bicep

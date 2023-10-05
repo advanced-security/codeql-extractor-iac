@@ -3,10 +3,13 @@
  * @description Weak Azure Key Vault Key
  * @kind problem
  * @problem.severity error
- * @security-severity 7.0
+ * @security-severity 8.0
  * @precision high
- * @id terraform/azure/weak-vault-key
+ * @id tf/azure/weak-vault-key
  * @tags security
+ *       terraform
+ *       azure
+ *       vault
  */
 
 import hcl
