@@ -5,8 +5,10 @@
  * @severity warning
  * @security-severity 4.0
  * @precision very-high
- * @id bicep/compute/unencrypted-disks
+ * @id bicep/azure/unencrypted-disks
  * @tags security
+ *       bicep
+ *       azure
  */
 
 import bicep

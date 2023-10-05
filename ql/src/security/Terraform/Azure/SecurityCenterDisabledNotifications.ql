@@ -5,7 +5,7 @@
  * @problem.severity error
  * @security-severity 3.0
  * @precision high
- * @id hcl/azure/security-center-disabled-notifications
+ * @id terraform/azure/security-center-disabled-notifications
  * @tags security
  */
 

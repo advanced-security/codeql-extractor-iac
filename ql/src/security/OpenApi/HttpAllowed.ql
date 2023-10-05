@@ -5,7 +5,7 @@
  * @severity warning
  * @security-severity 2.0
  * @precision very-high
- * @id iac/openapi/http-allowed
+ * @id openapi/web/http-allowed
  * @tags security
  */
 

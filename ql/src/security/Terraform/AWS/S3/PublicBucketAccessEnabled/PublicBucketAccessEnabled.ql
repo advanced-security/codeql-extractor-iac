@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 5.0
  * @precision high
- * @id hcl/aws/s3-public-access-disabled
+ * @id terraform/aws/s3-public-access-disabled
  * @tags security
  */
 

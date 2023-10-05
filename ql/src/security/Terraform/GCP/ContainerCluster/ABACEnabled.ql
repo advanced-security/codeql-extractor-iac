@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 8.0
  * @precision high
- * @id hcl/gcp/abac-enabled
+ * @id terraform/gcp/abac-enabled
  * @tags security
  */
 

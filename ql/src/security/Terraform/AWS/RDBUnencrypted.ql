@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 8.0
  * @precision high
- * @id hcl/aws/rds-database-unencrytped
+ * @id terraform/aws/rds-database-unencrytped
  * @tags security
  */
 

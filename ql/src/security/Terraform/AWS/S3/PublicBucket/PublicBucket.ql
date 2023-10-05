@@ -5,8 +5,12 @@
  * @problem.severity error
  * @security-severity 10.0
  * @precision high
- * @id hcl/aws/public-s3-bucket
+ * @id terraform/aws/storage-publicly-accessible
  * @tags security
+ *       terraform
+ *       aws
+ *       storage
+ *       IAC-001
  */
 
 import hcl

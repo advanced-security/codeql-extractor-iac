@@ -5,8 +5,10 @@
  * @severity warning
  * @security-severity 4.0
  * @precision very-high
- * @id bicep/storage/support-http-traffic
+ * @id bicep/azure/support-http-traffic
  * @tags security
+ *       bicep
+ *       azure
  */
 
 import bicep

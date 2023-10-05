@@ -3,10 +3,13 @@
  * @description Unencrytped S3 Bucket
  * @kind problem
  * @problem.severity warning
- * @security-severity 8.0
+ * @security-severity 6.0
  * @precision high
- * @id hcl/aws/unencrytped-s3-bucket
+ * @id terraform/aws/storage-unencrypted
  * @tags security
+ *       terraform
+ *       aws
+ *       storage
  */
 
 import hcl

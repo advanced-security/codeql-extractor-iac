@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 9.0
  * @precision high
- * @id iac/helmcharts/untrusted-registry
+ * @id helmcharts/kubernetes/untrusted-registry
  * @tags security
  *       helmchart
  *       external/cwe/cwe-829

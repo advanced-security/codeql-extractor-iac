@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 8.0
  * @precision high
- * @id hcl/aws/s3-logging-disabled
+ * @id terraform/aws/s3-logging-disabled
  * @tags security
  */
 

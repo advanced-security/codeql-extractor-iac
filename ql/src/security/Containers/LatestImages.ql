@@ -5,7 +5,7 @@
  * @severity info
  * @security-severity 2.0
  * @precision high
- * @id iac/containers/latest-images
+ * @id containers/docker/latest-images
  * @tags security
  */
 

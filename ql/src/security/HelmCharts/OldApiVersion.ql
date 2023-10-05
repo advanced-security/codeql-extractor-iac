@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 4.0
  * @precision very-high
- * @id iac/helmcharts/old-api-version
+ * @id helmcharts/kubernetes/old-api-version
  * @tags security
  *       experimental
  */

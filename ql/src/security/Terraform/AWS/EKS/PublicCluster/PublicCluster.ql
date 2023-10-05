@@ -5,7 +5,7 @@
  * @problem.severity error
  * @security-severity 9.0
  * @precision high
- * @id hcl/aws/eks-public-cluster
+ * @id terraform/aws/eks-public-cluster
  * @tags security
  *       aws
  */

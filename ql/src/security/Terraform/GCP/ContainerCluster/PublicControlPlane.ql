@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 5.0
  * @precision high
- * @id hcl/gcp/cluster-control-plane-publicly-accessible
+ * @id terraform/gcp/cluster-control-plane-publicly-accessible
  * @tags security
  */
 

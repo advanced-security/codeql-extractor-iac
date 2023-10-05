@@ -3,11 +3,13 @@
  * @description S3 Bucket Versioning Disabled
  * @kind problem
  * @problem.severity warning
- * @security-severity 8.0
+ * @security-severity 6.0
  * @precision high
- * @id hcl/aws/s3-versioning-disabled
+ * @id terraform/aws/storage-versioning-disabled
  * @tags security
+ *       terraform
  *       aws
+ *       storage
  */
 
 import hcl

@@ -5,7 +5,7 @@
  * @problem.severity error
  * @security-severity 8.0
  * @precision high
- * @id hcl/azure/weak-encryption
+ * @id terraform/azure/weak-encryption
  * @tags security
  */
 

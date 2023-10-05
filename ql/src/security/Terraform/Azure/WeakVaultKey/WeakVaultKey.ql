@@ -5,7 +5,7 @@
  * @problem.severity error
  * @security-severity 7.0
  * @precision high
- * @id hcl/azure/weak-vault-key
+ * @id terraform/azure/weak-vault-key
  * @tags security
  */
 

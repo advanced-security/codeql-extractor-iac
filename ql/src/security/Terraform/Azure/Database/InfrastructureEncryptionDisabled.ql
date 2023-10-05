@@ -5,7 +5,7 @@
  * @problem.severity info
  * @security-severity 2.0
  * @precision high
- * @id hcl/azure/ssl-disabled
+ * @id terraform/azure/database-unencrypted
  * @tags security
  *       azure
  */

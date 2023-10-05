@@ -1,12 +1,15 @@
 /**
  * @name Alicloud Public Bucket
- * @description Elastic Search Logging Disabled
+ * @description Alicloud Public Bucket
  * @kind problem
  * @problem.severity error
  * @security-severity 10.0
  * @precision high
- * @id hcl/alicloud/public-bucket
+ * @id terraform/alicloud/storage-publicly-accessible
  * @tags security
+ *       terraform
+ *       alicloud
+ *       storage
  */
 
 import hcl

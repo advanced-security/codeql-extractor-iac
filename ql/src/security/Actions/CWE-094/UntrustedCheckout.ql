@@ -6,9 +6,9 @@
  * @kind problem
  * @problem.severity warning
  * @precision low
- * @id iac/actions/pull-request-target
- * @tags actions
- *       security
+ * @id actions/github/pull-request-target
+ * @tags security
+ *       actions
  *       external/cwe/cwe-094
  */
 

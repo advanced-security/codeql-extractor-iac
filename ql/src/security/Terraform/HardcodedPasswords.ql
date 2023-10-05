@@ -5,7 +5,7 @@
  * @problem.severity error
  * @security-severity 8.0
  * @precision high
- * @id hcl/hardcoded-passwords
+ * @id terraform/all/hardcoded-passwords
  * @tags security
  */
 
