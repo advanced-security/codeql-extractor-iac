@@ -81,7 +81,7 @@ jobs:
         with:
           filters: |
             src:
-              - 'ql/test/${{ matrix.test-folders }}/**'
+              - 'ql/**'
 
       - name: "Run Tests"
         if: steps.changes.outputs.src == 'true'
