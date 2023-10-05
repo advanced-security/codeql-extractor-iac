@@ -71,4 +71,34 @@ module GCP {
 
     Expr getNodeConfig() { result = this.getAttribute("node_config") }
   }
+
+  /**
+   * Google Cloud Platform (GCP) Storage Bucket resource.
+   */
+  class StorageBucket extends GcpResource {
+    StorageBucket() { this.getResourceType() = "google_storage_bucket" }
+
+    StorageBucketAccessControl getAccessControl() {
+      exists(StorageBucketAccessControl sbac | sbac.getBucket() = this | result = sbac)
+    }
+  }
+
+  /**
+   * Google Cloud Platform (GCP) Storage Bucket Access Control resource.
+   */
+  class StorageBucketAccessControl extends GcpResource {
+    StorageBucketAccessControl() { this.getResourceType() = "google_storage_bucket_access_control" }
+
+    StorageBucket getBucket() { result = this.getAttribute("bucket").getParent() }
+
+    /**
+     * Get the role of the access control.
+     */
+    string getRole() { result = this.getAttribute("role").(StringLiteral).getValue() }
+
+    /**
+     * Get the entity of the access control.
+     */
+    string getEntity() { result = this.getAttribute("entity").(StringLiteral).getValue() }
+  }
 }
