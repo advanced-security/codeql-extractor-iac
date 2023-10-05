@@ -1,0 +1,9 @@
+gcp
+| storage.tf:1:1:5:1 | resource google_storage_bucket_access_control public_rule |
+| storage.tf:7:1:10:1 | resource google_storage_bucket bucket |
+storage
+| storage.tf:7:1:10:1 | resource google_storage_bucket bucket |
+accessControl
+| storage.tf:1:1:5:1 | resource google_storage_bucket_access_control public_rule |
+storageAccess
+| storage.tf:7:1:10:1 | resource google_storage_bucket bucket | storage.tf:1:1:5:1 | resource google_storage_bucket_access_control public_rule |
