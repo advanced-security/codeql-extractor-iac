@@ -54,6 +54,9 @@ module Azure {
       result = this.getAttribute("storage_account_type").(StringLiteral).getValue()
     }
 
+    /**
+     * Get the encryption settings of the managed disk.
+     */
     ManagedDiskEncryptionSettings getEncryptionSettings() {
       result = this.getAttribute("encryption_settings")
     }
@@ -70,6 +73,24 @@ module Azure {
     override string toString() { result = "ManagedDiskEncryptionSettings" }
 
     boolean getEnabled() { result = this.getAttribute("enabled").(BooleanLiteral).getBool() }
+  }
+
+  class StorageContainer extends AzureResource {
+    StorageContainer() { this.getResourceType() = "azurerm_storage_container" }
+
+    string getContainerAccessType() {
+      result = this.getAttribute("container_access_type").(StringLiteral).getValue()
+    }
+
+    /**
+     * Get the properties of the managed disk.
+     */
+    Object getProperties() { result = this.getAttribute("properties") }
+
+    /**
+     * Get a property of the managed disk.
+     */
+    Expr getProperty(string name) { result = this.getProperties().getElementByName(name) }
   }
 
   /**

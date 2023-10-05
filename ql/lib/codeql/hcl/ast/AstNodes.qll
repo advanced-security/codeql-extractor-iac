@@ -117,7 +117,13 @@ class Object extends Expr, TObject {
 
   Expr getElementByName(string name) {
     exists(ObjectElement elem | this.getElements() = elem |
-      elem.getKey().getName() = name and
+      (
+        // Variable / Identifier
+        elem.getKey().(Variable).getName() = name
+        or
+        // StringLiteral
+        elem.getKey().(StringLiteral).getValue() = name
+      ) and
       result = elem.getExpr()
     )
   }
@@ -130,7 +136,7 @@ class ObjectElement extends Expr, TObjectElem {
 
   ObjectElement() { this = TObjectElem(objectElem) }
 
-  Variable getKey() { toHclTreeSitter(result) = objectElem.getKey() }
+  Expr getKey() { toHclTreeSitter(result) = objectElem.getKey() }
 
   Expr getExpr() { toHclTreeSitter(result) = objectElem.getVal() }
 }
