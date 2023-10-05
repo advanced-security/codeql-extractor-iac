@@ -15,5 +15,5 @@
 import bicep
 
 from Storage::BlobServiceContainers container
-where container.getPublicAccess() = "Blob"
+where container.getPublicAccess() = ["Blob", "Container"]
 select container, "Public Blob Container resource."
