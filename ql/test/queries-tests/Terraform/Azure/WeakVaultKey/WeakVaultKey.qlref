@@ -1,1 +1,1 @@
-security/Terraform/Azure/WeakVaultKey/WeakVaultKey.ql
+security/Terraform/Azure/KeyVault/WeakVaultKey/WeakVaultKey.ql

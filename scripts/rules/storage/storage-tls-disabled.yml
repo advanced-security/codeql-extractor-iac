@@ -1,0 +1,7 @@
+id: IAC-010
+name: storage-tls-disabled
+severity: 9.0
+
+tags:
+  - security
+  - storage

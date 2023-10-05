@@ -1,1 +1,1 @@
-security/Terraform/GCP/ClusterPodSecurityPolicy.ql
+security/Terraform/GCP/ContainerCluster/ClusterPodSecurityPolicy.ql

@@ -5,10 +5,11 @@
  * @problem.severity error
  * @security-severity 10.0
  * @precision high
- * @id iac/cloudformation/public-s3-bucket
+ * @id cf/aws/storage-publicly-accessible
  * @tags security
  *       aws
  *       cloudformation
+ *       storage
  */
 
 import iac

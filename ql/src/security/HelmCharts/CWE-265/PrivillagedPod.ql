@@ -5,9 +5,9 @@
  * @problem.severity warning
  * @security-severity 9.0
  * @precision high
- * @id iac/helmcharts/privileged-pod
+ * @id hc/kubernetes/privileged-pod
  * @tags security
- *       helmchart
+ *       helmcharts
  *       external/cwe/cwe-265
  */
 

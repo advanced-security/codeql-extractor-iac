@@ -5,9 +5,9 @@
  * @problem.severity warning
  * @security-severity 9.3
  * @precision high
- * @id iac/actions/unpinned-tag
- * @tags actions
- *       security
+ * @id actions/github/unpinned-tag
+ * @tags security
+ *       actions
  *       external/cwe/cwe-829
  */
 

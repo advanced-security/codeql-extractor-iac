@@ -3,10 +3,13 @@
  * @description Azure Storage is Unencrypted
  * @kind problem
  * @problem.severity warning
- * @security-severity 8.0
+ * @security-severity 6.0
  * @precision high
- * @id hcl/azure/storage-unencrypted
+ * @id tf/azure/storage-unencrypted
  * @tags security
+ *       terraform
+ *       azure
+ *       storage
  */
 
 import hcl

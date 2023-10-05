@@ -4,8 +4,8 @@
  * @kind problem
  * @problem.severity info
  * @security-severity 2.0
- * @precision high
- * @id hcl/azure/ssl-disabled
+ * @precision low
+ * @id tf/azure/database-geo-backup-unset-or-disabled
  * @tags security
  */
 

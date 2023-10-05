@@ -5,7 +5,7 @@
  * @problem.severity error
  * @security-severity 6.0
  * @precision high
- * @id hcl/aws/elastic-search-disabled-logging
+ * @id tf/aws/elastic-search-disabled-logging
  * @tags security
  */
 

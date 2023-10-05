@@ -4,7 +4,7 @@
  * @kind problem
  * @problem.severity info
  * @precision medium
- * @id iac/actions/workflow-permissions
+ * @id actions/github/workflow-permissions
  * @tags actions
  *       maintainability
  *       external/cwe/cwe-275

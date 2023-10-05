@@ -5,8 +5,11 @@
  * @problem.severity error
  * @security-severity 10.0
  * @precision high
- * @id hcl/azure/ssl-disabled
+ * @id tf/azure/database-tls-disable
  * @tags security
+ *       terraform
+ *       azure
+ *       database
  */
 
 import hcl

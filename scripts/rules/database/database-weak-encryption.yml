@@ -1,0 +1,7 @@
+id: IAC-012
+name: database-weak-encryption
+severity: 4.0
+
+tags:
+  - security
+  - database

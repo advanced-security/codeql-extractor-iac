@@ -1,0 +1,7 @@
+id: IAC-003
+name: storage-logging-disabled
+severity: 8.0
+
+tags:
+  - security
+  - storage

@@ -5,7 +5,7 @@
  * @problem.severity warning
  * @security-severity 5.0
  * @precision high
- * @id hcl/gcp/cluster-pod-security-policy
+ * @id tf/gcp/cluster-pod-security-policy
  * @tags security
  */
 

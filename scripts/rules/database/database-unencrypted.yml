@@ -1,0 +1,7 @@
+id: IAC-011
+name: database-unencrypted
+severity: 7.0
+
+tags:
+  - security
+  - database

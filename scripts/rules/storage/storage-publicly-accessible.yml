@@ -1,0 +1,15 @@
+id: IAC-001
+name: storage-publicly-accessible
+description: "Cloud Storage buckets should not be publicly accessible to prevent unauthorized access to data."
+severity: 10.0
+
+tags:
+  - security
+  - storage
+
+required:
+  - cf/aws
+  - tf/aws
+  - tf/azure
+  - tf/gcp
+  - tf/alicloud

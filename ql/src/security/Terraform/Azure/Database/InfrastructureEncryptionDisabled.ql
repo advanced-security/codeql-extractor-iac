@@ -3,11 +3,13 @@
  * @description Azure Database Geo Backup Unset or Disabled
  * @kind problem
  * @problem.severity info
- * @security-severity 2.0
+ * @security-severity 7.0
  * @precision high
- * @id hcl/azure/ssl-disabled
+ * @id tf/azure/database-unencrypted
  * @tags security
+ *       terraform
  *       azure
+ *       database
  */
 
 import hcl

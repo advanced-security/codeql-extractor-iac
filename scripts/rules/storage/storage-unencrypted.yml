@@ -1,0 +1,11 @@
+id: IAC-004
+name: storage-unencrypted
+severity: 6.0
+
+tags:
+  - security
+  - storage
+
+required:
+  - tf/aws
+  - tf/azure

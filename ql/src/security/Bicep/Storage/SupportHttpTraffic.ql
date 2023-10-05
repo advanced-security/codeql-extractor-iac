@@ -3,10 +3,13 @@
  * @description Supports non-HTTPS traffic for storage accounts
  * @kind problem
  * @severity warning
- * @security-severity 4.0
+ * @security-severity 9.0
  * @precision very-high
- * @id bicep/storage/support-http-traffic
+ * @id bicep/azure/storage-tls-disabled
  * @tags security
+ *       bicep
+ *       azure
+ *       storage
  */
 
 import bicep
