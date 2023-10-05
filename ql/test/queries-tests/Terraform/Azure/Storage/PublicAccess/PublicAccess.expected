@@ -1,1 +1,1 @@
-test
+| storage.tf:9:1:15:1 | resource azurerm_storage_container insecure | Azure Storage is Unencrypted for 'insecure' |
