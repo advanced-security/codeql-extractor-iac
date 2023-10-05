@@ -1,0 +1,20 @@
+# rule: {language}/{cloud_provider}/{category}
+languages:
+  - terraform
+  - bicep
+  - cloudformation
+  - helmcharts
+  - actions
+  - openapi
+  - containers
+
+providers:
+  - all # impact all providers
+  - azure
+  - aws
+  - gcp
+  - github # actions / hcl provider
+  - kubernetes
+  - alicloud
+  - web # for openapi
+  - docker

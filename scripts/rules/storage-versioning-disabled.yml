@@ -1,0 +1,8 @@
+id: IAC-002
+name: storage-versioning-disabled
+description: "Cloud Storage buckets should have versioning enabled to prevent accidental deletion of data."
+severity: 6.0
+
+tags:
+  - security
+  - storage
