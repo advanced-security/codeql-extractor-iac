@@ -63,6 +63,9 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     needs: [extractor]
+    strategy:
+      matrix:
+        test-folders: ["library-tests", "queries-tests"]
     steps:
       - uses: actions/checkout@v4
 
@@ -78,14 +81,14 @@ jobs:
         with:
           filters: |
             src:
-              - 'ql/**'
+              - 'ql/test/${{ matrix.test-folders }}/**'
 
       - name: "Run Tests"
         if: steps.changes.outputs.src == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          ./scripts/run-tests.sh
+          ./scripts/run-tests.sh "ql/test/${{ matrix.test-folders }}""
 
   docs:
     runs-on: ubuntu-latest
