@@ -16,3 +16,17 @@ ql-queries:
 
 ql-tests:
   - "ql/test/**"
+
+# Languages
+
+bicep:
+  - ql/lib/codeql/bicep
+  - ql/src/security/Bicep
+  - test/library-tests/bicep
+  - test/queries-tests/Bicep
+
+terraform:
+  - ql/lib/codeql/hcl
+  - ql/src/security/Terraform
+  - test/library-tests/hcl
+  - test/queries-tests/Terraform
