@@ -22,4 +22,17 @@ module Storage {
       result = this.getProperty("supportsHttpsTrafficOnly").(BooleanLiteral).getBool()
     }
   }
+
+  class BlobServiceContainers extends Resource {
+    BlobServiceContainers() {
+      this.getResourceType()
+          .regexpMatch("^Microsoft.Storage/storageAccounts/blobServices/containers@.*")
+    }
+
+    Object getProperties() { result = this.getProperty("properties") }
+
+    string getPublicAccess() {
+      result = this.getProperties().getProperty("publicAccess").(StringLiteral).getValue()
+    }
+  }
 }
