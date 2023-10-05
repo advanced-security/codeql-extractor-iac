@@ -11,4 +11,5 @@ required:
   - cf/aws
   - tf/aws
   - tf/azure
+  - tf/gcp
   - tf/alicloud

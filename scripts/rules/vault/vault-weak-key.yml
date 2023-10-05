@@ -1,5 +1,5 @@
 id: IAC-020
-name: weak-vault-key
+name: vault-weak-key
 severity: 8.0
 
 tags:
