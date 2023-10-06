@@ -56,4 +56,18 @@ module Network {
       string getName() { result = this.getProperty("name").(StringLiteral).getValue() }
     }
   }
+
+  class VirtualNetworks extends NetworkResource {
+    VirtualNetworks() {
+      this.getResourceType().regexpMatch("^Microsoft.Network/virtualNetworks@.*")
+    }
+
+    override string toString() { result = "VirtualNetworks Resource" }
+  }
+
+  class VirtualNetworkSubnets extends Resource {
+    VirtualNetworkSubnets() {
+      this.getResourceType().regexpMatch("^Microsoft.Network/virtualNetworks/subnets@.*")
+    }
+  }
 }
