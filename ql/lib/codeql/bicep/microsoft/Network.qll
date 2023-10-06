@@ -57,17 +57,63 @@ module Network {
     }
   }
 
+  /**
+   * A resource of type Microsoft.Network/virtualNetworks
+   */
   class VirtualNetworks extends NetworkResource {
     VirtualNetworks() {
       this.getResourceType().regexpMatch("^Microsoft.Network/virtualNetworks@.*")
     }
 
     override string toString() { result = "VirtualNetworks Resource" }
+
+    /**
+     * Get the properties object for the Microsoft.Network/virtualNetworks type
+     */
+    VirtualNetworkProperties::Properties getProperties() { result = this.getProperty("properties") }
   }
 
+  /**
+   * A resource of type Microsoft.Network/virtualNetworks/subnets
+   */
   class VirtualNetworkSubnets extends Resource {
     VirtualNetworkSubnets() {
       this.getResourceType().regexpMatch("^Microsoft.Network/virtualNetworks/subnets@.*")
+    }
+  }
+
+  module VirtualNetworkProperties {
+    /**
+     * The properties object for the Microsoft.Network/virtualNetworks/subnets type
+     */
+    class Properties extends Object {
+      private VirtualNetworkSubnets virtualNetworkSubnets;
+
+      Properties() { this = virtualNetworkSubnets.getProperty("properties") }
+
+      AddressSpace getAddressSpace() { result = this.getProperty("addressSpace") }
+
+      boolean getEnableDdosProtection() {
+        result = this.getProperty("enableDdosProtection").(BooleanLiteral).getBool()
+      }
+
+      boolean getEnableVmProtection() {
+        result = this.getProperty("enableVmProtection").(BooleanLiteral).getBool()
+      }
+    }
+
+    /**
+     * An AddressSpace for the Microsoft.Network/virtualNetworks type
+     */
+    class AddressSpace extends Object {
+      private Properties properties;
+
+      AddressSpace() { this = properties.getProperty("addressSpace") }
+
+      string getAddressPrefixes() {
+        result =
+          this.getProperty("addressPrefixes").(Array).getElements().(StringLiteral).getValue()
+      }
     }
   }
 }
