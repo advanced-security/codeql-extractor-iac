@@ -3,7 +3,7 @@ private import codeql.bicep.ast.AstNodes
 private import codeql.bicep.ast.Literal
 private import codeql.bicep.ast.Expr
 
-class Object extends BicepAstNode, TObject {
+class Object extends Expr, TObject {
   private BICEP::Object object;
 
   override string getAPrimaryQlClass() { result = "Object" }
@@ -32,4 +32,16 @@ class ObjectProperty extends BicepAstNode, TObjectProperty {
   Identifier getKey() { toBicepTreeSitter(result) = property.getChild(0) }
 
   Expr getValue() { toBicepTreeSitter(result) = property.getChild(1) }
+}
+
+class Array extends Expr, TArray {
+  private BICEP::Array array;
+
+  override string getAPrimaryQlClass() { result = "Array" }
+
+  Array() { this = TArray(array) }
+
+  Expr getElements() { toBicepTreeSitter(result) = array.getAFieldOrChild() }
+
+  Expr getElement(int index) { toBicepTreeSitter(result) = array.getChild(index) }
 }

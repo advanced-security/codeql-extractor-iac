@@ -13,6 +13,7 @@ newtype TBicepAstNode =
   TMultilineStringContent(BICEP::MultilineStringContent m) or
   // Expressions
   TAssignmentExpression(BICEP::AssignmentExpression a) or
+  TArray(BICEP::Array a) or
   TBinaryExpression(BICEP::BinaryExpression b) or
   TCallExpression(BICEP::CallExpression c) or
   TExpression(BICEP::Expression e) or
@@ -36,10 +37,10 @@ class TLiteral =
 class TDeclaration = TResourceDeclaration or TObject or TObjectProperty or TIdentifier;
 
 class TExpr =
-  TLiteral or TAssignmentExpression or TBinaryExpression or TCallExpression or TExpression or
-      TLambdaExpression or TMemberExpression or TParenthesizedExpression or TResourceExpression or
-      TSubscriptExpression or TTernaryExpression or TUnaryExpression or TIdentifier or TObject or
-      TObjectProperty;
+  TLiteral or TArray or TAssignmentExpression or TBinaryExpression or TCallExpression or
+      TExpression or TLambdaExpression or TMemberExpression or TParenthesizedExpression or
+      TResourceExpression or TSubscriptExpression or TTernaryExpression or TUnaryExpression or
+      TIdentifier or TObject or TObjectProperty;
 
 cached
 BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
@@ -52,6 +53,7 @@ BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
   n = TStringContent(result) or
   n = TMultilineStringContent(result) or
   n = TAssignmentExpression(result) or
+  n = TArray(result) or
   n = TBinaryExpression(result) or
   n = TCallExpression(result) or
   n = TExpression(result) or
