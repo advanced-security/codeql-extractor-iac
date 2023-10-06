@@ -11,6 +11,7 @@
 | sample.bicep:1:25:1:48 | ??? |
 | sample.bicep:1:25:1:48 | Expression |
 | sample.bicep:1:25:1:48 | MemberExpr |
+| sample.bicep:1:41:1:48 | location |
 | sample.bicep:2:7:2:24 | ??? |
 | sample.bicep:2:7:2:24 | Expression |
 | sample.bicep:2:7:2:24 | storageAccountName |
@@ -33,6 +34,7 @@
 | sample.bicep:2:60:2:77 | ??? |
 | sample.bicep:2:60:2:77 | Expression |
 | sample.bicep:2:60:2:77 | MemberExpr |
+| sample.bicep:2:76:2:77 | id |
 | sample.bicep:4:1:14:1 | ResourceDeclaration |
 | sample.bicep:4:10:4:23 | ??? |
 | sample.bicep:4:10:4:23 | Expression |
@@ -42,7 +44,6 @@
 | sample.bicep:4:25:4:70 | Microsoft.Storage/storageAccounts@2021-06-01 |
 | sample.bicep:4:26:4:69 | Microsoft.Storage/storageAccounts@2021-06-01 |
 | sample.bicep:4:74:14:1 | ??? |
-| sample.bicep:4:74:14:1 | Expr |
 | sample.bicep:4:74:14:1 | Expression |
 | sample.bicep:4:74:14:1 | Object |
 | sample.bicep:5:3:5:6 | ??? |
@@ -64,11 +65,9 @@
 | sample.bicep:7:3:7:5 | ??? |
 | sample.bicep:7:3:7:5 | Expression |
 | sample.bicep:7:3:7:5 | sku |
-| sample.bicep:7:3:9:3 | sku = Expr |
 | sample.bicep:7:3:9:3 | sku = Expression |
 | sample.bicep:7:3:9:3 | sku = Object |
 | sample.bicep:7:8:9:3 | ??? |
-| sample.bicep:7:8:9:3 | Expr |
 | sample.bicep:7:8:9:3 | Expression |
 | sample.bicep:7:8:9:3 | Object |
 | sample.bicep:8:5:8:8 | ??? |
@@ -92,11 +91,9 @@
 | sample.bicep:11:3:11:12 | ??? |
 | sample.bicep:11:3:11:12 | Expression |
 | sample.bicep:11:3:11:12 | properties |
-| sample.bicep:11:3:13:3 | properties = Expr |
 | sample.bicep:11:3:13:3 | properties = Expression |
 | sample.bicep:11:3:13:3 | properties = Object |
 | sample.bicep:11:15:13:3 | ??? |
-| sample.bicep:11:15:13:3 | Expr |
 | sample.bicep:11:15:13:3 | Expression |
 | sample.bicep:11:15:13:3 | Object |
 | sample.bicep:12:5:12:14 | ??? |
