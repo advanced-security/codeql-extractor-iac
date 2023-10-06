@@ -63,6 +63,10 @@ class MemberExpr extends Expr, TMemberExpression {
   override string getAPrimaryQlClass() { result = "MemberExpr" }
 
   MemberExpr() { this = TMemberExpression(mexpr) }
+
+  Expr getObject() { toBicepTreeSitter(result) = mexpr.getObject() }
+
+  PropertyIdentifier getProperty() { toBicepTreeSitter(result) = mexpr.getProperty() }
 }
 
 class ParenthesizedExpr extends Expr, TParenthesizedExpression {
@@ -103,4 +107,16 @@ class UnaryExpr extends Expr, TUnaryExpression {
   override string getAPrimaryQlClass() { result = "UnaryExpr" }
 
   UnaryExpr() { this = TUnaryExpression(uexpr) }
+}
+
+class PropertyIdentifier extends Expr, TPropertyIdentifier {
+  BICEP::PropertyIdentifier pidentifier;
+
+  override string getAPrimaryQlClass() { result = "PropertyIdentifier" }
+
+  PropertyIdentifier() { this = TPropertyIdentifier(pidentifier) }
+
+  override string toString() { result = this.getName() }
+
+  string getName() { result = pidentifier.getValue() }
 }

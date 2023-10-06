@@ -4,6 +4,19 @@ private import codeql.bicep.ast.Literal
 private import codeql.bicep.ast.Object
 private import codeql.bicep.ast.Expr
 
+Resource resolveResource(Object object) {
+  exists(Resource resource |
+    // Object having an id property needs to be resolved
+    // {resource.id}.id
+    exists(MemberExpr memexpr |
+      memexpr = object.getProperty("id") and
+      memexpr.getObject().(Identifier).getName() = resource.getIdentifier().(Identifier).getName()
+    |
+      result = resource
+    )
+  )
+}
+
 class Resource extends BicepAstNode, TResourceDeclaration {
   private BICEP::ResourceDeclaration resource;
 
@@ -16,6 +29,11 @@ class Resource extends BicepAstNode, TResourceDeclaration {
       result = s.getValue()
     )
   }
+
+  /**
+   * A name given to the resource instance that is unique within the template.
+   */
+  Identifier getIdentifier() { toBicepTreeSitter(result) = resource.getChild(0) }
 
   Object getBody() { toBicepTreeSitter(result) = resource.getAFieldOrChild() }
 
