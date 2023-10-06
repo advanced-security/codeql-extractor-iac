@@ -20,6 +20,8 @@ module Network {
       this.getResourceType().regexpMatch("^Microsoft.Network/networkInterfaces@.*")
     }
 
+    override string toString() { result = "NetworkInterfaces Resource" }
+
     NetworkInterfaceProperties::Properties getProperties() {
       result = this.getProperty("properties")
     }

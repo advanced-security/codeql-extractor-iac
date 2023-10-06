@@ -3,6 +3,7 @@ private import codeql.bicep.ast.Expr
 private import codeql.bicep.ast.Object
 private import codeql.bicep.ast.Resources
 private import codeql.bicep.ast.Literal
+private import codeql.bicep.microsoft.Network
 
 /**
  * A resource of type Microsoft.Compute/virtualMachines
@@ -21,8 +22,17 @@ module Compute {
       this.getResourceType().regexpMatch("^Microsoft.Compute/virtualMachines@.*")
     }
 
+    override string toString() { result = "VirtualMachines Resource" }
+
     VirtualMachinesProperties::Properties getProperties() {
       result = this.getProperty("properties")
+    }
+
+    /**
+     * The the hardware network interfaces of the virtual machine
+     */
+    Network::NetworkInterfaces getNetworkInterfaces() {
+      result = this.getProperties().getNetworkProfile().getNetworkInterfaces()
     }
   }
 
@@ -40,7 +50,43 @@ module Compute {
 
       VirtualMachines getVirtualMachine() { result = virtualMachines }
 
-      Object getOsProfile() { result = this.getProperty("osProfile") }
+      HardwareProfile getHardwareProfile() { result = this.getProperty("hardwareProfile") }
+
+      NetworkProfile getNetworkProfile() { result = this.getProperty("networkProfile") }
+
+      OsProfile getOsProfile() { result = this.getProperty("osProfile") }
+    }
+
+    /**
+     * The hardwareProfile property object for the Microsoft.Compute/virtualMachines type
+     */
+    class HardwareProfile extends Object {
+      private Properties properties;
+
+      HardwareProfile() { this = properties.getProperty("hardwareProfile") }
+
+      override string toString() { result = "HardwareProfile" }
+
+      Expr getVmSize() { result = this.getProperty("vmSize") }
+    }
+
+    /**
+     * A NetworkProfile for the Microsoft.Compute/virtualMachines type
+     */
+    class NetworkProfile extends Object {
+      private Properties properties;
+
+      NetworkProfile() { this = properties.getProperty("networkProfile") }
+
+      override string toString() { result = "NetworkProfile" }
+
+      Network::NetworkInterfaces getNetworkInterfaces() {
+        result = resolveResource(this.getNetworkInterfacesObject())
+      }
+
+      private Object getNetworkInterfacesObject() {
+        result = this.getProperty("networkInterfaces").(Array).getElements()
+      }
     }
 
     /**
