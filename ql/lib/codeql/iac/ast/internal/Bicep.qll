@@ -13,6 +13,7 @@ newtype TBicepAstNode =
   TMultilineStringContent(BICEP::MultilineStringContent m) or
   // Expressions
   TAssignmentExpression(BICEP::AssignmentExpression a) or
+  TArray(BICEP::Array a) or
   TBinaryExpression(BICEP::BinaryExpression b) or
   TCallExpression(BICEP::CallExpression c) or
   TExpression(BICEP::Expression e) or
@@ -24,6 +25,7 @@ newtype TBicepAstNode =
   TSubscriptExpression(BICEP::SubscriptExpression s) or
   TTernaryExpression(BICEP::TernaryExpression t) or
   TUnaryExpression(BICEP::UnaryExpression u) or
+  TPropertyIdentifier(BICEP::PropertyIdentifier p) or
   // Declarations
   TResourceDeclaration(BICEP::ResourceDeclaration r) or
   TObject(BICEP::Object o) or
@@ -35,11 +37,13 @@ class TLiteral =
 
 class TDeclaration = TResourceDeclaration or TObject or TObjectProperty or TIdentifier;
 
+class TIdentifiers = TIdentifier or TPropertyIdentifier;
+
 class TExpr =
-  TLiteral or TAssignmentExpression or TBinaryExpression or TCallExpression or TExpression or
-      TLambdaExpression or TMemberExpression or TParenthesizedExpression or TResourceExpression or
-      TSubscriptExpression or TTernaryExpression or TUnaryExpression or TIdentifier or TObject or
-      TObjectProperty;
+  TLiteral or TArray or TAssignmentExpression or TBinaryExpression or TCallExpression or
+      TExpression or TLambdaExpression or TMemberExpression or TParenthesizedExpression or
+      TResourceExpression or TSubscriptExpression or TTernaryExpression or TUnaryExpression or
+      TIdentifiers or TObject or TObjectProperty;
 
 cached
 BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
@@ -52,6 +56,7 @@ BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
   n = TStringContent(result) or
   n = TMultilineStringContent(result) or
   n = TAssignmentExpression(result) or
+  n = TArray(result) or
   n = TBinaryExpression(result) or
   n = TCallExpression(result) or
   n = TExpression(result) or
@@ -66,5 +71,6 @@ BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
   n = TResourceDeclaration(result) or
   n = TObject(result) or
   n = TObjectProperty(result) or
-  n = TIdentifier(result)
+  n = TIdentifier(result) or
+  n = TPropertyIdentifier(result)
 }

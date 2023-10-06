@@ -23,6 +23,28 @@ module Storage {
     }
   }
 
+  /**
+   * A resource of type Microsoft.Compute/disks
+   */
+  class Disks extends Resource {
+    Disks() { this.getResourceType().regexpMatch("^Microsoft.Compute/disks@.*") }
+  }
+
+  /**
+   * The Disk Properties object for the Microsoft.Compute/disks type
+   */
+  class DisksProperties extends Object {
+    private Disks disks;
+
+    DisksProperties() { this = disks.getProperty("properties") }
+
+    Object getEncryptionSettings() { result = this.getProperty("encryptionSettingsCollection") }
+
+    boolean getEncryptionEnabled() {
+      result = this.getEncryptionSettings().getProperty("enabled").(BooleanLiteral).getBool()
+    }
+  }
+
   class BlobServiceContainers extends Resource {
     BlobServiceContainers() {
       this.getResourceType()
