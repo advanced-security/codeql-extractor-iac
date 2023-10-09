@@ -55,7 +55,7 @@ jobs:
 
       # cache the extractor pack
       - name: Cache Extractor Pack
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: extractor-pack
           key: extractor-pack
@@ -71,7 +71,7 @@ jobs:
 
       # download from cache
       - name: "Download from cache"
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: extractor-pack
           key: extractor-pack
