@@ -12,7 +12,8 @@ jobs:
     steps:
       - name: "Checkout Repository"
         uses: actions/checkout@v4
+
       - name: "Dependency Review"
         uses: actions/dependency-review-action@v3
         with:
-          comment-summary-in-pr: true
+          comment-summary-in-pr: "always"

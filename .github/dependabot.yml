@@ -9,8 +9,15 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    reviewers:
+      - "geekmasher"
+    groups:
+      extractor:
+        dependency-type: "production"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    reviewers:
+      - "geekmasher"
