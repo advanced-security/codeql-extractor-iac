@@ -6,6 +6,11 @@ private import codeql.bicep.ast.internal.Resources
 private import codeql.bicep.ast.internal.Object
 private import codeql.bicep.ast.internal.Literal
 private import codeql.bicep.ast.internal.Expr
+private import codeql.bicep.ast.internal.Calls
+
+class StmtImpl extends BicepAstNode, TDeclaration {
+  override string getAPrimaryQlClass() { result = "Stmt" }
+}
 
 /**
  * A Bicep program.
@@ -19,9 +24,20 @@ class InfrastructureImpl extends BicepAstNode, TInfrastructure {
 
   InfrastructureImpl() { this = TInfrastructure(infrastructure) }
 
-  StatementImpl getStatement(int i) { toBicepTreeSitter(result) = infrastructure.getChild(i) }
+  StmtImpl getStatement(int i) { toBicepTreeSitter(result) = infrastructure.getChild(i) }
 
-  StatementImpl getStatements() { toBicepTreeSitter(result) = infrastructure.getChild(_) }
+  StmtImpl getStatements() { toBicepTreeSitter(result) = infrastructure.getChild(_) }
+}
+
+/**
+ * A Bicep statement.
+ */
+class StatementImpl extends StmtImpl, TStatement {
+  private BICEP::Statement statement;
+
+  override string getAPrimaryQlClass() { result = "Statement" }
+
+  StatementImpl() { this = TStatement(statement) }
 }
 
 ResourceImpl resolveResource(ExprImpl expr) {
@@ -45,7 +61,7 @@ ResourceImpl resolveResource(ExprImpl expr) {
   )
 }
 
-class ResourceImpl extends BicepAstNode, TResourceDeclaration {
+class ResourceImpl extends StmtImpl, TResourceDeclaration {
   private BICEP::ResourceDeclaration resource;
 
   override string getAPrimaryQlClass() { result = "ResourceDeclaration" }
@@ -68,17 +84,6 @@ class ResourceImpl extends BicepAstNode, TResourceDeclaration {
   ExprImpl getProperty(string name) { result = this.getBody().getProperty(name) }
 
   override ResourceImpl getParent() { result = resolveResource(this.getProperty("parent")) }
-}
-
-/**
- * A Bicep statement.
- */
-class StatementImpl extends ExprImpl, TStatement {
-  private BICEP::Statement statement;
-
-  override string getAPrimaryQlClass() { result = "Statement" }
-
-  StatementImpl() { this = TStatement(statement) }
 }
 
 class TypeImpl extends LiteralImpl, TType {
@@ -123,7 +128,7 @@ class PrimitiveTypeImpl extends LiteralImpl, TPrimitiveType {
   override string getValue() { result = primitiveType.getValue() }
 }
 
-class ParameterDeclarationImpl extends ExprImpl, TParameterDeclaration {
+class ParameterDeclarationImpl extends StmtImpl, TParameterDeclaration {
   private BICEP::ParameterDeclaration parameter;
 
   override string getAPrimaryQlClass() { result = "ParameterDeclaration" }
@@ -132,7 +137,31 @@ class ParameterDeclarationImpl extends ExprImpl, TParameterDeclaration {
 
   IdentifierImpl getName() { toBicepTreeSitter(result) = parameter.getChild(0) }
 
-  ExprImpl getDefaultValue() { toBicepTreeSitter(result) = parameter.getChild(1) }
+  TypeImpl getType() { toBicepTreeSitter(result) = parameter.getChild(1) }
+
+  ExprImpl getDefaultValue() { toBicepTreeSitter(result) = parameter.getChild(2) }
+}
+
+class DecoratorImpl extends StmtImpl, TDecorator {
+  private BICEP::Decorator decorator;
+
+  override string getAPrimaryQlClass() { result = "Decorator" }
+
+  DecoratorImpl() { this = TDecorator(decorator) }
+
+  CallExprImpl getCallExpr() { toBicepTreeSitter(result) = decorator.getAFieldOrChild() }
+}
+
+class DecoratorsImpl extends StmtImpl, TDecorators {
+  private BICEP::Decorators decorators;
+
+  override string getAPrimaryQlClass() { result = "Decorator" }
+
+  DecoratorsImpl() { this = TDecorators(decorators) }
+
+  DecoratorImpl getDecorator(int i) { toBicepTreeSitter(result) = decorators.getChild(i) }
+
+  DecoratorImpl getDecorators() { toBicepTreeSitter(result) = decorators.getChild(_) }
 }
 
 /**

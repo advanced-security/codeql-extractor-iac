@@ -4,10 +4,20 @@ private import codeql.bicep.ast.Expr
 private import codeql.bicep.ast.Object
 
 final class Infrastructure extends AstNode instanceof InfrastructureImpl {
-  Statement getStatement(int i) { result = super.getStatement(i) }
+  Stmt getStatement(int i) { result = super.getStatement(i) }
+
+  Stmt getStatements() { result = super.getStatements() }
 }
 
-final class Resource extends AstNode instanceof ResourceImpl {
+final class Stmt extends AstNode instanceof StmtImpl { }
+
+final class Statement extends Stmt instanceof StatementImpl {
+  Expr getExpr() { result = super.getAChild() }
+}
+
+final class Resource extends Stmt instanceof ResourceImpl {
+  string toString() { result = "Resource" }
+
   string getResourceType() { result = super.getResourceType() }
 
   Identifier getIdentifier() { result = super.getIdentifier() }
@@ -17,7 +27,23 @@ final class Resource extends AstNode instanceof ResourceImpl {
   Expr getProperty(string name) { result = super.getProperty(name) }
 }
 
-final class Statement extends Expr instanceof StatementImpl { }
+final class ParameterDeclaration extends Stmt instanceof ParameterDeclarationImpl {
+  Identifier getName() { result = super.getName() }
+
+  Type getType() { result = super.getType() }
+
+  Expr getDefaultValue() { result = super.getDefaultValue() }
+}
+
+final class Decorators extends Stmt instanceof DecoratorsImpl {
+  string toString() { result = "Decorators" }
+
+  Decorator getDecorator(int i) { result = super.getDecorator(i) }
+
+  Decorator getDecorators() { result = super.getDecorators() }
+}
+
+final class Decorator extends Stmt instanceof DecoratorImpl { }
 
 // Types
 final class Type extends AstNode instanceof TypeImpl {

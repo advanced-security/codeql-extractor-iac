@@ -11,6 +11,22 @@ class CallExprImpl extends ExprImpl, TCallExpression {
   override string getAPrimaryQlClass() { result = "CallExpr" }
 
   CallExprImpl() { this = TCallExpression(cexpr) }
+
+  IdentifierImpl getFunction() { toBicepTreeSitter(result) = cexpr.getFunction() }
+
+  ArgumentsImpl getArguments() { toBicepTreeSitter(result) = cexpr.getArguments() }
+}
+
+class ArgumentsImpl extends BicepAstNode, TArguments {
+  private BICEP::Arguments args;
+
+  override string getAPrimaryQlClass() { result = "Arguments" }
+
+  ArgumentsImpl() { this = TArguments(args) }
+
+  ExprImpl getArgument(int i) { toBicepTreeSitter(result) = args.getChild(i) }
+
+  ExprImpl getArguments() { toBicepTreeSitter(result) = args.getChild(_) }
 }
 
 /**

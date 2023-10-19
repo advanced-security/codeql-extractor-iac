@@ -116,23 +116,3 @@ class PropertyIdentifierImpl extends ExprImpl, TPropertyIdentifier {
 
   string getName() { result = pidentifier.getValue() }
 }
-
-class DecoratorImpl extends ExprImpl, TDecorator {
-  private BICEP::Decorator decorator;
-
-  override string getAPrimaryQlClass() { result = "Decorator" }
-
-  DecoratorImpl() { this = TDecorator(decorator) }
-}
-
-class DecoratorsImpl extends ExprImpl, TDecorators {
-  private BICEP::Decorators decorators;
-
-  override string getAPrimaryQlClass() { result = "Decorator" }
-
-  DecoratorsImpl() { this = TDecorators(decorators) }
-
-  DecoratorImpl getDecorator(int i) { toBicepTreeSitter(result) = decorators.getChild(i) }
-
-  DecoratorImpl getDecorators() { toBicepTreeSitter(result) = decorators.getChild(_) }
-}
