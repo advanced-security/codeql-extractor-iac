@@ -73,7 +73,7 @@ class ResourceImpl extends BicepAstNode, TResourceDeclaration {
 /**
  * A Bicep statement.
  */
-class StatementImpl extends BicepAstNode, TStatement {
+class StatementImpl extends ExprImpl, TStatement {
   private BICEP::Statement statement;
 
   override string getAPrimaryQlClass() { result = "Statement" }

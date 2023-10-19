@@ -7,8 +7,6 @@ final class Infrastructure extends BicepAstNode instanceof InfrastructureImpl {
   Statement getStatement(int i) { result = super.getStatement(i) }
 }
 
-final class Statement extends BicepAstNode instanceof StatementImpl { }
-
 final class Resource extends BicepAstNode instanceof ResourceImpl {
   string getResourceType() { result = super.getResourceType() }
 
@@ -18,5 +16,7 @@ final class Resource extends BicepAstNode instanceof ResourceImpl {
 
   Expr getProperty(string name) { result = super.getProperty(name) }
 }
+
+final class Statement extends Expr instanceof StatementImpl { }
 
 final class Comment extends BicepAstNode instanceof CommentImpl { }
