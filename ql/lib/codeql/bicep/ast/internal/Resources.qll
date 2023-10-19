@@ -90,7 +90,7 @@ class TypeImpl extends LiteralImpl, TType {
 
   TypeImpl() { this = TType(type) }
 
-  string getType() { result = getBuiltinType().getType() }
+  string getType() { result = this.getBuiltinType().getType() }
 
   BuiltinTypeImpl getBuiltinType() { toBicepTreeSitter(result) = type.getAFieldOrChild() }
 }
@@ -100,9 +100,11 @@ class BuiltinTypeImpl extends LiteralImpl, TBuiltinType {
 
   override string getAPrimaryQlClass() { result = "BuiltinType" }
 
+  override string toString() { result = "BuiltinType: " + this.getType() }
+
   BuiltinTypeImpl() { this = TBuiltinType(builtinType) }
 
-  string getType() { result = getPrimitiveType().getValue() }
+  string getType() { result = this.getPrimitiveType().getValue() }
 
   PrimitiveTypeImpl getPrimitiveType() {
     toBicepTreeSitter(result) = builtinType.getAFieldOrChild()
@@ -113,6 +115,8 @@ class PrimitiveTypeImpl extends LiteralImpl, TPrimitiveType {
   private BICEP::PrimitiveType primitiveType;
 
   override string getAPrimaryQlClass() { result = "PrimitiveType" }
+
+  override string toString() { result = "PrimitiveType: " + this.getValue() }
 
   PrimitiveTypeImpl() { this = TPrimitiveType(primitiveType) }
 
