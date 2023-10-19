@@ -4,11 +4,11 @@ warnOnImplicitThis: false
 name: advanced-security/iac-all
 version: 0.2.0
 dependencies:
-  codeql/util: 0.1.2
+  codeql/util: ^0.2.0
   codeql/yaml: ^0.1.2
-  codeql/controlflow: ^0.1.1
-  codeql/dataflow: ^0.1.1
-  codeql/ssa: ^0.2.1
+  codeql/controlflow: ^0.1.0
+  codeql/dataflow: ^0.1.0
+  codeql/ssa: ^0.2.0
 dbscheme: iac.dbscheme
 extractor: iac
 upgrades: upgrades
