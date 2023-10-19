@@ -81,6 +81,56 @@ class StatementImpl extends ExprImpl, TStatement {
   StatementImpl() { this = TStatement(statement) }
 }
 
+class TypeImpl extends LiteralImpl, TType {
+  private BICEP::Type type;
+
+  override string getAPrimaryQlClass() { result = "Type" }
+
+  override string toString() { result = "Type: " + this.getType() }
+
+  TypeImpl() { this = TType(type) }
+
+  string getType() { result = getBuiltinType().getType() }
+
+  BuiltinTypeImpl getBuiltinType() { toBicepTreeSitter(result) = type.getAFieldOrChild() }
+}
+
+class BuiltinTypeImpl extends LiteralImpl, TBuiltinType {
+  private BICEP::BuiltinType builtinType;
+
+  override string getAPrimaryQlClass() { result = "BuiltinType" }
+
+  BuiltinTypeImpl() { this = TBuiltinType(builtinType) }
+
+  string getType() { result = getPrimitiveType().getValue() }
+
+  PrimitiveTypeImpl getPrimitiveType() {
+    toBicepTreeSitter(result) = builtinType.getAFieldOrChild()
+  }
+}
+
+class PrimitiveTypeImpl extends LiteralImpl, TPrimitiveType {
+  private BICEP::PrimitiveType primitiveType;
+
+  override string getAPrimaryQlClass() { result = "PrimitiveType" }
+
+  PrimitiveTypeImpl() { this = TPrimitiveType(primitiveType) }
+
+  override string getValue() { result = primitiveType.getValue() }
+}
+
+class ParameterDeclarationImpl extends ExprImpl, TParameterDeclaration {
+  private BICEP::ParameterDeclaration parameter;
+
+  override string getAPrimaryQlClass() { result = "ParameterDeclaration" }
+
+  ParameterDeclarationImpl() { this = TParameterDeclaration(parameter) }
+
+  IdentifierImpl getName() { toBicepTreeSitter(result) = parameter.getChild(0) }
+
+  ExprImpl getDefaultValue() { toBicepTreeSitter(result) = parameter.getChild(1) }
+}
+
 /**
  * A Bicep comment
  */

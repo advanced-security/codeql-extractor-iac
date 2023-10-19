@@ -19,4 +19,13 @@ final class Resource extends AstNode instanceof ResourceImpl {
 
 final class Statement extends Expr instanceof StatementImpl { }
 
+// Types
+final class Type extends AstNode instanceof TypeImpl {
+  string getType() { result = super.getType() }
+}
+
+final class BuiltInType extends AstNode instanceof BuiltinTypeImpl { }
+
+final class PrimitiveType extends AstNode instanceof PrimitiveTypeImpl { }
+
 final class Comment extends AstNode instanceof CommentImpl { }
