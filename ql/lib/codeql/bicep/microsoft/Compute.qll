@@ -1,8 +1,6 @@
 private import codeql.Locations
-private import codeql.bicep.ast.Expr
-private import codeql.bicep.ast.Object
-private import codeql.bicep.ast.Resources
-private import codeql.bicep.ast.Literal
+private import codeql.bicep.Ast
+private import codeql.bicep.ast.internal.Resources
 private import codeql.bicep.microsoft.Network
 
 /**
@@ -22,7 +20,7 @@ module Compute {
       this.getResourceType().regexpMatch("^Microsoft.Compute/virtualMachines@.*")
     }
 
-    override string toString() { result = "VirtualMachines Resource" }
+    string toString() { result = "VirtualMachines Resource" }
 
     VirtualMachinesProperties::Properties getProperties() {
       result = this.getProperty("properties")
@@ -65,7 +63,7 @@ module Compute {
 
       HardwareProfile() { this = properties.getProperty("hardwareProfile") }
 
-      override string toString() { result = "HardwareProfile" }
+      string toString() { result = "HardwareProfile" }
 
       Expr getVmSize() { result = this.getProperty("vmSize") }
     }
@@ -78,7 +76,7 @@ module Compute {
 
       NetworkProfile() { this = properties.getProperty("networkProfile") }
 
-      override string toString() { result = "NetworkProfile" }
+      string toString() { result = "NetworkProfile" }
 
       Network::NetworkInterfaces getNetworkInterfaces() {
         result = resolveResource(this.getNetworkInterfacesObject())
