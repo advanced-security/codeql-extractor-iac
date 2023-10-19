@@ -1,10 +1,10 @@
-private import codeql.bicep.ast.internal.AstNodes
+private import codeql.bicep.ast.Ast
 private import codeql.bicep.ast.internal.Expr
 
 /**
  * A Bicep expression.
  */
-final class Expr extends BicepAstNode instanceof ExprImpl { }
+final class Expr extends AstNode instanceof ExprImpl { }
 
 /**
  * A Bicep identifier.

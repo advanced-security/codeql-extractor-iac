@@ -1,7 +1,7 @@
-private import codeql.bicep.ast.internal.AstNodes
+private import codeql.bicep.ast.Ast
 private import codeql.bicep.ast.internal.Literal
 
-final class Literal extends BicepAstNode instanceof LiteralImpl { }
+final class Literal extends AstNode instanceof LiteralImpl { }
 
 final class NullLiteral extends Literal instanceof NullLiteralImpl { }
 

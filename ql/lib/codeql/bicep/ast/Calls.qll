@@ -1,6 +1,6 @@
-private import codeql.bicep.ast.internal.AstNodes
+private import codeql.bicep.ast.Ast
 private import codeql.bicep.ast.internal.Calls
 
-final class CallExpr extends BicepAstNode instanceof CallExprImpl { }
+final class CallExpr extends AstNode instanceof CallExprImpl { }
 
-final class LambdaExpr extends BicepAstNode instanceof LambdaExprImpl { }
+final class LambdaExpr extends AstNode instanceof LambdaExprImpl { }
