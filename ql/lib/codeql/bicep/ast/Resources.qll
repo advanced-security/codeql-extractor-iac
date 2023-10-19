@@ -1,50 +1,22 @@
-private import codeql.iac.ast.internal.Bicep
-private import codeql.bicep.ast.AstNodes
-private import codeql.bicep.ast.Literal
-private import codeql.bicep.ast.Object
+private import codeql.bicep.ast.internal.AstNodes
+private import codeql.bicep.ast.internal.Resources
 private import codeql.bicep.ast.Expr
+private import codeql.bicep.ast.Object
 
-Resource resolveResource(Expr expr) {
-  exists(Resource resource |
-    // Object having an id property needs to be resolved
-    // {resource.id}.id
-    exists(MemberExpr memexpr |
-      memexpr = expr.(Object).getProperty("id") and
-      memexpr.getObject().(Identifier).getName() = resource.getIdentifier().(Identifier).getName()
-    |
-      result = resource
-    )
-    or
-    exists(Identifier ident |
-      ident = expr and
-      ident.getName() = resource.getIdentifier().(Identifier).getName()
-    |
-      result = resource
-    )
-  )
+final class Infrastructure extends BicepAstNode instanceof InfrastructureImpl {
+  Statement getStatement(int i) { result = super.getStatement(i) }
 }
 
-class Resource extends BicepAstNode, TResourceDeclaration {
-  private BICEP::ResourceDeclaration resource;
+final class Statement extends BicepAstNode instanceof StatementImpl { }
 
-  override string getAPrimaryQlClass() { result = "ResourceDeclaration" }
+final class Resource extends BicepAstNode instanceof ResourceImpl {
+  string getResourceType() { result = super.getResourceType() }
 
-  Resource() { this = TResourceDeclaration(resource) }
+  Identifier getIdentifier() { result = super.getIdentifier() }
 
-  string getResourceType() {
-    exists(StringLiteral s | toBicepTreeSitter(s) = resource.getAFieldOrChild() |
-      result = s.getValue()
-    )
-  }
+  Object getBody() { result = super.getBody() }
 
-  /**
-   * A name given to the resource instance that is unique within the template.
-   */
-  Identifier getIdentifier() { toBicepTreeSitter(result) = resource.getChild(0) }
-
-  Object getBody() { toBicepTreeSitter(result) = resource.getAFieldOrChild() }
-
-  Expr getProperty(string name) { result = this.getBody().getProperty(name) }
-
-  override Resource getParent() { result = resolveResource(this.getProperty("parent")) }
+  Expr getProperty(string name) { result = super.getProperty(name) }
 }
+
+final class Comment extends BicepAstNode instanceof CommentImpl { }

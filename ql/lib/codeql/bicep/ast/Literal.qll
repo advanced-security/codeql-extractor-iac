@@ -1,60 +1,22 @@
-private import codeql.iac.ast.internal.Bicep
-private import codeql.bicep.ast.AstNodes
+private import codeql.bicep.ast.internal.AstNodes
+private import codeql.bicep.ast.internal.Literal
 
-class Literal extends BicepAstNode, TLiteral {
-  override string getAPrimaryQlClass() { result = "Literal" }
+final class Literal extends BicepAstNode instanceof LiteralImpl { }
 
-  string getValue() { none() }
+final class NullLiteral extends Literal instanceof NullLiteralImpl { }
 
-  override string toString() { result = this.getValue() }
+final class NumberLiteral extends Literal instanceof NumberLiteralImpl {
+  int getNumber() { result = super.getNumber() }
 }
 
-class NumberLiteral extends Literal, TNumber {
-  private BICEP::Number literal;
-
-  override string getAPrimaryQlClass() { result = "NumberLiteral" }
-
-  NumberLiteral() { this = TNumber(literal) }
+final class BooleanLiteral extends Literal instanceof BooleanLiteralImpl {
+  boolean getBool() { result = super.getBool() }
 }
 
-class NullLiteral extends Literal, TNull {
-  private BICEP::Null literal;
-
-  override string getAPrimaryQlClass() { result = "NullLiteral" }
-
-  NullLiteral() { this = TNull(literal) }
+final class StringLiteral extends Literal instanceof StringLiteralImpl {
+  string getValue() { result = super.getValue() }
 }
 
-class BooleanLiteral extends Literal, TBoolean {
-  private BICEP::Boolean literal;
-
-  override string getAPrimaryQlClass() { result = "BooleanLiteral" }
-
-  BooleanLiteral() { this = TBoolean(literal) }
-
-  boolean getBool() { result.toString() = literal.getValue() }
-}
-
-class StringLiteral extends Literal, TString {
-  private BICEP::String literal;
-
-  override string getAPrimaryQlClass() { result = "StringLiteral" }
-
-  StringLiteral() { this = TString(literal) }
-
-  override string getValue() {
-    exists(StringContent c | toBicepTreeSitter(c) = literal.getAFieldOrChild() |
-      result = c.getValue()
-    )
-  }
-}
-
-class StringContent extends Literal, TStringContent {
-  private BICEP::StringContent literal;
-
-  override string getAPrimaryQlClass() { result = "StringContent" }
-
-  StringContent() { this = TStringContent(literal) }
-
-  override string getValue() { result = literal.getValue() }
+final class StringContent extends Literal instanceof StringContentImpl {
+  string getValue() { result = super.getValue() }
 }
