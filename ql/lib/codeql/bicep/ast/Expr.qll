@@ -48,4 +48,10 @@ final class PropertyIdentifier extends Expr instanceof PropertyIdentifierImpl {
   string getName() { result = super.getName() }
 }
 
+final class Decorators extends Expr instanceof DecoratorsImpl {
+  Decorator getDecorator(int i) { result = super.getDecorator(i) }
+
+  Decorator getDecorators() { result = super.getDecorators() }
+}
+
 final class Decorator extends Expr instanceof DecoratorImpl { }

@@ -124,3 +124,15 @@ class DecoratorImpl extends ExprImpl, TDecorator {
 
   DecoratorImpl() { this = TDecorator(decorator) }
 }
+
+class DecoratorsImpl extends ExprImpl, TDecorators {
+  private BICEP::Decorators decorators;
+
+  override string getAPrimaryQlClass() { result = "Decorator" }
+
+  DecoratorsImpl() { this = TDecorators(decorators) }
+
+  DecoratorImpl getDecorator(int i) { toBicepTreeSitter(result) = decorators.getChild(i) }
+
+  DecoratorImpl getDecorators() { toBicepTreeSitter(result) = decorators.getChild(_) }
+}
