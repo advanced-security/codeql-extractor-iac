@@ -15,7 +15,7 @@ tree-sitter-dockerfile = { git = "https://github.com/GeekMasher/tree-sitter-dock
 tree-sitter-bicep = { git = "https://github.com/GeekMasher/tree-sitter-bicep", rev = "3604d8c961ab129d2bfc6dfca56419c236ccdb83" }
 clap = { version = "4.4", features = ["derive"] }
 tracing = "0.1"
-tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 rayon = "1.8.0"
 regex = "1.10.2"
 # 2.15.0
