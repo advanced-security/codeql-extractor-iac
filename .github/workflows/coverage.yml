@@ -19,7 +19,7 @@ jobs:
           ./scripts/create-coverage.py report --markdown > $GITHUB_STEP_SUMMARY
 
       - name: "Upload Coverage Report"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage.csv
