@@ -1,48 +1,48 @@
 docs:
-  - changed-files:
-    - any-glob-to-any-file:
-      - "docs/**"
+- changed-files:
+  - any-glob-to-any-file:
+    - "docs/**"
 
 action:
-  - changed-files:
-    - any-glob-to-any-file:
-      - ".github/action/**"
+- changed-files:
+  - any-glob-to-any-file:
+    - ".github/action/**"
 
 extractor:
-  - changed-files:
-    - any-glob-to-any-file:
-      - "extractor/**"
-      - "tools/**"
+- changed-files:
+  - any-glob-to-any-file:
+    - "extractor/**"
+    - "tools/**"
 
 ql-library:
-  - changed-files:
-    - any-glob-to-any-file:
-      - "ql/lib/**"
+- changed-files:
+  - any-glob-to-any-file:
+    - "ql/lib/**"
 
 ql-queries:
-  - changed-files:
-    - any-glob-to-any-file:
-      - "ql/src/**"
+- changed-files:
+  - any-glob-to-any-file:
+    - "ql/src/**"
 
 ql-tests:
-  - changed-files:
-    - any-glob-to-any-file:
-      - "ql/test/**"
+- changed-files:
+  - any-glob-to-any-file:
+    - "ql/test/**"
 
 # Languages
 
 bicep:
-  - changed-files:
-    - any-glob-to-any-file:
-      - ql/lib/codeql/bicep
-      - ql/src/security/Bicep
-      - test/library-tests/bicep
-      - test/queries-tests/Bicep
+- changed-files:
+  - any-glob-to-any-file:
+    - ql/lib/codeql/bicep
+    - ql/src/security/Bicep
+    - test/library-tests/bicep
+    - test/queries-tests/Bicep
 
 terraform:
-  - changed-files:
-    - any-glob-to-any-file:
-      - ql/lib/codeql/hcl
-      - ql/src/security/Terraform
-      - test/library-tests/hcl
-      - test/queries-tests/Terraform
+- changed-files:
+  - any-glob-to-any-file:
+    - ql/lib/codeql/hcl
+    - ql/src/security/Terraform
+    - test/library-tests/hcl
+    - test/queries-tests/Terraform
