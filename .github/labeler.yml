@@ -1,31 +1,32 @@
-docs:
+
+documentation:
 - changed-files:
-  - any-glob-to-any-file: "docs/*"
+  - any-glob-to-any-file: 'docs/*'
 
 action:
 - changed-files:
-  - any-glob-to-any-file: ".github/action/*"
+  - any-glob-to-any-file: '.github/action/*'
 
 extractor:
 - changed-files:
   - any-glob-to-any-file:
-    - "extractor/*"
-    - "tools/*"
+    - 'extractor/*'
+    - 'tools/*'
 
 ql-library:
 - changed-files:
   - any-glob-to-any-file:
-    - "ql/lib/*"
+    - 'ql/lib/*'
 
 ql-queries:
 - changed-files:
   - any-glob-to-any-file:
-    - "ql/src/*"
+    - 'ql/src/*'
 
 ql-tests:
 - changed-files:
   - any-glob-to-any-file:
-    - "ql/test/*"
+    - 'ql/test/*'
 
 # Languages
 
