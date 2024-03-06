@@ -23,6 +23,8 @@ jobs:
           filters: |
             src:
               - 'extractor/**'
+              - 'rust-toolchain.toml'
+              - 'Cargo.*'
 
       - uses: dtolnay/rust-toolchain@nightly
         if: steps.changes.outputs.src == 'true'
