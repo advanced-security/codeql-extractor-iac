@@ -29,7 +29,7 @@ jobs:
             --bump "${{ github.event.inputs.bump }}"
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           title: "[Bot] Version Bump - ${{ github.event.inputs.repository }}"
           body: "This PR was automatically generated to bump the version of IaC library and queries."
