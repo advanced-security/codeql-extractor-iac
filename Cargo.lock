@@ -104,12 +104,9 @@ checksum = "7f30e7476521f6f8af1a1c4c0b8cc94f0bee37d91763d0ca2665f299b6cd8aec"
 
 [[package]]
 name = "cc"
-version = "1.0.83"
+version = "1.0.90"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f1174fb0b6ec23863f8b971027804a42614e347eafb0a95bf0b12cdae21fc4d0"
-dependencies = [
- "libc",
-]
+checksum = "8cd6604a82acf3039f1144f54b8eb34e91ffba622051189e71b781822d5ee1f5"
 
 [[package]]
 name = "cfg-if"
@@ -134,9 +131,9 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "4.5.1"
+version = "4.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c918d541ef2913577a0f9566e9ce27cb35b6df072075769e0b26cb5a554520da"
+checksum = "b230ab84b0ffdf890d5a10abdbc8b83ae1c4918275daea1ab8801f71536b2651"
 dependencies = [
  "clap_builder",
  "clap_derive",
@@ -144,9 +141,9 @@ dependencies = [
 
 [[package]]
 name = "clap_builder"
-version = "4.5.1"
+version = "4.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9f3e7391dad68afb0c2ede1bf619f579a3dc9c2ec67f089baa397123a2f3d1eb"
+checksum = "ae129e2e766ae0ec03484e609954119f123cc1fe650337e155d03b022f24f7b4"
 dependencies = [
  "anstream",
  "anstyle",
@@ -188,7 +185,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tracing",
- "tree-sitter",
+ "tree-sitter 0.20.10",
 ]
 
 [[package]]
@@ -202,7 +199,7 @@ dependencies = [
  "regex",
  "tracing",
  "tracing-subscriber",
- "tree-sitter",
+ "tree-sitter 0.22.1",
  "tree-sitter-bicep",
  "tree-sitter-dockerfile",
  "tree-sitter-hcl",
@@ -748,12 +745,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "tree-sitter"
+version = "0.22.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5606b9e714f1b20d2b2a3f1b634b69ff377e967e3e2c12171d9301f946be9881"
+dependencies = [
+ "cc",
+ "regex",
+]
+
+[[package]]
 name = "tree-sitter-bicep"
 version = "1.0.0"
 source = "git+https://github.com/GeekMasher/tree-sitter-bicep?rev=3604d8c961ab129d2bfc6dfca56419c236ccdb83#3604d8c961ab129d2bfc6dfca56419c236ccdb83"
 dependencies = [
  "cc",
- "tree-sitter",
+ "tree-sitter 0.20.10",
 ]
 
 [[package]]
@@ -762,7 +769,7 @@ version = "0.1.0"
 source = "git+https://github.com/GeekMasher/tree-sitter-dockerfile?rev=c0a9d694d9bf8ab79a919f5f9c7bc9c169caf321#c0a9d694d9bf8ab79a919f5f9c7bc9c169caf321"
 dependencies = [
  "cc",
- "tree-sitter",
+ "tree-sitter 0.20.10",
 ]
 
 [[package]]
@@ -771,7 +778,7 @@ version = "0.0.1"
 source = "git+https://github.com/GeekMasher/tree-sitter-hcl?rev=5e045dd1ff7852511c249c4c5d919d9556751d98#5e045dd1ff7852511c249c4c5d919d9556751d98"
 dependencies = [
  "cc",
- "tree-sitter",
+ "tree-sitter 0.20.10",
 ]
 
 [[package]]
