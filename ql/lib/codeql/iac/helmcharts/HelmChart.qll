@@ -3,7 +3,10 @@ private import codeql.files.FileSystem
 
 module HelmChart {
   private class Node extends YamlNode {
-    Node() { this.getFile().getBaseName() = ["Chart.yml", "Chart.yaml"] }
+    Node() {
+      // Chart file itself
+      this.getFile().getExtension() = ["yml", "yaml"]
+    }
   }
 
   /**
@@ -12,6 +15,8 @@ module HelmChart {
    * https://helm.sh/docs/topics/charts/
    */
   class Document extends Node, YamlDocument, YamlMapping {
+    Document() { exists(this.lookup("apiVersion")) }
+
     override string toString() { result = "HelmChart Document" }
 
     /**
@@ -39,12 +44,20 @@ module HelmChart {
      */
     string getType() { result = yamlToString(this.lookup("type")) }
 
+    /**
+     * Get the Helm Chart spec.
+     */
     Spec getSpec() { result = this.lookup("spec") }
 
     /**
      * Get the Helm Chart dependencies.
      */
     Dependency getDependencies() { result = this.lookup("dependencies").(YamlSequence).getAChild() }
+
+    /**
+     * Get the Helm Chart data.
+     */
+    HelmData getData() { result = this.lookup("data") }
 
     /**
      * Get the Helm Chart values.
@@ -65,6 +78,16 @@ module HelmChart {
     SecurityContext getSecurityContext() { result = this.lookup("securityContext") }
 
     Container getContainers() { result = this.lookup("containers").(YamlSequence).getAChild() }
+  }
+
+  class HelmData extends Node, YamlMapping {
+    private HelmChart::Document helm;
+
+    HelmData() { helm.lookup("data") = this }
+
+    override string toString() { result = "HelmData" }
+
+    Node getName(string name) { result = this.lookup(name) }
   }
 
   /**
