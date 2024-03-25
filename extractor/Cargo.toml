@@ -16,7 +16,7 @@ tree-sitter-bicep = { git = "https://github.com/GeekMasher/tree-sitter-bicep", r
 clap = { version = "4.5", features = ["derive"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
-rayon = "1.9.0"
-regex = "1.10.3"
+rayon = "1.10.0"
+regex = "1.10.4"
 # 2.15.0
 codeql-extractor = { git = "https://github.com/github/codeql", rev = "a08356979f5f59ab0f1218d12fe4e8c2eb664997" }
