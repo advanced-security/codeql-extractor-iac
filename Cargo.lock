@@ -756,8 +756,8 @@ dependencies = [
 
 [[package]]
 name = "tree-sitter-bicep"
-version = "1.0.0"
-source = "git+https://github.com/GeekMasher/tree-sitter-bicep?rev=3604d8c961ab129d2bfc6dfca56419c236ccdb83#3604d8c961ab129d2bfc6dfca56419c236ccdb83"
+version = "1.0.1"
+source = "git+https://github.com/GeekMasher/tree-sitter-bicep?rev=0092c7d1bd6bb22ce0a6f78497d50ea2b87f19c0#0092c7d1bd6bb22ce0a6f78497d50ea2b87f19c0"
 dependencies = [
  "cc",
  "tree-sitter 0.20.10",
@@ -766,7 +766,7 @@ dependencies = [
 [[package]]
 name = "tree-sitter-dockerfile"
 version = "0.1.0"
-source = "git+https://github.com/GeekMasher/tree-sitter-dockerfile?rev=c0a9d694d9bf8ab79a919f5f9c7bc9c169caf321#c0a9d694d9bf8ab79a919f5f9c7bc9c169caf321"
+source = "git+https://github.com/GeekMasher/tree-sitter-dockerfile?rev=439c3e7b8a9bfdbf1f7d7c2beaae4173dc484cbf#439c3e7b8a9bfdbf1f7d7c2beaae4173dc484cbf"
 dependencies = [
  "cc",
  "tree-sitter 0.20.10",
