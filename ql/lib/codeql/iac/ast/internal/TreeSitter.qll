@@ -856,6 +856,36 @@ module DOCKERFILE {
     }
   }
 
+  /** A class representing `heredoc_block` nodes. */
+  class HeredocBlock extends @dockerfile_heredoc_block, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "HeredocBlock" }
+
+    /** Gets the `i`th child of this node. */
+    final AstNode getChild(int i) { dockerfile_heredoc_block_child(this, i, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { dockerfile_heredoc_block_child(this, _, result) }
+  }
+
+  /** A class representing `heredoc_end` tokens. */
+  class HeredocEnd extends @dockerfile_token_heredoc_end, Token {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "HeredocEnd" }
+  }
+
+  /** A class representing `heredoc_line` tokens. */
+  class HeredocLine extends @dockerfile_token_heredoc_line, Token {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "HeredocLine" }
+  }
+
+  /** A class representing `heredoc_marker` tokens. */
+  class HeredocMarker extends @dockerfile_token_heredoc_marker, Token {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "HeredocMarker" }
+  }
+
   /** A class representing `image_alias` nodes. */
   class ImageAlias extends @dockerfile_image_alias, AstNode {
     /** Gets the name of the primary QL class for this element. */
@@ -972,7 +1002,7 @@ module DOCKERFILE {
     final override string getAPrimaryQlClass() { result = "LabelPair" }
 
     /** Gets the node corresponding to the field `key`. */
-    final UnquotedString getKey() { dockerfile_label_pair_def(this, result, _) }
+    final AstNode getKey() { dockerfile_label_pair_def(this, result, _) }
 
     /** Gets the node corresponding to the field `value`. */
     final AstNode getValue() { dockerfile_label_pair_def(this, _, result) }
@@ -1042,7 +1072,7 @@ module DOCKERFILE {
     final override string getAPrimaryQlClass() { result = "Path" }
 
     /** Gets the `i`th child of this node. */
-    final Expansion getChild(int i) { dockerfile_path_child(this, i, result) }
+    final AstNode getChild(int i) { dockerfile_path_child(this, i, result) }
 
     /** Gets a field or child node of this node. */
     final override AstNode getAFieldOrChild() { dockerfile_path_child(this, _, result) }
@@ -1072,10 +1102,16 @@ module DOCKERFILE {
     final override AstNode getAFieldOrChild() { dockerfile_shell_command_child(this, _, result) }
   }
 
-  /** A class representing `shell_fragment` tokens. */
-  class ShellFragment extends @dockerfile_token_shell_fragment, Token {
+  /** A class representing `shell_fragment` nodes. */
+  class ShellFragment extends @dockerfile_shell_fragment, AstNode {
     /** Gets the name of the primary QL class for this element. */
     final override string getAPrimaryQlClass() { result = "ShellFragment" }
+
+    /** Gets the `i`th child of this node. */
+    final HeredocMarker getChild(int i) { dockerfile_shell_fragment_child(this, i, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { dockerfile_shell_fragment_child(this, _, result) }
   }
 
   /** A class representing `shell_instruction` nodes. */
@@ -1266,10 +1302,27 @@ module BICEP {
     final override string getAPrimaryQlClass() { result = "ArrayType" }
 
     /** Gets the child of this node. */
-    final Expression getChild() { bicep_array_type_def(this, result) }
+    final Type getChild() { bicep_array_type_def(this, result) }
 
     /** Gets a field or child node of this node. */
     final override AstNode getAFieldOrChild() { bicep_array_type_def(this, result) }
+  }
+
+  /** A class representing `assert_statement` nodes. */
+  class AssertStatement extends @bicep_assert_statement, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "AssertStatement" }
+
+    /** Gets the node corresponding to the field `name`. */
+    final Identifier getName() { bicep_assert_statement_def(this, result, _) }
+
+    /** Gets the child of this node. */
+    final Expression getChild() { bicep_assert_statement_def(this, _, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() {
+      bicep_assert_statement_def(this, result, _) or bicep_assert_statement_def(this, _, result)
+    }
   }
 
   /** A class representing `assignment_expression` nodes. */
@@ -1351,18 +1404,6 @@ module BICEP {
   class Boolean extends @bicep_token_boolean, Token {
     /** Gets the name of the primary QL class for this element. */
     final override string getAPrimaryQlClass() { result = "Boolean" }
-  }
-
-  /** A class representing `builtin_type` nodes. */
-  class BuiltinType extends @bicep_builtin_type, AstNode {
-    /** Gets the name of the primary QL class for this element. */
-    final override string getAPrimaryQlClass() { result = "BuiltinType" }
-
-    /** Gets the child of this node. */
-    final PrimitiveType getChild() { bicep_builtin_type_def(this, result) }
-
-    /** Gets a field or child node of this node. */
-    final override AstNode getAFieldOrChild() { bicep_builtin_type_def(this, result) }
   }
 
   /** A class representing `call_expression` nodes. */
@@ -1497,10 +1538,16 @@ module BICEP {
     final override AstNode getAFieldOrChild() { bicep_if_statement_child(this, _, result) }
   }
 
-  /** A class representing `import_name` tokens. */
-  class ImportName extends @bicep_token_import_name, Token {
+  /** A class representing `import_functionality` nodes. */
+  class ImportFunctionality extends @bicep_import_functionality, AstNode {
     /** Gets the name of the primary QL class for this element. */
-    final override string getAPrimaryQlClass() { result = "ImportName" }
+    final override string getAPrimaryQlClass() { result = "ImportFunctionality" }
+
+    /** Gets the `i`th child of this node. */
+    final AstNode getChild(int i) { bicep_import_functionality_child(this, i, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { bicep_import_functionality_child(this, _, result) }
   }
 
   /** A class representing `import_statement` nodes. */
@@ -1508,29 +1555,11 @@ module BICEP {
     /** Gets the name of the primary QL class for this element. */
     final override string getAPrimaryQlClass() { result = "ImportStatement" }
 
-    /** Gets the child of this node. */
-    final ImportString getChild() { bicep_import_statement_def(this, result) }
-
-    /** Gets a field or child node of this node. */
-    final override AstNode getAFieldOrChild() { bicep_import_statement_def(this, result) }
-  }
-
-  /** A class representing `import_string` nodes. */
-  class ImportString extends @bicep_import_string, AstNode {
-    /** Gets the name of the primary QL class for this element. */
-    final override string getAPrimaryQlClass() { result = "ImportString" }
-
     /** Gets the `i`th child of this node. */
-    final AstNode getChild(int i) { bicep_import_string_child(this, i, result) }
+    final AstNode getChild(int i) { bicep_import_statement_child(this, i, result) }
 
     /** Gets a field or child node of this node. */
-    final override AstNode getAFieldOrChild() { bicep_import_string_child(this, _, result) }
-  }
-
-  /** A class representing `import_version` tokens. */
-  class ImportVersion extends @bicep_token_import_version, Token {
-    /** Gets the name of the primary QL class for this element. */
-    final override string getAPrimaryQlClass() { result = "ImportVersion" }
+    final override AstNode getAFieldOrChild() { bicep_import_statement_child(this, _, result) }
   }
 
   /** A class representing `import_with_statement` nodes. */
@@ -1599,7 +1628,7 @@ module BICEP {
     final override string getAPrimaryQlClass() { result = "MemberExpression" }
 
     /** Gets the node corresponding to the field `object`. */
-    final Expression getObject() { bicep_member_expression_def(this, result, _) }
+    final AstNode getObject() { bicep_member_expression_def(this, result, _) }
 
     /** Gets the node corresponding to the field `property`. */
     final PropertyIdentifier getProperty() { bicep_member_expression_def(this, _, result) }
@@ -1634,10 +1663,16 @@ module BICEP {
     final override AstNode getAFieldOrChild() { bicep_module_declaration_child(this, _, result) }
   }
 
-  /** A class representing `multiline_string_content` tokens. */
-  class MultilineStringContent extends @bicep_token_multiline_string_content, Token {
+  /** A class representing `negated_type` nodes. */
+  class NegatedType extends @bicep_negated_type, AstNode {
     /** Gets the name of the primary QL class for this element. */
-    final override string getAPrimaryQlClass() { result = "MultilineStringContent" }
+    final override string getAPrimaryQlClass() { result = "NegatedType" }
+
+    /** Gets the child of this node. */
+    final Type getChild() { bicep_negated_type_def(this, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { bicep_negated_type_def(this, result) }
   }
 
   /** A class representing `null` tokens. */
@@ -1706,6 +1741,18 @@ module BICEP {
     final override AstNode getAFieldOrChild() { bicep_output_declaration_child(this, _, result) }
   }
 
+  /** A class representing `parameter` nodes. */
+  class Parameter extends @bicep_parameter, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "Parameter" }
+
+    /** Gets the `i`th child of this node. */
+    final AstNode getChild(int i) { bicep_parameter_child(this, i, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { bicep_parameter_child(this, _, result) }
+  }
+
   /** A class representing `parameter_declaration` nodes. */
   class ParameterDeclaration extends @bicep_parameter_declaration, AstNode {
     /** Gets the name of the primary QL class for this element. */
@@ -1716,6 +1763,30 @@ module BICEP {
 
     /** Gets a field or child node of this node. */
     final override AstNode getAFieldOrChild() { bicep_parameter_declaration_child(this, _, result) }
+  }
+
+  /** A class representing `parameterized_type` nodes. */
+  class ParameterizedType extends @bicep_parameterized_type, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "ParameterizedType" }
+
+    /** Gets the `i`th child of this node. */
+    final AstNode getChild(int i) { bicep_parameterized_type_child(this, i, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { bicep_parameterized_type_child(this, _, result) }
+  }
+
+  /** A class representing `parameters` nodes. */
+  class Parameters extends @bicep_parameters, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "Parameters" }
+
+    /** Gets the `i`th child of this node. */
+    final Parameter getChild(int i) { bicep_parameters_child(this, i, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { bicep_parameters_child(this, _, result) }
   }
 
   /** A class representing `parenthesized_expression` nodes. */
@@ -1730,6 +1801,18 @@ module BICEP {
     final override AstNode getAFieldOrChild() {
       bicep_parenthesized_expression_child(this, _, result)
     }
+  }
+
+  /** A class representing `parenthesized_type` nodes. */
+  class ParenthesizedType extends @bicep_parenthesized_type, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "ParenthesizedType" }
+
+    /** Gets the child of this node. */
+    final Type getChild() { bicep_parenthesized_type_def(this, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { bicep_parenthesized_type_def(this, result) }
   }
 
   class PrimaryExpression extends @bicep_primary_expression, AstNode { }
@@ -1848,30 +1931,40 @@ module BICEP {
     }
   }
 
+  /** A class representing `test_block` nodes. */
+  class TestBlock extends @bicep_test_block, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "TestBlock" }
+
+    /** Gets the `i`th child of this node. */
+    final AstNode getChild(int i) { bicep_test_block_child(this, i, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { bicep_test_block_child(this, _, result) }
+  }
+
   /** A class representing `type` nodes. */
   class Type extends @bicep_type__, AstNode {
     /** Gets the name of the primary QL class for this element. */
     final override string getAPrimaryQlClass() { result = "Type" }
 
-    /** Gets the node corresponding to the field `left`. */
-    final AstNode getLeft() { bicep_type_left(this, result) }
-
-    /** Gets the node corresponding to the field `operator`. */
-    final AstNode getOperator() { bicep_type_operator(this, result) }
-
-    /** Gets the node corresponding to the field `right`. */
-    final AstNode getRight() { bicep_type_right(this, result) }
-
     /** Gets the child of this node. */
-    final AstNode getChild() { bicep_type_child(this, result) }
+    final AstNode getChild() { bicep_type_def(this, result) }
 
     /** Gets a field or child node of this node. */
-    final override AstNode getAFieldOrChild() {
-      bicep_type_left(this, result) or
-      bicep_type_operator(this, result) or
-      bicep_type_right(this, result) or
-      bicep_type_child(this, result)
-    }
+    final override AstNode getAFieldOrChild() { bicep_type_def(this, result) }
+  }
+
+  /** A class representing `type_arguments` nodes. */
+  class TypeArguments extends @bicep_type_arguments, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "TypeArguments" }
+
+    /** Gets the `i`th child of this node. */
+    final String getChild(int i) { bicep_type_arguments_child(this, i, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { bicep_type_arguments_child(this, _, result) }
   }
 
   /** A class representing `type_declaration` nodes. */
@@ -1905,6 +1998,52 @@ module BICEP {
 
     /** Gets a field or child node of this node. */
     final override AstNode getAFieldOrChild() { bicep_unary_expression_def(this, result, _) }
+  }
+
+  /** A class representing `union_type` nodes. */
+  class UnionType extends @bicep_union_type, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "UnionType" }
+
+    /** Gets the `i`th child of this node. */
+    final AstNode getChild(int i) { bicep_union_type_child(this, i, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { bicep_union_type_child(this, _, result) }
+  }
+
+  /** A class representing `user_defined_function` nodes. */
+  class UserDefinedFunction extends @bicep_user_defined_function, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "UserDefinedFunction" }
+
+    /** Gets the node corresponding to the field `name`. */
+    final Identifier getName() { bicep_user_defined_function_def(this, result, _) }
+
+    /** Gets the node corresponding to the field `returns`. */
+    final Type getReturns() { bicep_user_defined_function_def(this, _, result) }
+
+    /** Gets the `i`th child of this node. */
+    final AstNode getChild(int i) { bicep_user_defined_function_child(this, i, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() {
+      bicep_user_defined_function_def(this, result, _) or
+      bicep_user_defined_function_def(this, _, result) or
+      bicep_user_defined_function_child(this, _, result)
+    }
+  }
+
+  /** A class representing `using_statement` nodes. */
+  class UsingStatement extends @bicep_using_statement, AstNode {
+    /** Gets the name of the primary QL class for this element. */
+    final override string getAPrimaryQlClass() { result = "UsingStatement" }
+
+    /** Gets the child of this node. */
+    final String getChild() { bicep_using_statement_def(this, result) }
+
+    /** Gets a field or child node of this node. */
+    final override AstNode getAFieldOrChild() { bicep_using_statement_def(this, result) }
   }
 
   /** A class representing `variable_declaration` nodes. */

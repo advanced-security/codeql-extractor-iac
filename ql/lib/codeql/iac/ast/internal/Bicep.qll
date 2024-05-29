@@ -10,7 +10,6 @@ newtype TBicepAstNode =
   TNumber(BICEP::Number n) or
   TString(BICEP::String s) or
   TStringContent(BICEP::StringContent s) or
-  TMultilineStringContent(BICEP::MultilineStringContent m) or
   // Expressions
   TAssignmentExpression(BICEP::AssignmentExpression a) or
   TArray(BICEP::Array a) or
@@ -32,8 +31,7 @@ newtype TBicepAstNode =
   TObjectProperty(BICEP::ObjectProperty p) or
   TIdentifier(BICEP::Identifier i)
 
-class TLiteral =
-  TBoolean or TNull or TNumber or TString or TStringContent or TMultilineStringContent;
+class TLiteral = TBoolean or TNull or TNumber or TString or TStringContent;
 
 class TDeclaration = TResourceDeclaration or TObject or TObjectProperty or TIdentifier;
 
@@ -54,7 +52,6 @@ BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
   n = TNumber(result) or
   n = TString(result) or
   n = TStringContent(result) or
-  n = TMultilineStringContent(result) or
   n = TAssignmentExpression(result) or
   n = TArray(result) or
   n = TBinaryExpression(result) or
