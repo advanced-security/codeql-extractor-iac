@@ -1,122 +1,49 @@
-private import codeql.iac.ast.internal.Bicep
-private import codeql.bicep.ast.AstNodes
+private import codeql.bicep.ast.Ast
+private import codeql.bicep.ast.internal.Expr
 
-class Expr extends BicepAstNode, TExpr {
-  override string getAPrimaryQlClass() { result = "Expr" }
+/**
+ * A Bicep expression.
+ */
+final class Expr extends AstNode instanceof ExprImpl { }
+
+/**
+ * A Bicep identifier.
+ */
+final class Identifier extends Expr instanceof IdentifierImpl {
+  string getName() { result = super.getName() }
 }
 
-class Identifier extends Expr, TIdentifier {
-  private BICEP::Identifier identifier;
+/**
+ * A Bicep expression.
+ */
+final class Expression extends Expr instanceof ExpressionImpl { }
 
-  override string getAPrimaryQlClass() { result = "Identifier" }
+/**
+ * A Binary assignment expression.
+ */
+final class AssignmentExpr extends Expr instanceof AssignmentExprImpl { }
 
-  Identifier() { this = TIdentifier(identifier) }
+final class BinaryExpr extends Expr instanceof BinaryExprImpl { }
 
-  override string toString() { result = this.getName() }
+final class MemberExpr extends Expr instanceof MemberExprImpl {
+  Expr getObject() { result = super.getObject() }
 
-  string getName() { result = identifier.getValue() }
+  PropertyIdentifier getProperty() { result = super.getProperty() }
 }
 
-class Expression extends Expr, TExpression {
-  private BICEP::Expression expression;
+final class ParenthesizedExpr extends Expr instanceof ParenthesizedExprImpl { }
 
-  override string getAPrimaryQlClass() { result = "Expression" }
+final class ResourceExpr extends Expr instanceof ResourceExprImpl { }
 
-  Expression() { this = TExpression(expression) }
-}
+final class SubscriptExpr extends Expr instanceof SubscriptExprImpl { }
 
-class AssignmentExpr extends Expr, TAssignmentExpression {
-  BICEP::AssignmentExpression aexpr;
+final class TerenaryExpr extends Expr instanceof TerenaryExprImpl { }
 
-  override string getAPrimaryQlClass() { result = "AssignmentExpr" }
+final class UnaryExpr extends Expr instanceof UnaryExprImpl { }
 
-  AssignmentExpr() { this = TAssignmentExpression(aexpr) }
-}
-
-class BinaryExpr extends Expr, TBinaryExpression {
-  BICEP::BinaryExpression bexpr;
-
-  override string getAPrimaryQlClass() { result = "BinaryExpr" }
-
-  BinaryExpr() { this = TBinaryExpression(bexpr) }
-}
-
-class CallExpr extends Expr, TCallExpression {
-  BICEP::CallExpression cexpr;
-
-  override string getAPrimaryQlClass() { result = "CallExpr" }
-
-  CallExpr() { this = TCallExpression(cexpr) }
-}
-
-class LambdaExpr extends Expr, TLambdaExpression {
-  BICEP::LambdaExpression lexpr;
-
-  override string getAPrimaryQlClass() { result = "LambdaExpr" }
-
-  LambdaExpr() { this = TLambdaExpression(lexpr) }
-}
-
-class MemberExpr extends Expr, TMemberExpression {
-  BICEP::MemberExpression mexpr;
-
-  override string getAPrimaryQlClass() { result = "MemberExpr" }
-
-  MemberExpr() { this = TMemberExpression(mexpr) }
-
-  Expr getObject() { toBicepTreeSitter(result) = mexpr.getObject() }
-
-  PropertyIdentifier getProperty() { toBicepTreeSitter(result) = mexpr.getProperty() }
-}
-
-class ParenthesizedExpr extends Expr, TParenthesizedExpression {
-  BICEP::ParenthesizedExpression pexpr;
-
-  override string getAPrimaryQlClass() { result = "ParenthesizedExpr" }
-
-  ParenthesizedExpr() { this = TParenthesizedExpression(pexpr) }
-}
-
-class ResourceExpr extends Expr, TResourceExpression {
-  BICEP::ResourceExpression rexpr;
-
-  override string getAPrimaryQlClass() { result = "ResourceExpr" }
-
-  ResourceExpr() { this = TResourceExpression(rexpr) }
-}
-
-class SubscriptExpr extends Expr, TSubscriptExpression {
-  BICEP::SubscriptExpression sexpr;
-
-  override string getAPrimaryQlClass() { result = "SubscriptExpr" }
-
-  SubscriptExpr() { this = TSubscriptExpression(sexpr) }
-}
-
-class TerenaryExpr extends Expr, TTernaryExpression {
-  BICEP::TernaryExpression texpr;
-
-  override string getAPrimaryQlClass() { result = "TerenaryExpr" }
-
-  TerenaryExpr() { this = TTernaryExpression(texpr) }
-}
-
-class UnaryExpr extends Expr, TUnaryExpression {
-  BICEP::UnaryExpression uexpr;
-
-  override string getAPrimaryQlClass() { result = "UnaryExpr" }
-
-  UnaryExpr() { this = TUnaryExpression(uexpr) }
-}
-
-class PropertyIdentifier extends Expr, TPropertyIdentifier {
-  BICEP::PropertyIdentifier pidentifier;
-
-  override string getAPrimaryQlClass() { result = "PropertyIdentifier" }
-
-  PropertyIdentifier() { this = TPropertyIdentifier(pidentifier) }
-
-  override string toString() { result = this.getName() }
-
-  string getName() { result = pidentifier.getValue() }
+/**
+ * A Bicept Property Identifier.
+ */
+final class PropertyIdentifier extends Expr instanceof PropertyIdentifierImpl {
+  string getName() { result = super.getName() }
 }
