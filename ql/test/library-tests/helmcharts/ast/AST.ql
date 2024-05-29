@@ -13,3 +13,5 @@ query predicate helmchartContainers(HelmChart::Container n) { any() }
 query predicate helmchartContainerSecurityContext(HelmChart::SecurityContext n) { any() }
 
 query predicate helmchartDeps(HelmChart::Dependency n) { any() }
+
+query predicate helmchartData(HelmChart::HelmData n) { any() }
