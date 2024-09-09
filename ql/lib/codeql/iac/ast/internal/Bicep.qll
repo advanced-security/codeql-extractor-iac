@@ -12,6 +12,8 @@ newtype TBicepAstNode =
   TStringContent(BICEP::StringContent s) or
   TMultilineStringContent(BICEP::MultilineStringContent m) or
   // Expressions
+  TStatement(BICEP::Statement s) or
+  TDecorator(BICEP::Decorator d) or
   TAssignmentExpression(BICEP::AssignmentExpression a) or
   TArray(BICEP::Array a) or
   TBinaryExpression(BICEP::BinaryExpression b) or
@@ -30,20 +32,30 @@ newtype TBicepAstNode =
   TResourceDeclaration(BICEP::ResourceDeclaration r) or
   TObject(BICEP::Object o) or
   TObjectProperty(BICEP::ObjectProperty p) or
-  TIdentifier(BICEP::Identifier i)
+  TIdentifier(BICEP::Identifier i) or
+  // Loops
+  TForExpression(BICEP::ForStatement l) or
+  TLoopVariable(BICEP::LoopVariable l) or
+  TLoopEnumerator(BICEP::LoopEnumerator l) or
+  TForLoopParameters(BICEP::ForLoopParameters p)
 
 class TLiteral =
   TBoolean or TNull or TNumber or TString or TStringContent or TMultilineStringContent;
+
+class TVariables = TLoopVariable;
 
 class TDeclaration = TResourceDeclaration or TObject or TObjectProperty or TIdentifier;
 
 class TIdentifiers = TIdentifier or TPropertyIdentifier;
 
+class TLoops = TForExpression or TLoopEnumerator;
+
 class TExpr =
-  TLiteral or TArray or TAssignmentExpression or TBinaryExpression or TCallExpression or
-      TExpression or TLambdaExpression or TMemberExpression or TParenthesizedExpression or
-      TResourceExpression or TSubscriptExpression or TTernaryExpression or TUnaryExpression or
-      TIdentifiers or TObject or TObjectProperty;
+  TLiteral or TVariables or TStatement or TArray or TAssignmentExpression or TBinaryExpression or
+      TCallExpression or TExpression or TLambdaExpression or TMemberExpression or
+      TParenthesizedExpression or TResourceExpression or TSubscriptExpression or
+      TTernaryExpression or TUnaryExpression or TIdentifiers or TObject or TObjectProperty or
+      TLoops or TDecorator;
 
 cached
 BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
@@ -55,6 +67,8 @@ BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
   n = TString(result) or
   n = TStringContent(result) or
   n = TMultilineStringContent(result) or
+  n = TStatement(result) or
+  n = TDecorator(result) or
   n = TAssignmentExpression(result) or
   n = TArray(result) or
   n = TBinaryExpression(result) or
@@ -72,5 +86,9 @@ BICEP::AstNode toBicepTreeSitter(TBicepAstNode n) {
   n = TObject(result) or
   n = TObjectProperty(result) or
   n = TIdentifier(result) or
-  n = TPropertyIdentifier(result)
+  n = TPropertyIdentifier(result) or
+  n = TForExpression(result) or
+  n = TLoopEnumerator(result) or
+  n = TLoopVariable(result) or
+  n = TForLoopParameters(result)
 }
