@@ -1,0 +1,33 @@
+name: codeql-extractor-iac
+version: 0.4.0
+default: false
+
+locations:
+  - name: "Release file"
+    paths:
+      - ".release.yml"
+    patterns:
+      - '\nversion:\s*([0-9]+\.[0-9]+\.[0-9])'
+  - name: "CodeQL Extractor / Packs"
+    paths:
+      - "codeql-extractor.yml"
+      - "ql/lib/qlpack.yml"
+      - "ql/src/qlpack.yml"
+    exclude:
+      - ".codeql"
+    patterns:
+      - '\nversion:\s*([0-9]+\.[0-9]+\.[0-9])'
+  - name: "Cargo"
+    exclude:
+      - "/target/"
+      - "/action-template/"
+      - "/examples/"
+    paths:
+      - "*/Cargo.toml"
+    patterns:
+      - '\nversion\s*=\s*"([0-9]+\.[0-9]+\.[0-9])"'
+  - name: "Extractor Action"
+    paths:
+      - ".github/action/src/codeql.ts"
+    patterns:
+      - 'EXTRACTOR_VERSION\s*=\s*"v([0-9]+\.[0-9]+\.[0-9])";'

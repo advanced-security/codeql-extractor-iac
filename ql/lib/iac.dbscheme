@@ -486,18 +486,20 @@ case @hcl_token.kind of
 
 @hcl_ast_node = @hcl_attr_splat | @hcl_attribute | @hcl_binary_operation | @hcl_block | @hcl_body | @hcl_conditional | @hcl_config_file | @hcl_for_expr | @hcl_for_object_expr | @hcl_for_tuple_expr | @hcl_full_splat | @hcl_function_call | @hcl_get_attr | @hcl_get_attr_expr | @hcl_heredoc_template | @hcl_index | @hcl_index_expr | @hcl_object | @hcl_object_elem | @hcl_parenthesized_expr | @hcl_quoted_template | @hcl_splat_expr | @hcl_string_lit | @hcl_template_for | @hcl_template_if | @hcl_template_interpolation | @hcl_token | @hcl_tuple | @hcl_unary_operation | @hcl_variable_expr
 
-@hcl_ast_node_parent = @file | @hcl_ast_node
-
-#keyset[parent, parent_index]
-hcl_ast_node_info(
+hcl_ast_node_location(
   unique int node: @hcl_ast_node ref,
-  int parent: @hcl_ast_node_parent ref,
-  int parent_index: int ref,
   int loc: @location_default ref
 );
 
+#keyset[parent, parent_index]
+hcl_ast_node_parent(
+  unique int node: @hcl_ast_node ref,
+  int parent: @hcl_ast_node ref,
+  int parent_index: int ref
+);
+
 /*- DOCKERFILE dbscheme -*/
-@dockerfile_add_instruction_child_type = @dockerfile_path | @dockerfile_token_param
+@dockerfile_add_instruction_child_type = @dockerfile_heredoc_block | @dockerfile_path | @dockerfile_token_param
 
 #keyset[dockerfile_add_instruction, index]
 dockerfile_add_instruction_child(
@@ -529,7 +531,7 @@ dockerfile_cmd_instruction_def(
   int child: @dockerfile_cmd_instruction_child_type ref
 );
 
-@dockerfile_copy_instruction_child_type = @dockerfile_path | @dockerfile_token_param
+@dockerfile_copy_instruction_child_type = @dockerfile_heredoc_block | @dockerfile_path | @dockerfile_token_param
 
 #keyset[dockerfile_copy_instruction, index]
 dockerfile_copy_instruction_child(
@@ -634,6 +636,19 @@ dockerfile_healthcheck_instruction_def(
   unique int id: @dockerfile_healthcheck_instruction
 );
 
+@dockerfile_heredoc_block_child_type = @dockerfile_token_heredoc_end | @dockerfile_token_heredoc_line
+
+#keyset[dockerfile_heredoc_block, index]
+dockerfile_heredoc_block_child(
+  int dockerfile_heredoc_block: @dockerfile_heredoc_block ref,
+  int index: int ref,
+  unique int child: @dockerfile_heredoc_block_child_type ref
+);
+
+dockerfile_heredoc_block_def(
+  unique int id: @dockerfile_heredoc_block
+);
+
 #keyset[dockerfile_image_alias, index]
 dockerfile_image_alias_child(
   int dockerfile_image_alias: @dockerfile_image_alias ref,
@@ -726,11 +741,13 @@ dockerfile_label_instruction_def(
   unique int id: @dockerfile_label_instruction
 );
 
+@dockerfile_label_pair_key_type = @dockerfile_double_quoted_string | @dockerfile_single_quoted_string | @dockerfile_unquoted_string
+
 @dockerfile_label_pair_value_type = @dockerfile_double_quoted_string | @dockerfile_single_quoted_string | @dockerfile_unquoted_string
 
 dockerfile_label_pair_def(
   unique int id: @dockerfile_label_pair,
-  int key__: @dockerfile_unquoted_string ref,
+  int key__: @dockerfile_label_pair_key_type ref,
   int value: @dockerfile_label_pair_value_type ref
 );
 
@@ -760,18 +777,20 @@ dockerfile_onbuild_instruction_def(
   int child: @dockerfile_onbuild_instruction_child_type ref
 );
 
+@dockerfile_path_child_type = @dockerfile_expansion | @dockerfile_token_heredoc_marker
+
 #keyset[dockerfile_path, index]
 dockerfile_path_child(
   int dockerfile_path: @dockerfile_path ref,
   int index: int ref,
-  unique int child: @dockerfile_expansion ref
+  unique int child: @dockerfile_path_child_type ref
 );
 
 dockerfile_path_def(
   unique int id: @dockerfile_path
 );
 
-@dockerfile_run_instruction_child_type = @dockerfile_json_string_array | @dockerfile_mount_param | @dockerfile_shell_command | @dockerfile_token_param
+@dockerfile_run_instruction_child_type = @dockerfile_heredoc_block | @dockerfile_json_string_array | @dockerfile_mount_param | @dockerfile_shell_command | @dockerfile_token_param
 
 #keyset[dockerfile_run_instruction, index]
 dockerfile_run_instruction_child(
@@ -784,7 +803,7 @@ dockerfile_run_instruction_def(
   unique int id: @dockerfile_run_instruction
 );
 
-@dockerfile_shell_command_child_type = @dockerfile_token_comment | @dockerfile_token_line_continuation | @dockerfile_token_shell_fragment
+@dockerfile_shell_command_child_type = @dockerfile_shell_fragment | @dockerfile_token_line_continuation
 
 #keyset[dockerfile_shell_command, index]
 dockerfile_shell_command_child(
@@ -795,6 +814,17 @@ dockerfile_shell_command_child(
 
 dockerfile_shell_command_def(
   unique int id: @dockerfile_shell_command
+);
+
+#keyset[dockerfile_shell_fragment, index]
+dockerfile_shell_fragment_child(
+  int dockerfile_shell_fragment: @dockerfile_shell_fragment ref,
+  int index: int ref,
+  unique int child: @dockerfile_token_heredoc_marker ref
+);
+
+dockerfile_shell_fragment_def(
+  unique int id: @dockerfile_shell_fragment
 );
 
 dockerfile_shell_instruction_def(
@@ -813,7 +843,7 @@ dockerfile_single_quoted_string_def(
   unique int id: @dockerfile_single_quoted_string
 );
 
-@dockerfile_source_file_child_type = @dockerfile_add_instruction | @dockerfile_arg_instruction | @dockerfile_cmd_instruction | @dockerfile_copy_instruction | @dockerfile_entrypoint_instruction | @dockerfile_env_instruction | @dockerfile_expose_instruction | @dockerfile_from_instruction | @dockerfile_healthcheck_instruction | @dockerfile_label_instruction | @dockerfile_onbuild_instruction | @dockerfile_run_instruction | @dockerfile_shell_instruction | @dockerfile_stopsignal_instruction | @dockerfile_token_comment | @dockerfile_token_cross_build_instruction | @dockerfile_token_maintainer_instruction | @dockerfile_user_instruction | @dockerfile_volume_instruction | @dockerfile_workdir_instruction
+@dockerfile_source_file_child_type = @dockerfile_add_instruction | @dockerfile_arg_instruction | @dockerfile_cmd_instruction | @dockerfile_copy_instruction | @dockerfile_entrypoint_instruction | @dockerfile_env_instruction | @dockerfile_expose_instruction | @dockerfile_from_instruction | @dockerfile_healthcheck_instruction | @dockerfile_label_instruction | @dockerfile_onbuild_instruction | @dockerfile_run_instruction | @dockerfile_shell_instruction | @dockerfile_stopsignal_instruction | @dockerfile_token_cross_build_instruction | @dockerfile_token_maintainer_instruction | @dockerfile_user_instruction | @dockerfile_volume_instruction | @dockerfile_workdir_instruction
 
 #keyset[dockerfile_source_file, index]
 dockerfile_source_file_child(
@@ -888,25 +918,29 @@ case @dockerfile_token.kind of
 | 2 = @dockerfile_token_cross_build_instruction
 | 3 = @dockerfile_token_escape_sequence
 | 4 = @dockerfile_token_expose_port
-| 5 = @dockerfile_token_line_continuation
-| 6 = @dockerfile_token_maintainer_instruction
-| 7 = @dockerfile_token_mount_param_param
-| 8 = @dockerfile_token_param
-| 9 = @dockerfile_token_shell_fragment
-| 10 = @dockerfile_token_variable
+| 5 = @dockerfile_token_heredoc_end
+| 6 = @dockerfile_token_heredoc_line
+| 7 = @dockerfile_token_heredoc_marker
+| 8 = @dockerfile_token_line_continuation
+| 9 = @dockerfile_token_maintainer_instruction
+| 10 = @dockerfile_token_mount_param_param
+| 11 = @dockerfile_token_param
+| 12 = @dockerfile_token_variable
 ;
 
 
-@dockerfile_ast_node = @dockerfile_add_instruction | @dockerfile_arg_instruction | @dockerfile_cmd_instruction | @dockerfile_copy_instruction | @dockerfile_double_quoted_string | @dockerfile_entrypoint_instruction | @dockerfile_env_instruction | @dockerfile_env_pair | @dockerfile_expansion | @dockerfile_expose_instruction | @dockerfile_from_instruction | @dockerfile_healthcheck_instruction | @dockerfile_image_alias | @dockerfile_image_digest | @dockerfile_image_name | @dockerfile_image_spec | @dockerfile_image_tag | @dockerfile_json_string | @dockerfile_json_string_array | @dockerfile_label_instruction | @dockerfile_label_pair | @dockerfile_mount_param | @dockerfile_onbuild_instruction | @dockerfile_path | @dockerfile_run_instruction | @dockerfile_shell_command | @dockerfile_shell_instruction | @dockerfile_single_quoted_string | @dockerfile_source_file | @dockerfile_stopsignal_instruction | @dockerfile_token | @dockerfile_unquoted_string | @dockerfile_user_instruction | @dockerfile_volume_instruction | @dockerfile_workdir_instruction
+@dockerfile_ast_node = @dockerfile_add_instruction | @dockerfile_arg_instruction | @dockerfile_cmd_instruction | @dockerfile_copy_instruction | @dockerfile_double_quoted_string | @dockerfile_entrypoint_instruction | @dockerfile_env_instruction | @dockerfile_env_pair | @dockerfile_expansion | @dockerfile_expose_instruction | @dockerfile_from_instruction | @dockerfile_healthcheck_instruction | @dockerfile_heredoc_block | @dockerfile_image_alias | @dockerfile_image_digest | @dockerfile_image_name | @dockerfile_image_spec | @dockerfile_image_tag | @dockerfile_json_string | @dockerfile_json_string_array | @dockerfile_label_instruction | @dockerfile_label_pair | @dockerfile_mount_param | @dockerfile_onbuild_instruction | @dockerfile_path | @dockerfile_run_instruction | @dockerfile_shell_command | @dockerfile_shell_fragment | @dockerfile_shell_instruction | @dockerfile_single_quoted_string | @dockerfile_source_file | @dockerfile_stopsignal_instruction | @dockerfile_token | @dockerfile_unquoted_string | @dockerfile_user_instruction | @dockerfile_volume_instruction | @dockerfile_workdir_instruction
 
-@dockerfile_ast_node_parent = @dockerfile_ast_node | @file
+dockerfile_ast_node_location(
+  unique int node: @dockerfile_ast_node ref,
+  int loc: @location_default ref
+);
 
 #keyset[parent, parent_index]
-dockerfile_ast_node_info(
+dockerfile_ast_node_parent(
   unique int node: @dockerfile_ast_node ref,
-  int parent: @dockerfile_ast_node_parent ref,
-  int parent_index: int ref,
-  int loc: @location_default ref
+  int parent: @dockerfile_ast_node ref,
+  int parent_index: int ref
 );
 
 /*- BICEP dbscheme -*/
@@ -936,6 +970,12 @@ bicep_array_def(
 
 bicep_array_type_def(
   unique int id: @bicep_array_type,
+  int child: @bicep_type__ ref
+);
+
+bicep_assert_statement_def(
+  unique int id: @bicep_assert_statement,
+  int name: @bicep_token_identifier ref,
   int child: @bicep_expression ref
 );
 
@@ -975,11 +1015,6 @@ bicep_binary_expression_def(
   int right: @bicep_expression ref
 );
 
-bicep_builtin_type_def(
-  unique int id: @bicep_builtin_type,
-  int child: @bicep_token_primitive_type ref
-);
-
 bicep_call_expression_child(
   unique int bicep_call_expression: @bicep_call_expression ref,
   unique int child: @bicep_token_nullable_return_type ref
@@ -996,7 +1031,7 @@ bicep_compatible_identifier_def(
   int child: @bicep_token_identifier ref
 );
 
-@bicep_declaration = @bicep_metadata_declaration | @bicep_module_declaration | @bicep_output_declaration | @bicep_parameter_declaration | @bicep_resource_declaration | @bicep_type_declaration | @bicep_variable_declaration
+@bicep_declaration = @bicep_assert_statement | @bicep_metadata_declaration | @bicep_module_declaration | @bicep_output_declaration | @bicep_parameter_declaration | @bicep_resource_declaration | @bicep_test_block | @bicep_type_declaration | @bicep_user_defined_function | @bicep_variable_declaration
 
 bicep_decorator_def(
   unique int id: @bicep_decorator,
@@ -1063,25 +1098,33 @@ bicep_if_statement_def(
   unique int id: @bicep_if_statement
 );
 
-bicep_import_statement_def(
-  unique int id: @bicep_import_statement,
-  int child: @bicep_import_string ref
-);
+@bicep_import_functionality_child_type = @bicep_string__ | @bicep_token_identifier
 
-@bicep_import_string_child_type = @bicep_token_import_name | @bicep_token_import_version
-
-#keyset[bicep_import_string, index]
-bicep_import_string_child(
-  int bicep_import_string: @bicep_import_string ref,
+#keyset[bicep_import_functionality, index]
+bicep_import_functionality_child(
+  int bicep_import_functionality: @bicep_import_functionality ref,
   int index: int ref,
-  unique int child: @bicep_import_string_child_type ref
+  unique int child: @bicep_import_functionality_child_type ref
 );
 
-bicep_import_string_def(
-  unique int id: @bicep_import_string
+bicep_import_functionality_def(
+  unique int id: @bicep_import_functionality
 );
 
-@bicep_import_with_statement_child_type = @bicep_expression | @bicep_import_string
+@bicep_import_statement_child_type = @bicep_string__ | @bicep_token_identifier
+
+#keyset[bicep_import_statement, index]
+bicep_import_statement_child(
+  int bicep_import_statement: @bicep_import_statement ref,
+  int index: int ref,
+  unique int child: @bicep_import_statement_child_type ref
+);
+
+bicep_import_statement_def(
+  unique int id: @bicep_import_statement
+);
+
+@bicep_import_with_statement_child_type = @bicep_expression | @bicep_string__ | @bicep_token_identifier
 
 #keyset[bicep_import_with_statement, index]
 bicep_import_with_statement_child(
@@ -1121,9 +1164,11 @@ bicep_lambda_expression_def(
   unique int id: @bicep_lambda_expression
 );
 
+@bicep_member_expression_object_type = @bicep_expression | @bicep_parameterized_type
+
 bicep_member_expression_def(
   unique int id: @bicep_member_expression,
-  int object: @bicep_expression ref,
+  int object: @bicep_member_expression_object_type ref,
   int property: @bicep_token_property_identifier ref
 );
 
@@ -1153,7 +1198,12 @@ bicep_module_declaration_def(
   unique int id: @bicep_module_declaration
 );
 
-@bicep_nullable_type_child_type = @bicep_array_type | @bicep_builtin_type | @bicep_expression
+bicep_negated_type_def(
+  unique int id: @bicep_negated_type,
+  int child: @bicep_type__ ref
+);
+
+@bicep_nullable_type_child_type = @bicep_array_type | @bicep_expression | @bicep_parenthesized_type | @bicep_token_primitive_type
 
 bicep_nullable_type_def(
   unique int id: @bicep_nullable_type,
@@ -1173,7 +1223,7 @@ bicep_object_def(
   unique int id: @bicep_object
 );
 
-@bicep_object_property_child_type = @bicep_array_type | @bicep_builtin_type | @bicep_compatible_identifier | @bicep_expression | @bicep_nullable_type | @bicep_resource_declaration | @bicep_string__ | @bicep_token_identifier
+@bicep_object_property_child_type = @bicep_array_type | @bicep_compatible_identifier | @bicep_expression | @bicep_nullable_type | @bicep_parameterized_type | @bicep_resource_declaration | @bicep_string__ | @bicep_token_identifier | @bicep_token_primitive_type | @bicep_union_type
 
 #keyset[bicep_object_property, index]
 bicep_object_property_child(
@@ -1199,6 +1249,19 @@ bicep_output_declaration_def(
   unique int id: @bicep_output_declaration
 );
 
+@bicep_parameter_child_type = @bicep_token_identifier | @bicep_type__
+
+#keyset[bicep_parameter, index]
+bicep_parameter_child(
+  int bicep_parameter: @bicep_parameter ref,
+  int index: int ref,
+  unique int child: @bicep_parameter_child_type ref
+);
+
+bicep_parameter_def(
+  unique int id: @bicep_parameter
+);
+
 @bicep_parameter_declaration_child_type = @bicep_expression | @bicep_token_identifier | @bicep_type__
 
 #keyset[bicep_parameter_declaration, index]
@@ -1212,6 +1275,30 @@ bicep_parameter_declaration_def(
   unique int id: @bicep_parameter_declaration
 );
 
+@bicep_parameterized_type_child_type = @bicep_token_identifier | @bicep_type_arguments
+
+#keyset[bicep_parameterized_type, index]
+bicep_parameterized_type_child(
+  int bicep_parameterized_type: @bicep_parameterized_type ref,
+  int index: int ref,
+  unique int child: @bicep_parameterized_type_child_type ref
+);
+
+bicep_parameterized_type_def(
+  unique int id: @bicep_parameterized_type
+);
+
+#keyset[bicep_parameters, index]
+bicep_parameters_child(
+  int bicep_parameters: @bicep_parameters ref,
+  int index: int ref,
+  unique int child: @bicep_parameter ref
+);
+
+bicep_parameters_def(
+  unique int id: @bicep_parameters
+);
+
 #keyset[bicep_parenthesized_expression, index]
 bicep_parenthesized_expression_child(
   int bicep_parenthesized_expression: @bicep_parenthesized_expression ref,
@@ -1221,6 +1308,11 @@ bicep_parenthesized_expression_child(
 
 bicep_parenthesized_expression_def(
   unique int id: @bicep_parenthesized_expression
+);
+
+bicep_parenthesized_type_def(
+  unique int id: @bicep_parenthesized_type,
+  int child: @bicep_type__ ref
 );
 
 @bicep_primary_expression = @bicep_array | @bicep_call_expression | @bicep_for_statement | @bicep_member_expression | @bicep_object | @bicep_parenthesized_expression | @bicep_resource_expression | @bicep_string__ | @bicep_subscript_expression | @bicep_token_boolean | @bicep_token_identifier | @bicep_token_null | @bicep_token_number
@@ -1244,9 +1336,9 @@ bicep_resource_expression_def(
   int resource: @bicep_token_identifier ref
 );
 
-@bicep_statement = @bicep_declaration | @bicep_decorators | @bicep_import_statement | @bicep_import_with_statement | @bicep_target_scope_assignment
+@bicep_statement = @bicep_declaration | @bicep_decorators | @bicep_import_functionality | @bicep_import_statement | @bicep_import_with_statement | @bicep_target_scope_assignment | @bicep_using_statement
 
-@bicep_string_child_type = @bicep_interpolation | @bicep_token_escape_sequence | @bicep_token_multiline_string_content | @bicep_token_string_content
+@bicep_string_child_type = @bicep_interpolation | @bicep_token_escape_sequence | @bicep_token_string_content
 
 #keyset[bicep_string__, index]
 bicep_string_child(
@@ -1277,39 +1369,38 @@ bicep_ternary_expression_def(
   int consequence: @bicep_expression ref
 );
 
-@bicep_type_left_type = @bicep_array_type | @bicep_builtin_type | @bicep_object | @bicep_token_identifier
+@bicep_test_block_child_type = @bicep_object | @bicep_string__ | @bicep_token_identifier
 
-bicep_type_left(
-  unique int bicep_type__: @bicep_type__ ref,
-  unique int left: @bicep_type_left_type ref
+#keyset[bicep_test_block, index]
+bicep_test_block_child(
+  int bicep_test_block: @bicep_test_block ref,
+  int index: int ref,
+  unique int child: @bicep_test_block_child_type ref
 );
 
-@bicep_type_operator_type = @bicep_reserved_word
-
-bicep_type_operator(
-  unique int bicep_type__: @bicep_type__ ref,
-  unique int operator: @bicep_type_operator_type ref
+bicep_test_block_def(
+  unique int id: @bicep_test_block
 );
 
-@bicep_type_right_type = @bicep_array_type | @bicep_builtin_type | @bicep_object | @bicep_token_identifier
-
-bicep_type_right(
-  unique int bicep_type__: @bicep_type__ ref,
-  unique int right: @bicep_type_right_type ref
-);
-
-@bicep_type_child_type = @bicep_array_type | @bicep_builtin_type | @bicep_member_expression | @bicep_object | @bicep_token_identifier
-
-bicep_type_child(
-  unique int bicep_type__: @bicep_type__ ref,
-  unique int child: @bicep_type_child_type ref
-);
+@bicep_type_child_type = @bicep_array_type | @bicep_member_expression | @bicep_negated_type | @bicep_nullable_type | @bicep_object | @bicep_parameterized_type | @bicep_parenthesized_type | @bicep_string__ | @bicep_token_boolean | @bicep_token_identifier | @bicep_token_null | @bicep_token_number | @bicep_token_primitive_type | @bicep_union_type
 
 bicep_type_def(
-  unique int id: @bicep_type__
+  unique int id: @bicep_type__,
+  int child: @bicep_type_child_type ref
 );
 
-@bicep_type_declaration_child_type = @bicep_array_type | @bicep_builtin_type | @bicep_expression | @bicep_token_identifier
+#keyset[bicep_type_arguments, index]
+bicep_type_arguments_child(
+  int bicep_type_arguments: @bicep_type_arguments ref,
+  int index: int ref,
+  unique int child: @bicep_string__ ref
+);
+
+bicep_type_arguments_def(
+  unique int id: @bicep_type_arguments
+);
+
+@bicep_type_declaration_child_type = @bicep_array_type | @bicep_expression | @bicep_nullable_type | @bicep_parameterized_type | @bicep_token_identifier | @bicep_union_type
 
 #keyset[bicep_type_declaration, index]
 bicep_type_declaration_child(
@@ -1332,6 +1423,39 @@ bicep_unary_expression_def(
   unique int id: @bicep_unary_expression,
   int argument: @bicep_expression ref,
   int operator: int ref
+);
+
+@bicep_union_type_child_type = @bicep_array_type | @bicep_expression | @bicep_member_expression | @bicep_negated_type | @bicep_nullable_type | @bicep_object | @bicep_parameterized_type | @bicep_parenthesized_type | @bicep_string__ | @bicep_token_boolean | @bicep_token_identifier | @bicep_token_null | @bicep_token_number | @bicep_token_primitive_type
+
+#keyset[bicep_union_type, index]
+bicep_union_type_child(
+  int bicep_union_type: @bicep_union_type ref,
+  int index: int ref,
+  unique int child: @bicep_union_type_child_type ref
+);
+
+bicep_union_type_def(
+  unique int id: @bicep_union_type
+);
+
+@bicep_user_defined_function_child_type = @bicep_expression | @bicep_parameters
+
+#keyset[bicep_user_defined_function, index]
+bicep_user_defined_function_child(
+  int bicep_user_defined_function: @bicep_user_defined_function ref,
+  int index: int ref,
+  unique int child: @bicep_user_defined_function_child_type ref
+);
+
+bicep_user_defined_function_def(
+  unique int id: @bicep_user_defined_function,
+  int name: @bicep_token_identifier ref,
+  int returns: @bicep_type__ ref
+);
+
+bicep_using_statement_def(
+  unique int id: @bicep_using_statement,
+  int child: @bicep_string__ ref
 );
 
 @bicep_variable_declaration_child_type = @bicep_expression | @bicep_token_identifier
@@ -1360,29 +1484,28 @@ case @bicep_token.kind of
 | 3 = @bicep_token_diagnostic_comment
 | 4 = @bicep_token_escape_sequence
 | 5 = @bicep_token_identifier
-| 6 = @bicep_token_import_name
-| 7 = @bicep_token_import_version
-| 8 = @bicep_token_loop_enumerator
-| 9 = @bicep_token_loop_variable
-| 10 = @bicep_token_multiline_string_content
-| 11 = @bicep_token_null
-| 12 = @bicep_token_nullable_return_type
-| 13 = @bicep_token_number
-| 14 = @bicep_token_primitive_type
-| 15 = @bicep_token_property_identifier
-| 16 = @bicep_token_string_content
+| 6 = @bicep_token_loop_enumerator
+| 7 = @bicep_token_loop_variable
+| 8 = @bicep_token_null
+| 9 = @bicep_token_nullable_return_type
+| 10 = @bicep_token_number
+| 11 = @bicep_token_primitive_type
+| 12 = @bicep_token_property_identifier
+| 13 = @bicep_token_string_content
 ;
 
 
-@bicep_ast_node = @bicep_arguments | @bicep_array | @bicep_array_type | @bicep_assignment_expression | @bicep_binary_expression | @bicep_builtin_type | @bicep_call_expression | @bicep_compatible_identifier | @bicep_decorator | @bicep_decorators | @bicep_for_loop_parameters | @bicep_for_statement | @bicep_if_statement | @bicep_import_statement | @bicep_import_string | @bicep_import_with_statement | @bicep_infrastructure | @bicep_interpolation | @bicep_lambda_expression | @bicep_member_expression | @bicep_metadata_declaration | @bicep_module_declaration | @bicep_nullable_type | @bicep_object | @bicep_object_property | @bicep_output_declaration | @bicep_parameter_declaration | @bicep_parenthesized_expression | @bicep_resource_declaration | @bicep_resource_expression | @bicep_string__ | @bicep_subscript_expression | @bicep_target_scope_assignment | @bicep_ternary_expression | @bicep_token | @bicep_type__ | @bicep_type_declaration | @bicep_unary_expression | @bicep_variable_declaration
+@bicep_ast_node = @bicep_arguments | @bicep_array | @bicep_array_type | @bicep_assert_statement | @bicep_assignment_expression | @bicep_binary_expression | @bicep_call_expression | @bicep_compatible_identifier | @bicep_decorator | @bicep_decorators | @bicep_for_loop_parameters | @bicep_for_statement | @bicep_if_statement | @bicep_import_functionality | @bicep_import_statement | @bicep_import_with_statement | @bicep_infrastructure | @bicep_interpolation | @bicep_lambda_expression | @bicep_member_expression | @bicep_metadata_declaration | @bicep_module_declaration | @bicep_negated_type | @bicep_nullable_type | @bicep_object | @bicep_object_property | @bicep_output_declaration | @bicep_parameter | @bicep_parameter_declaration | @bicep_parameterized_type | @bicep_parameters | @bicep_parenthesized_expression | @bicep_parenthesized_type | @bicep_resource_declaration | @bicep_resource_expression | @bicep_string__ | @bicep_subscript_expression | @bicep_target_scope_assignment | @bicep_ternary_expression | @bicep_test_block | @bicep_token | @bicep_type__ | @bicep_type_arguments | @bicep_type_declaration | @bicep_unary_expression | @bicep_union_type | @bicep_user_defined_function | @bicep_using_statement | @bicep_variable_declaration
 
-@bicep_ast_node_parent = @bicep_ast_node | @file
+bicep_ast_node_location(
+  unique int node: @bicep_ast_node ref,
+  int loc: @location_default ref
+);
 
 #keyset[parent, parent_index]
-bicep_ast_node_info(
+bicep_ast_node_parent(
   unique int node: @bicep_ast_node ref,
-  int parent: @bicep_ast_node_parent ref,
-  int parent_index: int ref,
-  int loc: @location_default ref
+  int parent: @bicep_ast_node ref,
+  int parent_index: int ref
 );
 

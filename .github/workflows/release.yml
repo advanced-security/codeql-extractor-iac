@@ -1,0 +1,54 @@
+# GitHub Releasing Workflow
+name: GitHub - Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        type: choice
+        description: "The type of version bump to perform"
+        options: 
+          - patch
+          - minor
+          - major
+
+
+permissions:
+  contents: write
+
+jobs:
+  release-next:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Patch Release Me"
+        uses: 42ByteLabs/patch-release-me@0.3.0
+        with:
+          mode: ${{ github.event.inputs.bump }}
+
+      - name: "Bundle"
+        run: |
+          set -e
+          cd .github/action
+          npm i && npm run bundle
+
+      - name: "Get Version"
+        id: get_version
+        run: |
+          set -e
+          pip install yq
+          echo "version=$(cat .release.yml | yq -r ".version")" >> "$GITHUB_ENV"
+          echo "release=true" >> "$GITHUB_ENV"
+
+      - name: "Create Release"
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ github.token }}
+          commit-message: "[chore]: Create release for ${{ steps.get_version.outcome.version }}"
+          title: "[chore]: Create release for ${{ steps.get_version.outcome.version }}"
+          branch: chore-release-${{ steps.get_version.outcome.version }}
+          labels: version
+          body: |
+            This is an automated PR to create a new release. The release will be created once this PR is merged.

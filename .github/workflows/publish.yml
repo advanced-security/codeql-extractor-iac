@@ -10,8 +10,40 @@ permissions:
   packages: write
 
 jobs:
+  release-check:
+    runs-on: ubuntu-latest
+    outputs:
+      release: ${{ steps.get_version.outputs.release }}
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Check release version"
+        id: get_version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+
+          pip install yq
+          current_version=$(cat .release.yml | yq -r ".version")
+
+          released_version=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/:owner/:repo/releases/latest | jq -r ".tag_name")
+
+          if [[ "$current_version" == "NA" || "$current_version" == "$released_version" ]]; then
+            echo "No new release found"
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "New release found"
+            echo "version=$current_version" >> "$GITHUB_OUTPUT"
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+
   queries:
     runs-on: ubuntu-latest
+    needs: [release-check]
+    if: ${{ needs.release-check.outputs.release == 'true' }}
 
     permissions:
       contents: read
@@ -23,7 +55,8 @@ jobs:
         packs: ["lib", "src"]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: "Checkout"
+        uses: actions/checkout@v4
 
       - name: "Check and Publish CodeQL Packs"
         env:
@@ -45,6 +78,8 @@ jobs:
 
   compile:
     runs-on: ubuntu-latest
+    needs: [release-check]
+    if: ${{ needs.release-check.outputs.release == 'true' }}
 
     steps:
       - uses: actions/checkout@v4
