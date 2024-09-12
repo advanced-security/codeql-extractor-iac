@@ -14,10 +14,16 @@ jobs:
   extractor:
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+    # Outputs
+    outputs:
+      src: ${{ steps.changes.outputs.src }}
 
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Check for changes"
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36
         id: changes
         with:
           filters: |
@@ -69,7 +75,8 @@ jobs:
       matrix:
         test-folders: ["library-tests", "queries-tests"]
     steps:
-      - uses: actions/checkout@v4
+      - name: "Checkout"
+        uses: actions/checkout@v4
 
       # download from cache
       - name: "Download from cache"
@@ -86,7 +93,7 @@ jobs:
               - 'ql/**'
 
       - name: "Run Tests"
-        if: steps.changes.outputs.src == 'true'
+        if: needs.extractor.outputs.src == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
