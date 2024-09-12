@@ -12,13 +12,13 @@ module HCL {
     string toString() { result = this.getAPrimaryQlClass() }
 
     /** Gets the location of this element. */
-    final L::Location getLocation() { hcl_ast_node_info(this, _, _, result) }
+    final L::Location getLocation() { hcl_ast_node_location(this, result) }
 
     /** Gets the parent of this element. */
-    final AstNode getParent() { hcl_ast_node_info(this, result, _, _) }
+    final AstNode getParent() { hcl_ast_node_parent(this, result, _) }
 
     /** Gets the index of this node among the children of its parent. */
-    final int getParentIndex() { hcl_ast_node_info(this, _, result, _) }
+    final int getParentIndex() { hcl_ast_node_parent(this, _, result) }
 
     /** Gets a field or child node of this node. */
     AstNode getAFieldOrChild() { none() }
@@ -627,13 +627,13 @@ module DOCKERFILE {
     string toString() { result = this.getAPrimaryQlClass() }
 
     /** Gets the location of this element. */
-    final L::Location getLocation() { dockerfile_ast_node_info(this, _, _, result) }
+    final L::Location getLocation() { dockerfile_ast_node_location(this, result) }
 
     /** Gets the parent of this element. */
-    final AstNode getParent() { dockerfile_ast_node_info(this, result, _, _) }
+    final AstNode getParent() { dockerfile_ast_node_parent(this, result, _) }
 
     /** Gets the index of this node among the children of its parent. */
-    final int getParentIndex() { dockerfile_ast_node_info(this, _, result, _) }
+    final int getParentIndex() { dockerfile_ast_node_parent(this, _, result) }
 
     /** Gets a field or child node of this node. */
     AstNode getAFieldOrChild() { none() }
@@ -1236,13 +1236,13 @@ module BICEP {
     string toString() { result = this.getAPrimaryQlClass() }
 
     /** Gets the location of this element. */
-    final L::Location getLocation() { bicep_ast_node_info(this, _, _, result) }
+    final L::Location getLocation() { bicep_ast_node_location(this, result) }
 
     /** Gets the parent of this element. */
-    final AstNode getParent() { bicep_ast_node_info(this, result, _, _) }
+    final AstNode getParent() { bicep_ast_node_parent(this, result, _) }
 
     /** Gets the index of this node among the children of its parent. */
-    final int getParentIndex() { bicep_ast_node_info(this, _, result, _) }
+    final int getParentIndex() { bicep_ast_node_parent(this, _, result) }
 
     /** Gets a field or child node of this node. */
     AstNode getAFieldOrChild() { none() }

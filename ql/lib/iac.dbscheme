@@ -486,14 +486,16 @@ case @hcl_token.kind of
 
 @hcl_ast_node = @hcl_attr_splat | @hcl_attribute | @hcl_binary_operation | @hcl_block | @hcl_body | @hcl_conditional | @hcl_config_file | @hcl_for_expr | @hcl_for_object_expr | @hcl_for_tuple_expr | @hcl_full_splat | @hcl_function_call | @hcl_get_attr | @hcl_get_attr_expr | @hcl_heredoc_template | @hcl_index | @hcl_index_expr | @hcl_object | @hcl_object_elem | @hcl_parenthesized_expr | @hcl_quoted_template | @hcl_splat_expr | @hcl_string_lit | @hcl_template_for | @hcl_template_if | @hcl_template_interpolation | @hcl_token | @hcl_tuple | @hcl_unary_operation | @hcl_variable_expr
 
-@hcl_ast_node_parent = @file | @hcl_ast_node
+hcl_ast_node_location(
+  unique int node: @hcl_ast_node ref,
+  int loc: @location_default ref
+);
 
 #keyset[parent, parent_index]
-hcl_ast_node_info(
+hcl_ast_node_parent(
   unique int node: @hcl_ast_node ref,
-  int parent: @hcl_ast_node_parent ref,
-  int parent_index: int ref,
-  int loc: @location_default ref
+  int parent: @hcl_ast_node ref,
+  int parent_index: int ref
 );
 
 /*- DOCKERFILE dbscheme -*/
@@ -929,14 +931,16 @@ case @dockerfile_token.kind of
 
 @dockerfile_ast_node = @dockerfile_add_instruction | @dockerfile_arg_instruction | @dockerfile_cmd_instruction | @dockerfile_copy_instruction | @dockerfile_double_quoted_string | @dockerfile_entrypoint_instruction | @dockerfile_env_instruction | @dockerfile_env_pair | @dockerfile_expansion | @dockerfile_expose_instruction | @dockerfile_from_instruction | @dockerfile_healthcheck_instruction | @dockerfile_heredoc_block | @dockerfile_image_alias | @dockerfile_image_digest | @dockerfile_image_name | @dockerfile_image_spec | @dockerfile_image_tag | @dockerfile_json_string | @dockerfile_json_string_array | @dockerfile_label_instruction | @dockerfile_label_pair | @dockerfile_mount_param | @dockerfile_onbuild_instruction | @dockerfile_path | @dockerfile_run_instruction | @dockerfile_shell_command | @dockerfile_shell_fragment | @dockerfile_shell_instruction | @dockerfile_single_quoted_string | @dockerfile_source_file | @dockerfile_stopsignal_instruction | @dockerfile_token | @dockerfile_unquoted_string | @dockerfile_user_instruction | @dockerfile_volume_instruction | @dockerfile_workdir_instruction
 
-@dockerfile_ast_node_parent = @dockerfile_ast_node | @file
+dockerfile_ast_node_location(
+  unique int node: @dockerfile_ast_node ref,
+  int loc: @location_default ref
+);
 
 #keyset[parent, parent_index]
-dockerfile_ast_node_info(
+dockerfile_ast_node_parent(
   unique int node: @dockerfile_ast_node ref,
-  int parent: @dockerfile_ast_node_parent ref,
-  int parent_index: int ref,
-  int loc: @location_default ref
+  int parent: @dockerfile_ast_node ref,
+  int parent_index: int ref
 );
 
 /*- BICEP dbscheme -*/
@@ -1493,13 +1497,15 @@ case @bicep_token.kind of
 
 @bicep_ast_node = @bicep_arguments | @bicep_array | @bicep_array_type | @bicep_assert_statement | @bicep_assignment_expression | @bicep_binary_expression | @bicep_call_expression | @bicep_compatible_identifier | @bicep_decorator | @bicep_decorators | @bicep_for_loop_parameters | @bicep_for_statement | @bicep_if_statement | @bicep_import_functionality | @bicep_import_statement | @bicep_import_with_statement | @bicep_infrastructure | @bicep_interpolation | @bicep_lambda_expression | @bicep_member_expression | @bicep_metadata_declaration | @bicep_module_declaration | @bicep_negated_type | @bicep_nullable_type | @bicep_object | @bicep_object_property | @bicep_output_declaration | @bicep_parameter | @bicep_parameter_declaration | @bicep_parameterized_type | @bicep_parameters | @bicep_parenthesized_expression | @bicep_parenthesized_type | @bicep_resource_declaration | @bicep_resource_expression | @bicep_string__ | @bicep_subscript_expression | @bicep_target_scope_assignment | @bicep_ternary_expression | @bicep_test_block | @bicep_token | @bicep_type__ | @bicep_type_arguments | @bicep_type_declaration | @bicep_unary_expression | @bicep_union_type | @bicep_user_defined_function | @bicep_using_statement | @bicep_variable_declaration
 
-@bicep_ast_node_parent = @bicep_ast_node | @file
+bicep_ast_node_location(
+  unique int node: @bicep_ast_node ref,
+  int loc: @location_default ref
+);
 
 #keyset[parent, parent_index]
-bicep_ast_node_info(
+bicep_ast_node_parent(
   unique int node: @bicep_ast_node ref,
-  int parent: @bicep_ast_node_parent ref,
-  int parent_index: int ref,
-  int loc: @location_default ref
+  int parent: @bicep_ast_node ref,
+  int parent_index: int ref
 );
 
