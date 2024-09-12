@@ -7,8 +7,10 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tree-sitter = ">= 0.20, < 0.23"
 # TreeSitter Grammars
+flate2 = "1.0"
+
+tree-sitter = ">= 0.20, < 0.24"
 tree-sitter-hcl = { git = "https://github.com/GeekMasher/tree-sitter-hcl", rev = "5e045dd1ff7852511c249c4c5d919d9556751d98" }
 tree-sitter-dockerfile = { git = "https://github.com/GeekMasher/tree-sitter-dockerfile", rev = "439c3e7b8a9bfdbf1f7d7c2beaae4173dc484cbf" }
 tree-sitter-bicep = { git = "https://github.com/GeekMasher/tree-sitter-bicep", rev = "0092c7d1bd6bb22ce0a6f78497d50ea2b87f19c0" }
@@ -21,4 +23,7 @@ clap = { version = "4.5", features = ["derive"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 rayon = "1.10.0"
-regex = "1.10.4"
+regex = "1.10.6"
+# 2.15.0
+codeql-extractor = { git = "https://github.com/github/codeql", rev = "a08356979f5f59ab0f1218d12fe4e8c2eb664997" }
+
