@@ -7,7 +7,7 @@ import * as github from "@actions/github";
 import * as toolrunner from "@actions/exec/lib/toolrunner";
 
 export const EXTRACTOR_REPOSITORY = "advanced-security/codeql-extractor-iac";
-export const EXTRACTOR_VERSION = "v0.0.4"; // stable version
+export const EXTRACTOR_VERSION = "v0.4.0"; // stable version
 
 export interface CodeQLConfig {
   // The path to the codeql bundle.
@@ -48,7 +48,7 @@ export async function newCodeQL(): Promise<CodeQLConfig> {
 
 export async function runCommand(
   config: CodeQLConfig,
-  args: string[]
+  args: string[],
 ): Promise<any> {
   var bin = path.join(config.path, "codeql");
   let output = "";
@@ -68,7 +68,7 @@ export async function runCommand(
 
 export async function runCommandJson(
   config: CodeQLConfig,
-  args: string[]
+  args: string[],
 ): Promise<object> {
   return JSON.parse(await runCommand(config, args));
 }
@@ -130,12 +130,12 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<string> {
   }
   // we assume there is only one tar.gz asset
   const assets = release.data.assets.filter((asset) =>
-    asset.browser_download_url.endsWith(".tar.gz")
+    asset.browser_download_url.endsWith(".tar.gz"),
   );
 
   if (assets.length !== 1) {
     throw new Error(
-      `Expected 1 asset to be found, but found ${assets.length} instead.`
+      `Expected 1 asset to be found, but found ${assets.length} instead.`,
     );
   }
   var asset = assets[0];
@@ -148,7 +148,7 @@ export async function downloadExtractor(config: CodeQLConfig): Promise<string> {
     `token ${core.getInput("token")}`,
     {
       accept: "application/octet-stream",
-    }
+    },
   );
   core.debug(`Extractor downloaded to ${extractorPath}`);
 
@@ -170,7 +170,7 @@ export async function downloadPack(codeql: CodeQLConfig): Promise<boolean> {
 }
 
 export async function codeqlDatabaseCreate(
-  codeql: CodeQLConfig
+  codeql: CodeQLConfig,
 ): Promise<string> {
   // get runner temp directory for database
   var temp = process.env["RUNNER_TEMP"];
@@ -196,7 +196,7 @@ export async function codeqlDatabaseCreate(
 
 export async function codeqlDatabaseAnalyze(
   codeql: CodeQLConfig,
-  database_path: string
+  database_path: string,
 ): Promise<string> {
   var codeql_output = codeql.output || "codeql-iac.sarif";
 
