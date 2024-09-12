@@ -20,7 +20,7 @@
 
 ```yaml
 - name: Initialize and Analyze IaC
-  uses: advanced-security/codeql-extractor-iac@main
+  uses: advanced-security/codeql-extractor-iac@v0.4.0
 ```
 
 **Note:** See full documentation on [Workflows][docs-workflows].

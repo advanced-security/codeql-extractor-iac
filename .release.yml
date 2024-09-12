@@ -8,6 +8,11 @@ locations:
       - ".release.yml"
     patterns:
       - '\nversion:\s*([0-9]+\.[0-9]+\.[0-9])'
+  - name: "Docs"
+    paths:
+      - "README.md"
+    patterns:
+      - 'advanced-security/codeql-extractor-iac@v\s*([0-9]+\.[0-9]+\.[0-9])'
   - name: "CodeQL Extractor / Packs"
     paths:
       - "codeql-extractor.yml"
