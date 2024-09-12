@@ -28,6 +28,12 @@ jobs:
         with:
           mode: ${{ github.event.inputs.bump }}
 
+      - name: "Bundle"
+        run: |
+          set -e
+          cd .github/action
+          npm i && npm run bundle
+
       - name: "Get Version"
         id: get_version
         run: |
