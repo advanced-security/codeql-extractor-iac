@@ -20,6 +20,7 @@ $CODEQL_BINARY pack install ql/test
 echo "Running tests in $TESTS_DIR"
 
 $CODEQL_BINARY test run \
+  -j 0 \
   --check-databases --check-unused-labels --check-repeated-labels --check-redefined-labels --check-use-before-definition \
   --search-path ./extractor-pack \
   "$TESTS_DIR"
