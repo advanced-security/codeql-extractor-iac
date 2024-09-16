@@ -43,7 +43,7 @@ jobs:
           echo "release=true" >> "$GITHUB_ENV"
 
       - name: "Create Release"
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ github.token }}
           commit-message: "[chore]: Create release for ${{ steps.get_version.outcome.version }}"
