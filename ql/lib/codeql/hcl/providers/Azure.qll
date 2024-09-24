@@ -93,6 +93,22 @@ module Azure {
     Expr getProperty(string name) { result = this.getProperties().getElementByName(name) }
   }
 
+  class StorageAccount extends AzureResource {
+    StorageAccount() { this.getResourceType() = "azurerm_storage_account" }
+
+    boolean getEnableHttpsTrafficOnly() {
+      result = this.getAttribute("enable_https_traffic_only").(BooleanLiteral).getBool()
+    }
+
+    boolean getPublicNetworkAccess() {
+      result = this.getAttribute("public_network_access_enabled").(BooleanLiteral).getBool()
+    }
+
+    boolean getAllowNestedItemsToBePublic() {
+      result = this.getAttribute("allow_nested_items_to_be_public").(BooleanLiteral).getBool()
+    }
+  }
+
   /**
    * Azure Databases
    */
