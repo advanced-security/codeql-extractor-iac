@@ -10,7 +10,15 @@ private import codeql.hcl.AST
 class Resource extends Block {
   Resource() { this.hasType("resource") }
 
+  /**
+   * Get the name of the resource.
+   */
   string getName() { result = this.getLabel(1) }
+
+  /**
+   * Get the provider of the resource.
+   */
+  string getProvider() { result = "Unknown Provider" }
 
   /**
    * Returns the resource id.

@@ -1,11 +1,13 @@
 import iac
 
-abstract class PublicStorage extends Expr { }
+abstract class PublicStorage extends Expr {
+  abstract string getName();
+}
 
 /**
  * Azure Public Storage.
  */
-class AzurePublicStorage extends PublicStorage {
+class AzurePublicStorage extends Azure::AzureResource, PublicStorage {
   AzurePublicStorage() {
     // Azure Storage Container
     exists(Azure::StorageContainer storage_container |
@@ -19,4 +21,6 @@ class AzurePublicStorage extends PublicStorage {
       storage_acount.getAllowNestedItemsToBePublic() = true
     )
   }
+
+  override string getName() { result = this.getName() }
 }

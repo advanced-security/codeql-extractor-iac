@@ -10,6 +10,8 @@ module Azure {
    */
   class AzureResource extends Resource, Block {
     AzureResource() { this.getResourceType().regexpMatch("^azurerm.*") }
+
+    override string getProvider() { result = "Azurerm" }
   }
 
   /**
@@ -78,6 +80,11 @@ module Azure {
   class StorageContainer extends AzureResource {
     StorageContainer() { this.getResourceType() = "azurerm_storage_container" }
 
+    /**
+     * Get the name of the storage container.
+     */
+    override string getName() { result = this.getAttribute("name").(StringLiteral).getValue() }
+
     string getContainerAccessType() {
       result = this.getAttribute("container_access_type").(StringLiteral).getValue()
     }
@@ -95,6 +102,11 @@ module Azure {
 
   class StorageAccount extends AzureResource {
     StorageAccount() { this.getResourceType() = "azurerm_storage_account" }
+
+    /**
+     * Get the name of the storage account.
+     */
+    override string getName() { result = this.getAttribute("name").(StringLiteral).getValue() }
 
     boolean getEnableHttpsTrafficOnly() {
       result = this.getAttribute("enable_https_traffic_only").(BooleanLiteral).getBool()
