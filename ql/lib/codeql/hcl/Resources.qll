@@ -1,5 +1,6 @@
 private import codeql.Locations
 private import codeql.hcl.AST
+private import codeql.hcl.Terraform::Terraform
 
 // Resources are the most important element in the Terraform language.
 // Each resource block describes one or more infrastructure objects, such as
@@ -18,7 +19,7 @@ class Resource extends Block {
   /**
    * Get the provider of the resource.
    */
-  string getProvider() { result = "Unknown Provider" }
+  RequiredProvider getProvider() { none() }
 
   /**
    * Returns the resource id.

@@ -15,8 +15,11 @@ class AzurePublicStorage extends Azure::AzureResource, PublicStorage {
       storage_container.getProperty("publicAccess").(StringLiteral).getValue() = "blob"
     )
     or
-    // Azure Storage Accounts (v3)
+    // Azure Storage Accounts
     exists(Azure::StorageAccount storage_acount |
+      // v2
+      storage_acount.getAllowBlobPublicAccess() = true or
+      // v3
       storage_acount.getPublicNetworkAccess() = true or
       storage_acount.getAllowNestedItemsToBePublic() = true
     )

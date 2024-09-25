@@ -1,6 +1,7 @@
 private import codeql.hcl.AST
 private import codeql.hcl.Resources
 private import codeql.hcl.Constants
+private import codeql.hcl.Terraform::Terraform
 
 module Azure {
   /**
@@ -11,7 +12,7 @@ module Azure {
   class AzureResource extends Resource, Block {
     AzureResource() { this.getResourceType().regexpMatch("^azurerm.*") }
 
-    override string getProvider() { result = "Azurerm" }
+    override RequiredProvider getProvider() { result = getProviderByName("azurerm") }
   }
 
   /**
@@ -108,14 +109,36 @@ module Azure {
      */
     override string getName() { result = this.getAttribute("name").(StringLiteral).getValue() }
 
+    /**
+     * Get the `allow_blob_public_access` property of the storage account. Only available
+     * for `azurerm` v2 and not v3 onwards.
+     *
+     * https://github.com/hashicorp/terraform-provider-azurerm/blob/main/CHANGELOG-v3.md
+     */
+    boolean getAllowBlobPublicAccess() {
+      this.getProvider().getSemanticVersion().maybeBefore("3.0.0") and
+      result = this.getAttribute("allow_blob_public_access").(BooleanLiteral).getBool()
+      or
+      result = false
+    }
+
+    /**
+     * Get the `public_network_access_enabled` property of the storage account.
+     */
     boolean getEnableHttpsTrafficOnly() {
       result = this.getAttribute("enable_https_traffic_only").(BooleanLiteral).getBool()
     }
 
+    /**
+     * Get the `public_network_access_enabled` property of the storage account.
+     */
     boolean getPublicNetworkAccess() {
       result = this.getAttribute("public_network_access_enabled").(BooleanLiteral).getBool()
     }
 
+    /**
+     * Get the `allow_nested_items_to_be_public` property of the storage account.
+     */
     boolean getAllowNestedItemsToBePublic() {
       result = this.getAttribute("allow_nested_items_to_be_public").(BooleanLiteral).getBool()
     }

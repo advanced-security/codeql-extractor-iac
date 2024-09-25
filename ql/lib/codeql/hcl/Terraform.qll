@@ -1,5 +1,6 @@
 private import codeql.files.FileSystem
 private import codeql.hcl.AST
+private import codeql.iac.Dependencies
 private import Resources
 
 module Terraform {
@@ -43,9 +44,18 @@ module Terraform {
     abstract string getVersion();
 
     /**
+     * Gets the semantic version of the provider.
+     */
+    abstract SemanticVersion getSemanticVersion();
+
+    /**
      * Gets the source of the provider.
      */
     abstract string getSource();
+  }
+
+  RequiredProvider getProviderByName(string name) {
+    exists(RequiredProvider provider | provider.getName() = name)
   }
 
   /**
@@ -61,6 +71,8 @@ module Terraform {
     override string getName() { result = this.getParent().(Block).getAttributeName(this).getName() }
 
     override string getVersion() { result = this.getValue() }
+
+    override SemanticVersion getSemanticVersion() { result = this.getValue() }
 
     /**
      * Basic providers are assumed to be from the Hashicorp namespace.
@@ -93,5 +105,7 @@ module Terraform {
     override string getVersion() {
       result = this.getElementByName("version").(StringLiteral).getValue()
     }
+
+    override SemanticVersion getSemanticVersion() { result = this.getVersion() }
   }
 }
