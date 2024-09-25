@@ -14,7 +14,7 @@ class AzurePublicStorage extends PublicStorage {
       storage_container.getContainerAccessType() = "blob" and
       storage_container.getProperty("publicAccess").(StringLiteral).getValue() = "blob"
       and
-      this = storage_container.getProperty("publicAccess")
+      this = storage_container
     )
     or
     // Azure Storage Accounts
@@ -23,13 +23,18 @@ class AzurePublicStorage extends PublicStorage {
         // v2
         storage_acount.getAllowBlobPublicAccessValue() = true and
         this = storage_acount.getAllowBlobPublicAccess()
-        ) or
+      )
+      or
+      (
+        // v3
         (
-          // v3
+          storage_acount.getPublicNetworkAccessValue() = true
+          or
           storage_acount.getAllowNestedItemsToBePublicValue() = true
-          and
-          this = storage_acount.getAllowNestedItemsToBePublic()
         )
+        and
+        this = storage_acount
+      )
     )
   }
 
