@@ -17,4 +17,4 @@ import codeql.hcl.security.PublicStorage
 
 // https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk
 from AzurePublicStorage public_storage
-select public_storage, "Azure Storage is Public for '" + public_storage.getName() + "'"
+select public_storage, "Azure Storage is Public"
