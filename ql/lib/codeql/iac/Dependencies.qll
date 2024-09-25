@@ -1,14 +1,40 @@
+/**
+ * Dependencies module for Infrastructure as Code languages.
+ */
 private import codeql.Locations
 private import codeql.hcl.Terraform
 
 /**
  * Dependency for all Infrastructure as Code languages.
  */
-class Dependency extends Location {
+abstract class Dependency extends Location {
+  /**
+   * Gets the name of the dependency.
+   */
+  abstract string getName();
+  /**
+   * Gets the version of the dependency (in a format that is human-readable).
+   */
+  abstract string getVersion();
+  /**
+   * Gets the raw version of the dependency (in a format that is machine-readable).
+   */
+  abstract string getRawVersion();
+  /**
+   * Gets the semantic version of the dependency.
+   */
+  abstract SemanticVersion getSemanticVersion();
+}
+
+
+/**
+ * Dependency for Terraform.
+ */
+class TerraformDependency extends Dependency {
   string name;
   string version;
 
-  Dependency() {
+  TerraformDependency() {
     // Terraform Provider
     exists(Terraform::Terraform tf, Terraform::RequiredProvider rp | rp = tf.getRequiredProvider() |
       this = rp.getLocation() and
@@ -19,25 +45,15 @@ class Dependency extends Location {
 
   override string toString() { result = this.getName() + "@" + this.getVersion() }
 
-  /**
-   * Gets the name of the dependency.
-   */
-  string getName() { result = name }
+  override string getName() { result = name }
 
-  /**
-   * Gets the version of the dependency.
-   */
-  string getVersion() { result = this.getSemanticVersion().getPretty() }
 
-  /**
-   * Gets the raw version of the dependency.
-   */
-  string getRawVersion() { result = version }
+  override string getVersion() { result = this.getSemanticVersion().getPretty() }
 
-  /**
-   * Gets the semantic version of the dependency.
-   */
-  SemanticVersion getSemanticVersion() { result = version  }
+
+  override string getRawVersion() { result = version }
+
+  override SemanticVersion getSemanticVersion() { result = version  }
 }
 
 class SemanticVersion extends string {
