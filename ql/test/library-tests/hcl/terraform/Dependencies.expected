@@ -1,3 +1,6 @@
+dependencies
 | providers.tf:5:15:8:5 | hashicorp/azurerm@3.0.0 |
 | providers.tf:9:14:9:22 | hashicorp/time@~>0.7.2 |
 | providers.tf:10:14:10:22 | hashicorp/random@~>3.3.1 |
+semver
+| 3.0.0 |
