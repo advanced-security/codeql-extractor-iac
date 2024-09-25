@@ -11,7 +11,7 @@ edition = "2018"
 tree-sitter = ">= 0.20, < 0.24"
 tree-sitter-hcl = { git = "https://github.com/GeekMasher/tree-sitter-hcl", rev = "5e045dd1ff7852511c249c4c5d919d9556751d98" }
 tree-sitter-dockerfile = { git = "https://github.com/GeekMasher/tree-sitter-dockerfile", rev = "439c3e7b8a9bfdbf1f7d7c2beaae4173dc484cbf" }
-tree-sitter-bicep = { git = "https://github.com/GeekMasher/tree-sitter-bicep", rev = "0092c7d1bd6bb22ce0a6f78497d50ea2b87f19c0" }
+tree-sitter-bicep = { git = "https://github.com/GeekMasher/tree-sitter-bicep", rev = "3604d8c961ab129d2bfc6dfca56419c236ccdb83" }
 
 # CodeQL 2.17.0
 codeql-extractor = { git = "https://github.com/github/codeql", rev = "839ca60f90f918b567e192642b0cc3003803f482" }

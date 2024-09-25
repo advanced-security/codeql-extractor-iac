@@ -1,47 +1,30 @@
-private import codeql.iac.ast.internal.Bicep
-private import codeql.bicep.ast.AstNodes
-private import codeql.bicep.ast.Literal
+private import codeql.bicep.ast.Ast
+private import codeql.bicep.ast.internal.Object
 private import codeql.bicep.ast.Expr
 
-class Object extends Expr, TObject {
-  private BICEP::Object object;
+/**
+ * A Bicep Object.
+ */
+final class Object extends AstNode instanceof ObjectImpl {
+  ObjectProperty getProperties() { result = super.getProperties() }
 
-  override string getAPrimaryQlClass() { result = "Object" }
-
-  Object() { this = TObject(object) }
-
-  ObjectProperty getProperties() { toBicepTreeSitter(result) = object.getAFieldOrChild() }
-
-  Expr getProperty(string name) {
-    exists(ObjectProperty prop | object.getAFieldOrChild() = toBicepTreeSitter(prop) |
-      prop.getKey().(Identifier).getName() = name and
-      result = prop.getValue()
-    )
-  }
+  Expr getProperty(string name) { result = super.getProperty(name) }
 }
 
-class ObjectProperty extends BicepAstNode, TObjectProperty {
-  private BICEP::ObjectProperty property;
+/**
+ * A Bicep Object property.
+ */
+final class ObjectProperty extends AstNode instanceof ObjectPropertyImpl {
+  Identifier getKey() { result = super.getKey() }
 
-  override string getAPrimaryQlClass() { result = "ObjectProperty" }
-
-  ObjectProperty() { this = TObjectProperty(property) }
-
-  override string toString() { result = this.getKey().getName() + " = " + this.getValue() }
-
-  Identifier getKey() { toBicepTreeSitter(result) = property.getChild(0) }
-
-  Expr getValue() { toBicepTreeSitter(result) = property.getChild(1) }
+  Expr getValue() { result = super.getValue() }
 }
 
-class Array extends Expr, TArray {
-  private BICEP::Array array;
+/**
+ * A Bicep Array.
+ */
+final class Array extends Expr instanceof ArrayImpl {
+  Expr getElements() { result = super.getElements() }
 
-  override string getAPrimaryQlClass() { result = "Array" }
-
-  Array() { this = TArray(array) }
-
-  Expr getElements() { toBicepTreeSitter(result) = array.getAFieldOrChild() }
-
-  Expr getElement(int index) { toBicepTreeSitter(result) = array.getChild(index) }
+  Expr getElement(int index) { result = super.getElement(index) }
 }

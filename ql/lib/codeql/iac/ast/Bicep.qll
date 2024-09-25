@@ -1,1 +1,1 @@
-import codeql.bicep.AST
+import codeql.bicep.Ast
