@@ -3,7 +3,6 @@ private import codeql.hcl.Resources
 private import codeql.hcl.Constants
 private import codeql.hcl.Terraform::Terraform
 
-
 module AzureStorage {
   private import codeql.hcl.providers.Azure
 
@@ -65,6 +64,9 @@ module AzureStorage {
     Expr getProperty(string name) { result = this.getProperties().getElementByName(name) }
   }
 
+  /**
+   * Azure Storage Account.
+   */
   class StorageAccount extends Azure::AzureResource {
     StorageAccount() { this.getResourceType() = "azurerm_storage_account" }
 
@@ -76,7 +78,7 @@ module AzureStorage {
     /**
      * Get the `allow_blob_public_access` property of the storage account. Only available
      * for `azurerm` v2 and not v3 onwards.
-     * 
+     *
      * https://github.com/hashicorp/terraform-provider-azurerm/blob/main/CHANGELOG-v3.md
      */
     Expr getAllowBlobPublicAccess() {
@@ -99,41 +101,37 @@ module AzureStorage {
 
     /**
      * Get the `public_network_access_enabled` property of the storage account.
-     * 
+     *
      * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account.html#public_network_access_enabled
      */
-    Expr getEnableHttpsTrafficOnly() {
-      result = this.getAttribute("enable_https_traffic_only")
-    }
+    Expr getEnableHttpsTrafficOnly() { result = this.getAttribute("enable_https_traffic_only") }
 
     /**
      * Get the `public_network_access_enabled` property of the storage account.
-     * 
+     *
      * Defaults to `true`.
-     * 
+     *
      * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account.html#public_network_access_enabled
      */
     boolean getEnableHttpsTrafficOnlyValue() {
-       exists(Expr e | e = this.getEnableHttpsTrafficOnly() | result = e.(BooleanLiteral).getBool())
-       or 
+      exists(Expr e | e = this.getEnableHttpsTrafficOnly() | result = e.(BooleanLiteral).getBool())
+      or
       not exists(this.getEnableHttpsTrafficOnly()) and
       result = true
     }
 
     /**
      * Get the `public_network_access_enabled` property of the storage account.
-     * 
+     *
      * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account.html#public_network_access_enabled
      */
-    Expr getPublicNetworkAccess() {
-      result = this.getAttribute("public_network_access_enabled")
-    }
+    Expr getPublicNetworkAccess() { result = this.getAttribute("public_network_access_enabled") }
 
     /**
      * Get the `public_network_access_enabled` property of the storage account.
-     * 
+     *
      * Defaults to `true`.
-     * 
+     *
      * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account.html#public_network_access_enabled
      */
     boolean getPublicNetworkAccessValue() {
@@ -145,9 +143,9 @@ module AzureStorage {
 
     /**
      * Get the `allow_nested_items_to_be_public` property of the storage account.
-     * 
+     *
      * Defaults to `true`
-     * 
+     *
      * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account.html#allow_nested_items_to_be_public
      */
     Expr getAllowNestedItemsToBePublic() {
@@ -156,13 +154,15 @@ module AzureStorage {
 
     /**
      * Get the `allow_nested_items_to_be_public` property of the storage account.
-     * 
+     *
      * Defaults to `true`
-     * 
+     *
      * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account.html#allow_nested_items_to_be_public
      */
     boolean getAllowNestedItemsToBePublicValue() {
-      exists(Expr e | e = this.getAllowNestedItemsToBePublic() | result = e.(BooleanLiteral).getBool())
+      exists(Expr e | e = this.getAllowNestedItemsToBePublic() |
+        result = e.(BooleanLiteral).getBool()
+      )
       or
       not exists(this.getAllowNestedItemsToBePublic()) and
       result = true
@@ -170,18 +170,16 @@ module AzureStorage {
 
     /**
      * Get the `https_traffic_only_enabled` property of the storage account.
-     * 
+     *
      * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account.html#https_traffic_only_enabled
      */
-    Expr getHttpsTrafficOnlyEnabled() {
-      result = this.getAttribute("https_traffic_only_enabled")
-    }
+    Expr getHttpsTrafficOnlyEnabled() { result = this.getAttribute("https_traffic_only_enabled") }
 
     /**
      * Get the `https_traffic_only_enabled` property of the storage account.
-     * 
+     *
      * Defaults to `true`
-     * 
+     *
      * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account.html#https_traffic_only_enabled
      */
     boolean getHttpsTrafficOnlyEnabledValue() {
@@ -193,25 +191,23 @@ module AzureStorage {
 
     /**
      * Get the `min_tls_version` property of the storage account.
-     * 
+     *
      * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account.html#min_tls_version
      */
-    Expr getMinTlsVersion() {
-      result = this.getAttribute("min_tls_version")
-    }
+    Expr getMinTlsVersion() { result = this.getAttribute("min_tls_version") }
 
     /**
      * Get the `min_tls_version` property of the storage account.
-     * 
+     *
      * Defaults to `TLS1_2`
-     * 
+     *
      * https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account.html#min_tls_version
      */
-      string getMinTlsVersionValue() {
-        exists(Expr e | e = this.getMinTlsVersion() | result = e.(StringLiteral).getValue())
-        or 
-        not exists(this.getMinTlsVersion()) and
-        result = "TLS1_2"
-      }
+    string getMinTlsVersionValue() {
+      exists(Expr e | e = this.getMinTlsVersion() | result = e.(StringLiteral).getValue())
+      or
+      not exists(this.getMinTlsVersion()) and
+      result = "TLS1_2"
+    }
   }
 }
