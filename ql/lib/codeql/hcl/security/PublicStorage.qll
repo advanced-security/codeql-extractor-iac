@@ -18,22 +18,22 @@ class AzurePublicStorage extends PublicStorage {
     )
     or
     // Azure Storage Accounts
-    exists(Azure::StorageAccount storage_acount |
+    exists(Azure::StorageAccount storage_account |
       (
         // v2
-        storage_acount.getAllowBlobPublicAccessValue() = true and
-        this = storage_acount.getAllowBlobPublicAccess()
+        storage_account.getAllowBlobPublicAccessValue() = true and
+        this = storage_account.getAllowBlobPublicAccess()
       )
       or
       (
         // v3
         (
-          storage_acount.getPublicNetworkAccessValue() = true
+          storage_account.getPublicNetworkAccessValue() = true
           or
-          storage_acount.getAllowNestedItemsToBePublicValue() = true
+          storage_account.getAllowNestedItemsToBePublicValue() = true
         )
         and
-        this = storage_acount
+        this = storage_account
       )
     )
   }
