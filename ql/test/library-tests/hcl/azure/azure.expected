@@ -5,6 +5,7 @@ azure
 | databases.hcl:20:1:25:1 | Database example-sqlserver |
 | storage.hcl:1:1:4:1 | ResourceGroup example-resources |
 | storage.hcl:6:1:13:1 | ManagedDisk acctestmd |
+| storage.hcl:15:1:25:1 | resource azurerm_storage_account example-account |
 azureManagedDisk
 | storage.hcl:6:1:13:1 | ManagedDisk acctestmd |
 azureDatabases
