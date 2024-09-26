@@ -55,7 +55,7 @@ module Terraform {
   }
 
   RequiredProvider getProviderByName(string name) {
-    exists(RequiredProvider provider | provider.getName() = name)
+    exists(RequiredProvider provider | provider.getName() = name | result = provider)
   }
 
   /**
