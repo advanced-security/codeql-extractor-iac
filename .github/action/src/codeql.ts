@@ -7,7 +7,7 @@ import * as github from "@actions/github";
 import * as toolrunner from "@actions/exec/lib/toolrunner";
 
 export const EXTRACTOR_REPOSITORY = "advanced-security/codeql-extractor-iac";
-export const EXTRACTOR_VERSION = "v0.4.0"; // stable version
+export const EXTRACTOR_VERSION = "v0.4.1"; // stable version
 
 export interface CodeQLConfig {
   // The path to the codeql bundle.
