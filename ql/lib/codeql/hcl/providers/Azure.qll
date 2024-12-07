@@ -1,6 +1,7 @@
 private import codeql.hcl.AST
 private import codeql.hcl.Resources
 private import codeql.hcl.Constants
+private import codeql.hcl.Terraform::Terraform
 
 module Azure {
   /**
@@ -10,6 +11,8 @@ module Azure {
    */
   class AzureResource extends Resource, Block {
     AzureResource() { this.getResourceType().regexpMatch("^azurerm.*") }
+
+    override RequiredProvider getProvider() { result = getProviderByName("azurerm") }
   }
 
   /**
@@ -40,133 +43,9 @@ module Azure {
     Expr getResourceLocation() { result = this.getAttribute("location") }
   }
 
-  /**
-   * Azure Managed Disk.
-   */
-  class ManagedDisk extends AzureResource {
-    ManagedDisk() { this.getResourceType() = "azurerm_managed_disk" }
-
-    override string toString() { result = "ManagedDisk " + this.getName() }
-
-    override string getName() { result = this.getAttribute("name").(StringLiteral).getValue() }
-
-    string getStorageAccountType() {
-      result = this.getAttribute("storage_account_type").(StringLiteral).getValue()
-    }
-
-    /**
-     * Get the encryption settings of the managed disk.
-     */
-    ManagedDiskEncryptionSettings getEncryptionSettings() {
-      result = this.getAttribute("encryption_settings")
-    }
-  }
-
-  /**
-   * Azure Managed Disk Encryption Settings.
-   */
-  class ManagedDiskEncryptionSettings extends Block {
-    private ManagedDisk disk;
-
-    ManagedDiskEncryptionSettings() { disk.getAttribute("encryption_settings").(Block) = this }
-
-    override string toString() { result = "ManagedDiskEncryptionSettings" }
-
-    boolean getEnabled() { result = this.getAttribute("enabled").(BooleanLiteral).getBool() }
-  }
-
-  class StorageContainer extends AzureResource {
-    StorageContainer() { this.getResourceType() = "azurerm_storage_container" }
-
-    string getContainerAccessType() {
-      result = this.getAttribute("container_access_type").(StringLiteral).getValue()
-    }
-
-    /**
-     * Get the properties of the managed disk.
-     */
-    Object getProperties() { result = this.getAttribute("properties") }
-
-    /**
-     * Get a property of the managed disk.
-     */
-    Expr getProperty(string name) { result = this.getProperties().getElementByName(name) }
-  }
-
-  /**
-   * Azure Databases
-   */
-  class Database extends AzureResource {
-    Database() {
-      this.getResourceType()
-          .regexpMatch("^azurerm_(sql|mariadb|mssql|postgresql)_(server|database)")
-    }
-
-    override string toString() { result = "Database " + this.getName() }
-
-    override string getName() { result = this.getAttribute("name").(StringLiteral).getValue() }
-
-    string getVersion() { result = this.getAttribute("version").(StringLiteral).getValue() }
-
-    boolean getSslEnforcementEnabled() {
-      result = this.getAttribute("ssl_enforcement_enabled").(BooleanLiteral).getBool()
-    }
-
-    boolean getInfrastructureEncryptionEnabled() {
-      result = this.getAttribute("infrastructure_encryption_enabled").(BooleanLiteral).getBool()
-    }
-
-    boolean getGeoRedundantBackupEnabled() {
-      result = this.getAttribute("geo_redundant_backup_enabled").(BooleanLiteral).getBool()
-    }
-
-    Expr getAdministratorPassword() { result = this.getAttribute("administrator_login_password") }
-  }
-
-  /**
-   * Azure Key Vault.
-   */
-  class KeyVault extends AzureResource {
-    KeyVault() { this.getResourceType() = "azurerm_key_vault" }
-
-    override string toString() { result = "KeyVault " + this.getName() }
-  }
-
-  /**
-   * Azure Key Vault Key.
-   */
-  class KeyVaultKey extends AzureResource {
-    KeyVaultKey() { this.getResourceType() = "azurerm_key_vault_key" }
-
-    override string toString() { result = "KeyVaultKey " + this.getName() }
-
-    string getKeyType() { result = this.getAttribute("key_type").(StringLiteral).getValue() }
-
-    int getKeySize() { result = this.getAttribute("key_size").(NumericLiteral).getInt() }
-    // string getKeyOpts() { result = this.getAttribute("key_opts") }
-  }
-
-  /**
-   * Azure Key Vault Secret.
-   */
-  class KeyVaultSecret extends AzureResource {
-    KeyVaultSecret() { this.getResourceType() = "azurerm_key_vault_secret" }
-  }
-
-  /**
-   * Azure Security Center Contact.
-   */
-  class SecurityCenterContact extends AzureResource {
-    SecurityCenterContact() { this.getResourceType() = "azurerm_security_center_contact" }
-
-    string getEmail() { result = this.getAttribute("email").(StringLiteral).getValue() }
-
-    boolean getAlertNotifications() {
-      result = this.getAttribute("alert_notifications").(BooleanLiteral).getBool()
-    }
-
-    boolean getAlertsToAdmins() {
-      result = this.getAttribute("alerts_to_admins").(BooleanLiteral).getBool()
-    }
-  }
+  // Re-export the Azure resources
+  import codeql.hcl.providers.azure.Storage::AzureStorage
+  import codeql.hcl.providers.azure.Databases::AzureDatabases
+  import codeql.hcl.providers.azure.KeyVault::AzureKeyVault
+  import codeql.hcl.providers.azure.SecurityCenter::AzureSecurityCenter
 }
