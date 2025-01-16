@@ -1,0 +1,1 @@
+| ecs.yml:63:9:71:6 | AwsVpcConfiguration: | AssignPublicIp must be "DISABLED" for ECS tasks |

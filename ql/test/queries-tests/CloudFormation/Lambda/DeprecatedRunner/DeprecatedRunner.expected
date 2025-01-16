@@ -1,0 +1,1 @@
+| template2.yml:127:16:127:27 | 'nodejs16.x' | This Lambda function uses the deprecated Node.js 16.x runtime. |

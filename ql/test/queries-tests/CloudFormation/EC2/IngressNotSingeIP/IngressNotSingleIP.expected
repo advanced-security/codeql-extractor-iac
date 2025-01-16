@@ -1,0 +1,1 @@
+| template.yml:119:19:119:29 | "0.0.0.0/0" | The security group should only allow traffic from one single IP address. |

@@ -1,0 +1,1 @@
+| ecs.yml:60:5:111:2 | CloudFormation ECS Task Definition | ContainerDefinitions must not run as root or be privileged when networkmode Host is used |

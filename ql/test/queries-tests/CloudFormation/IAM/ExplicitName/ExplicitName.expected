@@ -1,0 +1,1 @@
+| template2.yml:19:5:42:2 | CloudFormation IAM Role | This IAM role has an expclit role name |

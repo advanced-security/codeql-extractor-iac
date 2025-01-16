@@ -1,0 +1,1 @@
+| ecs.yml:122:27:122:35 | 'ENABLED' | AssignPublicIp should be "DISABLED" for ECS tasks |

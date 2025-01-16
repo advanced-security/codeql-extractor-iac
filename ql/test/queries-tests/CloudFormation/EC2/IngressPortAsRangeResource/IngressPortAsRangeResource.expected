@@ -1,0 +1,1 @@
+| portrange.yml:163:17:163:22 | '6370' | The security group should define a single port. |

@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Metadata:
+  Description: 'AWS CloudFormation Template To fs2 messaging test'
+Resources:
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Vpc Security Group"
+      GroupName: 'test-security-group'
+      SecurityGroupEgress:
+        - IpProtocol: "tcp"
+          CidrIp: "0.0.0.0/0"
+          FromPort: 0
+          ToPort: 10000
+          Description: "For RDS"
+      VpcId: 'VpcId'

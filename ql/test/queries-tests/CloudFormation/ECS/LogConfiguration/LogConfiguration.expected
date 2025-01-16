@@ -1,0 +1,1 @@
+| ecs.yml:62:7:105:2 | CloudFormation Resource Properties | ContainerDefinitions must have a log configuration |

@@ -1,0 +1,365 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: PositionAndJourney Statistics Service
+
+Parameters:
+  Zone:
+    Type: String
+  Site:
+    Type: String
+  Solution:
+    Type: String
+  Environment:
+    Type: String
+  Component:
+    Type: String
+  ComponentShortName:
+    Type: String
+  Version:
+    Type: String
+  RegionalPrefix:
+    Type: String
+  LogLevel:
+    Type: String
+    Default: INFO
+  PositionAndJourneyDomainName:
+    Type: String
+  ServiceActor:
+    Type: String
+  TripTablePattern:
+    Type: String
+  SubnetPrivateA:
+    Type: String
+  SubnetPrivateB:
+    Type: String
+  SubnetPrivateC:
+    Type: String
+  VpcId:
+    Type: String
+  GlobalPrefix:
+    Type: String
+  CacheEnabled:
+    Type: String
+    Default: "true"
+  MaxCacheStorageGB:
+    Type: Number
+    Default: 1
+  MaxCacheECPUPerSecond:
+    Type: Number
+    Default: 1000
+  MaxJedisPool:
+    Type: Number
+    Default: 50
+
+Globals:
+  Function:
+    Tracing: "PassThrough"
+    Runtime: java11
+    Timeout: 10
+    MemorySize: 1536
+    Environment:
+      Variables:
+        ZONE: !Ref Zone
+        SITE: !Ref Site
+        SOLUTION: !Ref Solution
+        ENVIRONMENT: !Ref Environment
+        COMPONENT_NAME: !Ref Component
+        COMPONENT_SHORT_NAME: !Ref ComponentShortName
+        VERSION: !Ref Version
+        REGIONAL_PREFIX: !Ref RegionalPrefix
+        GLOBAL_PREFIX: !Ref GlobalPrefix
+        TRIP_TABLE_PATTERN: !Ref TripTablePattern
+        TENANT_OVERRIDES: '{{resolve:ssm:/applications/tenants/overrides}}' # Managed by https://github.com/WirelessCar-Internal/vs-ssm-tenant-overrides
+        JAVA_TOOL_OPTIONS: !Sub "-DLOGLEVEL_com_wirelesscar_connect=${LogLevel} -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+
+Resources:
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub "${Solution}-${Environment}-statistics-api"
+      StageName: prod # If StageName is a simple string, logicalId will be <ID><StageName>Stage. If it is an intrinsic function, it will be <ID>Stage
+      Auth:
+        AddDefaultAuthorizerToCorsPreflight: false
+      Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'*'"
+        AllowMethods: "'*'"
+      TracingEnabled: false
+      MethodSettings:
+        - ResourcePath: '/*'
+          MetricsEnabled: true
+          HttpMethod: "*"
+          LoggingLevel: ERROR
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: .sonic/tmp/api.yml
+      AccessLogSetting:
+        DestinationArn: !GetAtt ApiAccessLogsLogGroup.Arn
+        Format: '{
+                  "authorizeStatus": "$context.authorize.status",
+                  "authorizerLatency": "$context.authorizer.latency",
+                  "authorizerRequestId": "$context.authorizer.requestId",
+                  "authorizerStatus": "$context.authorizer.status",
+                  "functionResponseStatus": "$context.integration.status",
+                  "httpMethod": "$context.httpMethod",
+                  "integrationLatency": "$context.integration.latency",
+                  "integrationRequestId": "$context.integration.requestId",
+                  "integrationServiceStatus": "$context.integration.integrationStatus",
+                  "ip": "$context.identity.sourceIp",
+                  "path": "$context.path",
+                  "principalId": "$context.authorizer.principalId",
+                  "requestId": "$context.requestId",
+                  "requestTime": "$context.requestTime",
+                  "resourcePath": "$context.resourcePath",
+                  "responseLatency": "$context.responseLatency",
+                  "status": "$context.status",
+                  "userAgent": "$context.identity.userAgent",
+                  "tenant": "$context.authorizer.tenant",
+                }'
+
+  ApiAccessLogsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/apigateway/AccessLogs-${RegionalPrefix}-${ComponentShortName}"
+      RetentionInDays: 3
+
+  ApiGatewayBasePathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    DependsOn:
+      - ApiGateway
+      - ApiGatewayprodStage
+    Properties:
+      BasePath: !Sub "statistics"
+      DomainName: !Ref PositionAndJourneyDomainName
+      RestApiId: !Ref ApiGateway
+      Stage: prod
+
+  TripStatisticsElastiCacheRedis:
+    Type: AWS::ElastiCache::ServerlessCache
+    Properties:
+      Engine: redis
+      ServerlessCacheName: !Sub '${GlobalPrefix}-${ComponentShortName}-cache'
+      SecurityGroupIds:
+        - !GetAtt "ElastiCacheSecurityGroup.GroupId"
+      SubnetIds:
+        - !Ref SubnetPrivateA
+        - !Ref SubnetPrivateB
+        - !Ref SubnetPrivateC
+      CacheUsageLimits:
+        DataStorage:
+          Maximum: !Ref MaxCacheStorageGB
+          Unit: 'GB'
+        ECPUPerSecond:
+          Maximum: !Ref MaxCacheECPUPerSecond
+
+  RedisIngressInbound:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      IpProtocol: tcp
+      GroupId: !GetAtt "ElastiCacheSecurityGroup.GroupId"
+      CidrIp: 0.0.0.0/0
+      FromPort: '6370'
+      ToPort: '6379'
+
+  ElastiCacheSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: "Elasticache Security Group"
+      VpcId: !Ref VpcId
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          Description: Security group egress default
+          FromPort: 0
+          ToPort: 65535
+          CidrIp: 0.0.0.0/0
+
+  DefaultApiKey:
+    Type: AWS::ApiGateway::ApiKey
+    DependsOn:
+      - ApiGateway
+      - ApiGatewayprodStage
+    Properties:
+      Name: !Sub "${RegionalPrefix}-${ComponentShortName}-DefaultApiKey"
+      Description: !Sub "Default apikey for statistics-api"
+      Enabled: "true"
+      Value: !Sub "${RegionalPrefix}-${ComponentShortName}-DEFAULTAPIKEY"
+      StageKeys:
+        - RestApiId: !Ref ApiGateway
+          StageName: prod
+
+  DefaultUsagePlan:
+    Type: AWS::ApiGateway::UsagePlan
+    DependsOn:
+      - ApiGateway
+      - ApiGatewayprodStage
+    Properties:
+      ApiStages:
+        - ApiId: !Ref ApiGateway
+          Stage: prod
+      Description: "Default usage plan"
+      Throttle:
+        BurstLimit: "1"
+        RateLimit: "1"
+      UsagePlanName: !Sub "${RegionalPrefix}-${ComponentShortName}-defaultusageplan"
+
+  DefaultUsagePlanKey:
+    Type: AWS::ApiGateway::UsagePlanKey
+    Properties:
+      KeyId: !Ref DefaultApiKey
+      KeyType: API_KEY
+      UsagePlanId: !Ref DefaultUsagePlan
+
+  AWSLambdaVPCAccessPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Policy to access VPC"
+      Path: "/"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action:
+              - ec2:CreateNetworkInterface
+              - ec2:DescribeNetworkInterfaces
+              - ec2:DescribeSubnets
+              - ec2:DeleteNetworkInterface
+              - ec2:AssignPrivateIpAddresses
+              - ec2:UnassignPrivateIpAddresses
+            Resource:
+              - !Sub arn:${AWS::Partition}:elasticache:${AWS::Region}:${AWS::AccountId}:serverlesscache:${GlobalPrefix}-${ComponentShortName}-redis-cache
+
+  TripStatisticsLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "${RegionalPrefix}-${ComponentShortName}-TripStatisticsLambda"
+      CodeUri: .sonic/tmp/statistics-lambda.jar
+      Handler: com.wirelesscar.connect.pj.statistics.TripStatisticsLambda::handleRequest
+      Policies:
+        - !Ref AWSLambdaVPCAccessPolicy
+      SnapStart:
+        ApplyOn: PublishedVersions
+      Architectures:
+        - x86_64
+      VpcConfig:
+        SecurityGroupIds:
+          - !GetAtt "ElastiCacheSecurityGroup.GroupId"
+        SubnetIds:
+          - !Ref SubnetPrivateA
+          - !Ref SubnetPrivateB
+          - !Ref SubnetPrivateC
+      Events:
+        Invoke:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGateway
+            Path: '/*'
+            Method: '*'
+      Environment:
+        Variables:
+          REDIS_HOST: !GetAtt TripStatisticsElastiCacheRedis.Endpoint.Address
+          REDIS_PORT: !GetAtt TripStatisticsElastiCacheRedis.Endpoint.Port
+          CACHE_ENABLED: !Ref CacheEnabled
+          MAX_JEDIS_POOL: !Ref MaxJedisPool
+
+  CustomAuthorizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "${RegionalPrefix}-${ComponentShortName}-authorizer" # MAX 64 chars
+      CodeUri: .sonic/tmp/authorizer-lambda.jar
+      Handler: com.wirelesscar.connect.pj.statistics.authorizer.StatisticsAuthorizer::handleRequest
+      Architectures:
+        - arm64
+      Role: !GetAtt M2MAuthorizerRole.Arn
+      Environment:
+        Variables:
+          DEFAULT_API_KEY: !Sub "${RegionalPrefix}-${ComponentShortName}-DEFAULTAPIKEY"
+          SERVICE_ACTOR: !Ref ServiceActor
+          BASE_ROLE_ARN: !GetAtt AuthorizerBaseRole.Arn
+          CTRLUP_API_KEY: !Sub '{{resolve:secretsmanager:${Solution}/${Environment}/ctrlup/UsagePlanApi:SecretString:apiKeyVal}}'
+          CTRLUP_API_BASE_PATH: !Sub '{{resolve:secretsmanager:${Solution}/${Environment}/ctrlup/UsagePlanApi:SecretString:apiBaseUrl}}'
+
+  M2MAuthorizerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${RegionalPrefix}-${ComponentShortName}-M2MAuthorizerRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "lambda.amazonaws.com"
+                - "apigateway.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      ManagedPolicyArns:
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        - !Ref InvokeCustomAuthorizerPolicy
+        - !Ref SecretManagerCustomAuthorizerPolicy
+
+  InvokeCustomAuthorizerPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Customauthorizer invoke policy for api gateway "
+      Path: "/"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action:
+              - lambda:InvokeAsync
+              - lambda:InvokeFunction
+              - iam:PassRole
+            Resource: !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${RegionalPrefix}-${ComponentShortName}-authorizer"
+
+  SecretManagerCustomAuthorizerPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Access to apikey for control-usage-plan."
+      Path: "/"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action:
+              - "secretsmanager:GetSecretValue"
+            Resource: !Sub "arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${Solution}/${Environment}/ctrlup/*"
+
+  AuthorizerBaseRole:
+    Type: AWS::IAM::Role
+    DependsOn: M2MAuthorizerRole
+    Properties:
+      RoleName: !Sub "${GlobalPrefix}-${ComponentShortName}-authorizer-base-role"
+      Description: "This role will be merged with a tenant-specific policy in the custom authorizer."
+      Path: '/'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !GetAtt 'M2MAuthorizerRole.Arn'
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: authorizer-access-role-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:Query
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${RegionalPrefix}-contrip-*"
+
+Outputs:
+  ApiEndpoint:
+    Description: "APIGateway endpoint"
+    Value: !Sub "https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/prod"
+  DefaultApiKey:
+    Description: "Default api key for statistics api"
+    Value: !Ref DefaultApiKey
+
+

@@ -1,0 +1,1 @@
+| template.yml:7:5:11:21 | CloudFormation EC2 Security Group | Missing egress rule. |

@@ -1,0 +1,1 @@
+| template2.yml:43:5:134:2 | CloudFormation Lambda Function | This Lambda function has no VPC configuration. |

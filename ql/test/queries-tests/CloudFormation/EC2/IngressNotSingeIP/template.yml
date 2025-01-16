@@ -1,0 +1,163 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Metadata:
+  Author: VS
+  Description: 'AWS CloudFormation Template To fs2 messaging test'
+Parameters:
+  Zone:
+    Type: String
+  Site:
+    Type: String
+  Solution:
+    Type: String
+  Environment:
+    Type: String
+  GlobalPrefix:
+    Type: String
+  RegionalPrefix: # Concatenation of ${solution}-${environment} to be used when isolating regional services
+    Type: String
+  Component:
+    Type: String
+  ComponentShortName:
+    Type: String
+  Version:
+    Type: String
+  VpcId:
+    Type: String
+  VpcCidr:
+    Type: String
+  SubnetPublicA:
+    Type: String
+  AmiId:
+    Type: 'AWS::EC2::Image::Id'
+
+Resources:
+
+  Role:
+    Type: "AWS::IAM::Role"
+    Properties:
+      Policies:
+        - PolicyName: !Sub "${ComponentShortName}-role-policy"
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ecr:GetAuthorizationToken"
+                  - "ecr:BatchCheckLayerAvailability"
+                  - "ecr:GetDownloadUrlForLayer"
+                  - "ecr:BatchGetImage"
+                  - "logs:Create*"
+                  - "logs:Put*"
+                  - "logs:Put*"
+                  - "sts:AssumeRole"
+                  - "sts:GetSessionToken"
+                  - "ssm:*"
+                  - "xray:Put*"
+                  - "cloudwatch:PutMetricData"
+                  - "s3:GetObject"
+                  - "s3:ListObjects"
+                  - "s3:ListBucket"
+                  - "s3:PutObject"
+                  - "s3:PutObjectAcl"
+                  - "s3:DeleteObject"
+                  - "sns:Publish"
+                Resource:
+                  - "*"
+              # Required for TRS client.
+              - Effect: Allow
+                Action: "iot:DescribeEndpoint"
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - "ssm:GetParameter"
+                  - "ssm:GetParameters"
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ComponentShortName}/${Solution}/${Environment}/${AWS::Region}/*"
+              - Effect: Allow
+                Action:
+                  - "kms:Encrypt"
+                  - "kms:Decrypt"
+                  - "kms:ReEncrypt"
+                  - "kms:GenerateDataKey"
+                  - "kms:DescribeKey"
+                Resource:
+                  - Fn::ImportValue: "BucketKeyArn"
+              - Effect: Allow
+                Action:
+                  - "kms:Decrypt"
+                Resource:
+                  - Fn::ImportValue: "ParameterStoreKeyArn"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "ec2.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+
+  MyInstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      Path: "/"
+      Roles:
+        - !Ref Role
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Vpc Security Group"
+      GroupName: !Sub '${RegionalPrefix}-${ComponentShortName}-${Version}-security-group'
+      SecurityGroupEgress:
+        - IpProtocol: "tcp"
+          CidrIp: "0.0.0.0/0"
+          FromPort: 0
+          ToPort: 10000
+          Description: "For RDS"
+      SecurityGroupIngress:
+        - IpProtocol: "tcp"
+          CidrIp: "0.0.0.0/0"
+          FromPort: 22
+          ToPort: 22
+          Description: "Inbound SSH connections"
+      VpcId: !Ref VpcId
+
+  Ec2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AmiId
+      IamInstanceProfile: !Ref MyInstanceProfile
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      SubnetId: !Ref SubnetPublicA
+      InstanceType: m7.medium
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeType: gp2
+            DeleteOnTermination: true
+            VolumeSize: 20
+            Encrypted: true
+
+      UserData:
+        #This will be available as env variables in systemctl
+        Fn::Base64: !Sub |
+          DOMAIN=wcar-i.net
+          PROVIDER=aws
+          ZONE=${Zone}
+          SITE=${Site}
+          SOLUTION=${Solution}
+          ENVIRONMENT=${Environment}
+          COMPONENT=${Component}
+          SHORTNAME=${ComponentShortName}
+          VERSION=${Version}
+
+      Tags:
+        - Key: Name
+          Value: !Join [ "-", [ !Sub "${Solution}", "message-test" ] ]
+
+  ElasticIpAdress:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref Ec2Instance 

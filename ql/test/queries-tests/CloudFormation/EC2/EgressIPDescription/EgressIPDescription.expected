@@ -1,0 +1,1 @@
+| template.yml:11:9:15:6 | - IpProtocol: "tcp" | There is no description for the egress rule |

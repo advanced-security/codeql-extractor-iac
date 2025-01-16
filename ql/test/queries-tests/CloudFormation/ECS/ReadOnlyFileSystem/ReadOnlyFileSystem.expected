@@ -1,0 +1,1 @@
+| ecs.yml:62:7:108:2 | CloudFormation Resource Properties | Containers must have explictly only read only root filesystem |
