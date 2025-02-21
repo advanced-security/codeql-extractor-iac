@@ -158,4 +158,365 @@ module CloudFormation {
       // )
     }
   }
+  class LambdaFunction extends Resource {
+    LambdaFunction() { this.getType() = "AWS::Lambda::Function" }
+
+    override string toString() { result = "CloudFormation Lambda Function" }
+
+    /**
+     * Get the Lambda function runtime.
+     */
+    string getRuntime() {
+      result = this.getProperties().getProperty("Runtime").(YamlString).getValue()
+    }
+    /**
+     * get principal
+     */
+    string getPrincipal() {
+      result = this.getProperties().getProperty("Principal").(YamlString).getValue()
+    }
+
+  }
+
+  class EC2SecurityGroup extends Resource {
+    EC2SecurityGroup() { this.getType() = "AWS::EC2::SecurityGroup" }
+
+    override string toString() { result = "CloudFormation EC2 Security Group" }
+
+    /**
+     * Get the security group egress rules.
+     */
+    YamlNode getSgEgress() {
+      result = this.getProperties().getProperty("SecurityGroupEgress")
+    }
+    YamlNode getEgressCidrIp() {
+      result = this.getSgEgress().getAChildNode().(YamlMapping).lookup("CidrIp")
+    }
+    YamlNode getEgressFromPort() {
+      result = this.getSgEgress().getAChildNode().(YamlMapping).lookup("FromPort")
+    }
+    YamlNode getEgressToPort() {
+      result = this.getSgEgress().getAChildNode().(YamlMapping).lookup("ToPort")
+    }
+    YamlNode getEgressDesc() {
+      result = this.getSgEgress().getAChildNode().(YamlMapping).lookup("Description")
+    }
+
+    /**
+     * Get the security group ingress rules.
+     */
+    YamlNode getSgIngress() {
+      result = this.getProperties().getProperty("SecurityGroupIngress")
+    }
+    YamlNode getIngressCidrIp() {
+      result = this.getSgIngress().getAChildNode().(YamlMapping).lookup("CidrIp")
+    }
+    YamlNode getIngressFromPort() {
+      result = this.getSgIngress().getAChildNode().(YamlMapping).lookup("FromPort")
+    }
+    YamlNode getIngressToPort() {
+      result = this.getSgIngress().getAChildNode().(YamlMapping).lookup("ToPort")
+    }
+    YamlNode getIngressDesc() {
+      result = this.getSgIngress().getAChildNode().(YamlMapping).lookup("Description")
+    }
+  }
+
+  class EC2SecurityGroupEgress extends Resource {
+    EC2SecurityGroupEgress() { this.getType() = "AWS::EC2::SecurityGroupEgress" }
+
+    override string toString() { result = "CloudFormation EC2 Security Group Egress" }
+
+    /**
+     * Get the security group ingress CIDR IP.
+     */
+    YamlNode getCidrIp() {
+      result = this.getProperties().getProperty("CidrIp")
+    }
+
+    /**
+     * Get the security group ingress from port.
+     */
+    YamlNode getFromPort() {
+      result = this.getProperties().getProperty("FromPort")
+    }
+    YamlNode getToPort() {
+      result = this.getProperties().getProperty("ToPort")
+    }
+  }
+
+
+
+  class EC2SecurityGroupIngress extends Resource {
+    EC2SecurityGroupIngress() { this.getType() = "AWS::EC2::SecurityGroupIngress" }
+
+    override string toString() { result = "CloudFormation EC2 Security Group Ingress" }
+
+    /**
+     * Get the security group ingress CIDR IP.
+     */
+    YamlNode getCidrIp() {
+      result = this.getProperties().getProperty("CidrIp")
+    }
+
+    /**
+     * Get the security group ingress from port.
+     */
+    YamlNode getFromPort() {
+      result = this.getProperties().getProperty("FromPort")
+    }
+    YamlNode getToPort() {
+      result = this.getProperties().getProperty("ToPort")
+    }
+  }
+
+  class IAMRole extends Resource {
+    IAMRole() { this.getType() = "AWS::IAM::Role" }
+
+    override string toString() { result = "CloudFormation IAM Role" }
+
+    string getProperty(string key) { result = this.getProperties().getProperty(key).toString() }
+
+    /**
+     * Get the IAM role policies.
+     */
+    IAMStatement getPolicy() {
+      result = this.getProperties().getProperty("Policies").getAChild().getAChild()
+
+      /*
+      exists(YamlNode policies 
+        | policies = this.getProperties().getAChildNode()  
+        | result = policies and policies.toString() = "Statement" )
+ */
+    }
+  }
+  class IAMStatement extends YamlNode {
+    IAMStatement(){ this.getAChild().toString() = "Statement"}
+
+    YamlNode getAction() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Action")
+    }
+    YamlNode getEffect() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Effect")
+    }
+    YamlNode getResource() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Resource")
+    }
+  }
+
+  class ECSService extends Resource {
+    ECSService() { this.getType() = "AWS::ECS::Service" }
+    YamlNode getNetworkConfiguration() {
+      result = this.getProperties().getProperty("NetworkConfiguration")
+    }
+
+    /**
+     * Get ecs service platform version
+     */
+    YamlNode getPlatformVersion() {
+      result = this.getProperties().getProperty("PlatformVersion")
+    }
+
+    TaskDefinition getTaskDefinition() {
+      result = this.getProperties().getProperty("TaskDefinition")
+    }
+  }
+
+  class ECSTaskSet extends Resource {
+    ECSTaskSet() { this.getType() = "AWS::ECS::TaskSet" }
+
+    override string toString() { result = "CloudFormation ECS Task Set" }
+
+    /**
+     * Get the task set network configuration.
+     */
+    YamlNode getNetworkConfiguration() {
+      result = this.getProperties().getProperty("NetworkConfiguration")
+    }
+
+     YamlNode getAssignPublicIp() {
+      result = this.getNetworkConfiguration().getAChild().(YamlMapping).lookup("AssignPublicIp")
+     }
+  }
+
+  class ECSNetworkConfiguration extends YamlNode {
+    ECSNetworkConfiguration() { this.getAChild().toString() = "NetworkConfiguration" }
+
+    YamlNode getAwsvpcConfiguration() {
+      result = this.getAChild().(YamlMapping).lookup("AwsvpcConfiguration")
+    }
+    YamlNode getAssignPublicIp() {
+      result = this.getAwsvpcConfiguration().(YamlMapping).lookup("AssignPublicIp")
+    }
+  }
+
+  class TaskDefinition extends Resource {
+    TaskDefinition() { this.getType() = "AWS::ECS::TaskDefinition" }
+
+    override string toString() { result = "CloudFormation ECS Task Definition" }
+
+    /**
+     * Get the task definition container definitions.
+     */
+    ContainerDefinition getContainerDefinitions() {
+      result = this.getProperties().getProperty("ContainerDefinitions")
+    }
+    /**
+     * Get network mode
+     */
+    YamlNode getNetworkMode() {
+      result = this.getProperties().getProperty("NetworkMode")
+    }
+
+    /**
+     * get PidMode
+     * 
+     */
+    YamlNode getPidMode() {
+      result = this.getProperties().getProperty("PidMode")
+    }
+    /**
+     * get IPCMode
+     */
+    YamlNode getIpcMode() {
+      result = this.getProperties().getProperty("IpcMode")
+    }
+    /**
+     * get Volumes
+     */
+    YamlNode getVolumes() {
+      result = this.getProperties().getProperty("Volumes")
+    }
+    /**
+     * get PlacementConstraints
+     */
+    YamlNode getPlacementConstraints() {
+      result = this.getProperties().getProperty("PlacementConstraints")
+    }
+    /**
+     * get RequiresCompatibilities
+     */
+    YamlNode getRequiresCompatibilities() {
+      result = this.getProperties().getProperty("RequiresCompatibilities")
+    }
+    /**
+     * get Cpu
+     */
+    YamlNode getCpu() {
+      result = this.getProperties().getProperty("Cpu")
+    }
+    /**
+     * get Memory
+     */
+    YamlNode getMemory() {
+      result = this.getProperties().getProperty("Memory")
+    }
+    /**
+     * get ExecutionRoleArn
+     */
+    YamlNode getExecutionRoleArn() {
+      result = this.getProperties().getProperty("ExecutionRoleArn")
+    }
+
+    /**
+     * get logConfiguration
+     */
+    YamlNode getLogConfiguration() {
+      result = this.getProperties().getProperty("LogConfiguration")
+    }
+
+    /**
+     * get Secrets from ContainerDefinitions
+     */
+    YamlNode getSecrets() {
+      result = this.getContainerDefinitions().getAChild().(YamlMapping).lookup("Secrets")
+    }
+    YamlNode getRuntimePlatform() {
+      result = this.getProperties().getProperty("RuntimePlatform").(YamlMapping).lookup("OperatingSystemFamily")
+    }
+  }
+
+  class ECSCluster extends Resource {
+    ECSCluster() { this.getType() = "AWS::ECS::Cluster" }
+
+    override string toString() { result = "CloudFormation ECS Cluster" }
+    
+    /** checks if container insights is enabled in container settings */
+    YamlNode getContainerInsights() {
+      result = this.getProperties().getProperty("ClusterSettings").getAChild().(YamlMapping).lookup("Value")
+    }
+  }
+
+  class ContainerDefinition extends YamlNode 
+  {
+    ContainerDefinition() { this.getAChild().toString() = "ContainerDefinitions" }
+
+    YamlNode getName() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Name")
+    }
+
+    YamlNode getNetworkConfiguration() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("NetworkConfiguration")
+    }
+    YamlNode getnetworkconfigurationAwsvpcConfiguration() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("AwsvpcConfiguration")
+    }
+    YamlNode getImage() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Image")
+    }
+    YamlNode getMemory() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Memory")
+    }
+    YamlNode getMemoryReservation() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("MemoryReservation")
+    }
+    YamlNode getCpu() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Cpu")
+    }
+    YamlNode getEssential() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Essential")
+    }
+    YamlNode getPortMappings() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("PortMappings")
+    }
+    YamlNode getVolumesFrom() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("VolumesFrom")
+    }
+    YamlNode getEnvironment() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Environment")
+    }
+    YamlNode getSecrets() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Secrets")
+    }
+    YamlNode getLogConfiguration() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("LogConfiguration")
+    }
+    YamlNode getHealthCheck() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("HealthCheck")
+    }
+    YamlNode getEntryPoint() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("EntryPoint")
+    }
+    YamlNode getCommand() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Command")
+    }
+    YamlNode getWorkingDirectory() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("WorkingDirectory")
+    }
+    string getPrivileged() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("Privileged").toString() 
+    }
+
+    string getReadOnlyRootFilesystem() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("ReadOnlyRootFilesystem").toString()
+    }
+    YamlNode getLinuxParametersCapabilities() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("LinuxParameters")
+    }
+
+    YamlNode getUser() {
+      result = this.getAChild().getAChild().(YamlMapping).lookup("User")
+    }
+  }
+
 }
