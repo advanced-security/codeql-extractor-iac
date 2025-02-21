@@ -1,0 +1,1 @@
+| ecs.yml:5:5:37:2 | CloudFormation ECS Task Set | AssignPublicIp must be "DISABLED" for ECS tasks |
