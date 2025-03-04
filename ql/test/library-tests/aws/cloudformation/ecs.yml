@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Infrastructure for the ECS Fargate deployment pattern workshop service.'
+Parameters:
+Resources:
+  TaskSet:
+    Type: 'AWS::ECS::TaskSet'
+    Properties:
+      Cluster: !Ref 'Cluster'
+      Service: !Ref 'Service'
+      TaskDefinition: !Ref 'TaskDefinition'
+      LaunchType: 'FARGATE'
+      NetworkConfiguration:
+        AwsVpcConfiguration:
+          AssignPublicIp: 'ENABLED'
+          SecurityGroups:
+            - !Ref 'SecurityGroup'
+          Subnets:
+            - !Ref 'SubnetA'
+            - !Ref 'SubnetB'
+            - !Ref 'SubnetC'
+      LoadBalancers:
+        - ContainerName: !Ref 'ContainerName'
+          ContainerPort: !Ref 'ContainerPort'
+          TargetGroupArn: !Ref 'TargetGroup'
+      PlatformVersion: 'LATEST'
+      Scale: !Ref 'Scale'
+      ServiceRegistries:
+        - ContainerName: !Ref 'ContainerName'
+          ContainerPort: !Ref 'ContainerPort'
+          RegistryArn: !Ref 'ServiceDiscoveryRegistry'
+      HealthCheckGracePeriodSeconds: 90
+      SchedulingStrategy: 'REPLICA'
+      ServiceDiscovery: !Ref 'ServiceDiscovery'
+
+  #------------------------------------------------
+  # ECS task definition
+  #------------------------------------------------
+  ComponentTaskDefinition:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      ContainerDefinitions:
+        - Image: !Ref Container
+          Name: !Ref Component
+          PortMappings:
+            - ContainerPort: !Ref ContainerPort
+          LogConfiguration:
+            LogDriver: 'awslogs'
+            Options:
+              awslogs-create-group: true
+              awslogs-region: !Ref AWS::Region
+              awslogs-group: !Sub '/fargate/logs'
+              awslogs-stream-prefix: !Ref Component
+          Environment:
+            # Normally mandatory (but e.g. SHORTNAME and FLAVOUR may not always be applicable)
+      Cpu: 512
+      ExecutionRoleArn: !GetAtt ComponentTaskDefinitionExecutionRole.Arn
+      TaskRoleArn: !GetAtt ComponentTaskDefinitionRole.Arn
+      Family: !Ref Component
+      Memory: 1024
+      RequiresCompatibilities:
+        - 'FARGATE'
+
+  #------------------------------------------------
+  # ECS Service
+  #------------------------------------------------
+  ComponentEcsService:
+    Type: 'AWS::ECS::Service'
+    DependsOn: DummyListenerRule
+    Properties:
+      Cluster:
+        Fn::ImportValue: 'ecs-fargate-ws-cluster-arn'
+      DesiredCount: 1
+      LaunchType: 'FARGATE'
+      LoadBalancers:
+        - ContainerName: !Ref Component
+          ContainerPort: !Ref ContainerPort
+          TargetGroupArn: !Ref ComponentTargetGroup
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: 'ENABLED'
+          SecurityGroups:
+            - !Ref ComponentEcsServiceSecurityGroup
+            - !Ref CiSecurityGroupId
+          Subnets:
+            - !Ref PrivateA
+            - !Ref PrivateB
+            - !Ref PrivateC
+      ServiceName: !Ref Service
+      TaskDefinition: !Ref ComponentTaskDefinition
+      PropagateTags: 'TASK_DEFINITION'
+      # Note: The value has been lowered from the recommended 180, for production use please choose this value wisely.
+      HealthCheckGracePeriodSeconds: 90
