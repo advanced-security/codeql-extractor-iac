@@ -1,18 +1,61 @@
 cloudformation
+| IAMRole.yml:1:1:18:74 | CloudFormation Document |
+| IngressEgressResources.yml:1:1:19:21 | CloudFormation Document |
+| ecs.yml:1:1:92:40 | CloudFormation Document |
+| lambda.yml:1:1:21:18 | CloudFormation Document |
 | s3.json:1:1:77:1 | CloudFormation Document |
 | s3.yml:1:1:42:59 | CloudFormation Document |
+| securitygroup.yml:1:1:16:24 | CloudFormation Document |
 resources
+| IAMRole.yml:5:5:18:74 | CloudFormation IAM Role |
+| IngressEgressResources.yml:7:5:13:2 | CloudFormation EC2 Security Group Ingress |
+| IngressEgressResources.yml:14:5:19:21 | CloudFormation EC2 Security Group Egress |
+| ecs.yml:6:5:38:2 | CloudFormation ECS Task Set |
+| ecs.yml:39:5:66:2 | CloudFormation ECS Task Definition |
+| ecs.yml:67:5:92:40 | CloudFormation Resource |
+| lambda.yml:5:5:21:18 | CloudFormation Lambda Function |
 | s3.json:4:21:15:9 | CloudFormation S3 Bucket |
 | s3.json:16:25:47:9 | CloudFormation S3 Bucket Policy |
 | s3.yml:4:5:12:2 | CloudFormation S3 Bucket |
 | s3.yml:13:5:28:28 | CloudFormation S3 Bucket Policy |
+| securitygroup.yml:7:5:16:24 | CloudFormation EC2 Security Group |
 resourceProperties
+| IAMRole.yml:7:7:18:74 | CloudFormation Resource Properties |
+| IngressEgressResources.yml:9:7:13:2 | CloudFormation Resource Properties |
+| IngressEgressResources.yml:16:7:19:21 | CloudFormation Resource Properties |
+| ecs.yml:8:7:38:2 | CloudFormation Resource Properties |
+| ecs.yml:41:7:66:2 | CloudFormation Resource Properties |
+| ecs.yml:70:7:92:40 | CloudFormation Resource Properties |
+| lambda.yml:7:7:21:18 | CloudFormation Resource Properties |
 | s3.json:6:27:12:13 | CloudFormation Resource Properties |
 | s3.json:18:27:46:13 | CloudFormation Resource Properties |
 | s3.yml:6:7:10:4 | CloudFormation Resource Properties |
 | s3.yml:15:7:28:28 | CloudFormation Resource Properties |
+| securitygroup.yml:9:7:16:24 | CloudFormation Resource Properties |
 s3
 | s3.json:4:21:15:9 | CloudFormation S3 Bucket |
 | s3.yml:4:5:12:2 | CloudFormation S3 Bucket |
 s3Policy
 | s3.yml:4:5:12:2 | CloudFormation S3 Bucket | s3.yml:13:5:28:28 | CloudFormation S3 Bucket Policy |
+lambda
+| lambda.yml:5:5:21:18 | CloudFormation Lambda Function |
+ec2SecurityGroup
+| securitygroup.yml:7:5:16:24 | CloudFormation EC2 Security Group |
+ec2SecurityGroupIngress
+| IngressEgressResources.yml:7:5:13:2 | CloudFormation EC2 Security Group Ingress |
+ec2SecurityGroupEgress
+| IngressEgressResources.yml:14:5:19:21 | CloudFormation EC2 Security Group Egress |
+iamRole
+| IAMRole.yml:5:5:18:74 | CloudFormation IAM Role |
+iamStatement
+| IAMRole.yml:9:9:16:6 | Version ... -10-17' |
+| s3.yml:16:9:28:6 | Id: MyPolicy |
+ecsService
+| ecs.yml:67:5:92:40 | CloudFormation Resource |
+ecsCluster
+ecsTaskSet
+| ecs.yml:6:5:38:2 | CloudFormation ECS Task Set |
+taskDefinition
+| ecs.yml:39:5:66:2 | CloudFormation ECS Task Definition |
+containerDefinition
+| ecs.yml:41:7:66:2 | CloudFormation Resource Properties |

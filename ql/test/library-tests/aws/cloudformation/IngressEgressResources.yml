@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: PositionAndJourney Statistics Service
+
+Resources:
+  IngressInbound:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      IpProtocol: tcp
+      CidrIp: 0.0.0.0/0
+      FromPort: '6370'
+      ToPort: '6379'
+  EgressOutbound:
+    Type: 'AWS::EC2::SecurityGroupEgress'
+    Properties:
+      IpProtocol: tcp
+      CidrIp: 0.0.0.0/0
+      FromPort: '6370'
+      ToPort: '6379'
+
+
+
