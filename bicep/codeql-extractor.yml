@@ -1,0 +1,16 @@
+name: bicep
+display_name: Bicep
+version: 0.1.0
+column_kind: utf8
+legacy_qltest_extraction: true
+build_modes:
+- none
+github_api_languages:
+- Bicep
+scc_languages:
+- Bicep
+file_types:
+- name: bicep
+  display_name: Bicep
+  extensions:
+  - .bicep

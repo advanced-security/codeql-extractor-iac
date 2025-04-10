@@ -1,0 +1,5 @@
+name: codeql/bicep-downgrades
+groups: bicep
+downgrades: .
+library: true
+warnOnImplicitThis: true

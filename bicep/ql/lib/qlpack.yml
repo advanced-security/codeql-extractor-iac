@@ -1,0 +1,17 @@
+---
+library: true
+warnOnImplicitThis: false
+name: advanced-security/bicep-all
+version: 0.1.0
+dependencies:
+  codeql/util: "^1.0.0"
+  codeql/yaml: "^1.0.0"
+  codeql/controlflow: "^1.0.0"
+  codeql/dataflow: "^1.0.0"
+  codeql/regex: "^1.0.0"
+  codeql/ssa: "^1.0.0"
+dbscheme: bicep.dbscheme
+extractor: bicep
+upgrades: upgrades
+groups:
+ - bicep

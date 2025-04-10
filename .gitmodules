@@ -1,0 +1,9 @@
+[submodule "extractor/tree-sitter-hcl"]
+	path = extractor/tree-sitter-hcl
+	url = https://github.com/GeekMasher/tree-sitter-hcl
+[submodule "extractor/tree-sitter-dockerfile"]
+	path = extractor/tree-sitter-dockerfile
+	url = https://github.com/GeekMasher/tree-sitter-dockerfile
+[submodule "bicep/extractor/tree-sitter"]
+	path = bicep/extractor/tree-sitter
+	url = https://github.com/tree-sitter-grammars/tree-sitter-bicep

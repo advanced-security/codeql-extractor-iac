@@ -1,0 +1,17 @@
+- description: Standard Code Scanning queries for Bicep
+- queries: .
+
+- include:
+    kind:
+      - problem
+      - path-problem
+    tags contain:
+      - security
+- include:
+    kind:
+      - diagnostic
+
+- exclude:
+    tags contain:
+      - experimental
+      - testing

@@ -1,12 +1,13 @@
 {
-    "provide": [
-      "ql/*/qlpack.yml"
-    ],
-    "versionPolicies": {
-      "default": {
-        "requireChangeNotes": true,
-        "committedPrereleaseSuffix": "dev",
-        "committedVersion": "nextPatchRelease"
-      }
+  "provide": [
+    "bicep/ql/*/qlpack.yml",
+    "ql/*/qlpack.yml"
+  ],
+  "versionPolicies": {
+    "default": {
+      "requireChangeNotes": true,
+      "committedPrereleaseSuffix": "dev",
+      "committedVersion": "nextPatchRelease"
     }
   }
+}

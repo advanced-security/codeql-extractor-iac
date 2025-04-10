@@ -1,0 +1,676 @@
+// CodeQL database schema for BICEP
+// Automatically generated from the tree-sitter grammar; do not edit
+
+/*- Files and folders -*/
+
+/**
+ * The location of an element.
+ * The location spans column `startcolumn` of line `startline` to
+ * column `endcolumn` of line `endline` in file `file`.
+ * For more information, see
+ * [Locations](https://codeql.github.com/docs/writing-codeql-queries/providing-locations-in-codeql-queries/).
+ */
+locations_default(
+  unique int id: @location_default,
+  int file: @file ref,
+  int beginLine: int ref,
+  int beginColumn: int ref,
+  int endLine: int ref,
+  int endColumn: int ref
+);
+
+files(
+  unique int id: @file,
+  string name: string ref
+);
+
+folders(
+  unique int id: @folder,
+  string name: string ref
+);
+
+@container = @file | @folder
+
+containerparent(
+  int parent: @container ref,
+  unique int child: @container ref
+);
+
+/*- Empty location -*/
+
+empty_location(
+  int location: @location_default ref
+);
+
+/*- Source location prefix -*/
+
+/**
+ * The source location of the snapshot.
+ */
+sourceLocationPrefix(string prefix : string ref);
+
+/*- Diagnostic messages -*/
+
+diagnostics(
+  unique int id: @diagnostic,
+  int severity: int ref,
+  string error_tag: string ref,
+  string error_message: string ref,
+  string full_error_message: string ref,
+  int location: @location_default ref
+);
+
+/*- Diagnostic messages: severity -*/
+
+case @diagnostic.severity of
+  10 = @diagnostic_debug
+| 20 = @diagnostic_info
+| 30 = @diagnostic_warning
+| 40 = @diagnostic_error
+;
+
+/*- YAML -*/
+
+#keyset[parent, idx]
+yaml (unique int id: @yaml_node,
+      int kind: int ref,
+      int parent: @yaml_node_parent ref,
+      int idx: int ref,
+      string tag: string ref,
+      string tostring: string ref);
+
+case @yaml_node.kind of
+  0 = @yaml_scalar_node
+| 1 = @yaml_mapping_node
+| 2 = @yaml_sequence_node
+| 3 = @yaml_alias_node
+;
+
+@yaml_collection_node = @yaml_mapping_node | @yaml_sequence_node;
+
+@yaml_node_parent = @yaml_collection_node | @file;
+
+yaml_anchors (unique int node: @yaml_node ref,
+              string anchor: string ref);
+
+yaml_aliases (unique int alias: @yaml_alias_node ref,
+              string target: string ref);
+
+yaml_scalars (unique int scalar: @yaml_scalar_node ref,
+              int style: int ref,
+              string value: string ref);
+
+yaml_errors (unique int id: @yaml_error,
+             string message: string ref);
+
+yaml_locations(unique int locatable: @yaml_locatable ref,
+             int location: @location_default ref);
+
+@yaml_locatable = @yaml_node | @yaml_error;
+
+/*- BICEP dbscheme -*/
+#keyset[bicep_arguments, index]
+bicep_arguments_child(
+  int bicep_arguments: @bicep_arguments ref,
+  int index: int ref,
+  unique int child: @bicep_expression ref
+);
+
+bicep_arguments_def(
+  unique int id: @bicep_arguments
+);
+
+@bicep_array_child_type = @bicep_decorators | @bicep_expression
+
+#keyset[bicep_array, index]
+bicep_array_child(
+  int bicep_array: @bicep_array ref,
+  int index: int ref,
+  unique int child: @bicep_array_child_type ref
+);
+
+bicep_array_def(
+  unique int id: @bicep_array
+);
+
+bicep_array_type_def(
+  unique int id: @bicep_array_type,
+  int child: @bicep_type__ ref
+);
+
+bicep_assert_statement_def(
+  unique int id: @bicep_assert_statement,
+  int name: @bicep_token_identifier ref,
+  int child: @bicep_expression ref
+);
+
+@bicep_assignment_expression_left_type = @bicep_member_expression | @bicep_parenthesized_expression | @bicep_resource_expression | @bicep_subscript_expression | @bicep_token_identifier
+
+bicep_assignment_expression_def(
+  unique int id: @bicep_assignment_expression,
+  int left: @bicep_assignment_expression_left_type ref,
+  int right: @bicep_expression ref
+);
+
+case @bicep_binary_expression.operator of
+  0 = @bicep_binary_expression_bangequal
+| 1 = @bicep_binary_expression_bangtilde
+| 2 = @bicep_binary_expression_percent
+| 3 = @bicep_binary_expression_ampersandampersand
+| 4 = @bicep_binary_expression_star
+| 5 = @bicep_binary_expression_plus
+| 6 = @bicep_binary_expression_minus
+| 7 = @bicep_binary_expression_slash
+| 8 = @bicep_binary_expression_langle
+| 9 = @bicep_binary_expression_langleequal
+| 10 = @bicep_binary_expression_equalequal
+| 11 = @bicep_binary_expression_equaltilde
+| 12 = @bicep_binary_expression_rangle
+| 13 = @bicep_binary_expression_rangleequal
+| 14 = @bicep_binary_expression_questionquestion
+| 15 = @bicep_binary_expression_pipe
+| 16 = @bicep_binary_expression_pipepipe
+;
+
+
+bicep_binary_expression_def(
+  unique int id: @bicep_binary_expression,
+  int left: @bicep_expression ref,
+  int operator: int ref,
+  int right: @bicep_expression ref
+);
+
+bicep_call_expression_child(
+  unique int bicep_call_expression: @bicep_call_expression ref,
+  unique int child: @bicep_token_nullable_return_type ref
+);
+
+bicep_call_expression_def(
+  unique int id: @bicep_call_expression,
+  int arguments: @bicep_arguments ref,
+  int function: @bicep_expression ref
+);
+
+bicep_compatible_identifier_def(
+  unique int id: @bicep_compatible_identifier,
+  int child: @bicep_token_identifier ref
+);
+
+@bicep_declaration = @bicep_assert_statement | @bicep_metadata_declaration | @bicep_module_declaration | @bicep_output_declaration | @bicep_parameter_declaration | @bicep_resource_declaration | @bicep_test_block | @bicep_type_declaration | @bicep_user_defined_function | @bicep_variable_declaration
+
+bicep_decorator_def(
+  unique int id: @bicep_decorator,
+  int child: @bicep_call_expression ref
+);
+
+#keyset[bicep_decorators, index]
+bicep_decorators_child(
+  int bicep_decorators: @bicep_decorators ref,
+  int index: int ref,
+  unique int child: @bicep_decorator ref
+);
+
+bicep_decorators_def(
+  unique int id: @bicep_decorators
+);
+
+@bicep_expression = @bicep_assignment_expression | @bicep_binary_expression | @bicep_lambda_expression | @bicep_primary_expression | @bicep_ternary_expression | @bicep_unary_expression
+
+@bicep_for_loop_parameters_child_type = @bicep_token_loop_enumerator | @bicep_token_loop_variable
+
+#keyset[bicep_for_loop_parameters, index]
+bicep_for_loop_parameters_child(
+  int bicep_for_loop_parameters: @bicep_for_loop_parameters ref,
+  int index: int ref,
+  unique int child: @bicep_for_loop_parameters_child_type ref
+);
+
+bicep_for_loop_parameters_def(
+  unique int id: @bicep_for_loop_parameters
+);
+
+@bicep_for_statement_body_type = @bicep_expression | @bicep_if_statement
+
+bicep_for_statement_initializer(
+  unique int bicep_for_statement: @bicep_for_statement ref,
+  unique int initializer: @bicep_token_identifier ref
+);
+
+@bicep_for_statement_child_type = @bicep_expression | @bicep_for_loop_parameters
+
+#keyset[bicep_for_statement, index]
+bicep_for_statement_child(
+  int bicep_for_statement: @bicep_for_statement ref,
+  int index: int ref,
+  unique int child: @bicep_for_statement_child_type ref
+);
+
+bicep_for_statement_def(
+  unique int id: @bicep_for_statement,
+  int body: @bicep_for_statement_body_type ref
+);
+
+@bicep_if_statement_child_type = @bicep_object | @bicep_parenthesized_expression
+
+#keyset[bicep_if_statement, index]
+bicep_if_statement_child(
+  int bicep_if_statement: @bicep_if_statement ref,
+  int index: int ref,
+  unique int child: @bicep_if_statement_child_type ref
+);
+
+bicep_if_statement_def(
+  unique int id: @bicep_if_statement
+);
+
+@bicep_import_functionality_child_type = @bicep_string__ | @bicep_token_identifier
+
+#keyset[bicep_import_functionality, index]
+bicep_import_functionality_child(
+  int bicep_import_functionality: @bicep_import_functionality ref,
+  int index: int ref,
+  unique int child: @bicep_import_functionality_child_type ref
+);
+
+bicep_import_functionality_def(
+  unique int id: @bicep_import_functionality
+);
+
+@bicep_import_statement_child_type = @bicep_string__ | @bicep_token_identifier
+
+#keyset[bicep_import_statement, index]
+bicep_import_statement_child(
+  int bicep_import_statement: @bicep_import_statement ref,
+  int index: int ref,
+  unique int child: @bicep_import_statement_child_type ref
+);
+
+bicep_import_statement_def(
+  unique int id: @bicep_import_statement
+);
+
+@bicep_import_with_statement_child_type = @bicep_expression | @bicep_string__ | @bicep_token_identifier
+
+#keyset[bicep_import_with_statement, index]
+bicep_import_with_statement_child(
+  int bicep_import_with_statement: @bicep_import_with_statement ref,
+  int index: int ref,
+  unique int child: @bicep_import_with_statement_child_type ref
+);
+
+bicep_import_with_statement_def(
+  unique int id: @bicep_import_with_statement
+);
+
+#keyset[bicep_infrastructure, index]
+bicep_infrastructure_child(
+  int bicep_infrastructure: @bicep_infrastructure ref,
+  int index: int ref,
+  unique int child: @bicep_statement ref
+);
+
+bicep_infrastructure_def(
+  unique int id: @bicep_infrastructure
+);
+
+bicep_interpolation_def(
+  unique int id: @bicep_interpolation,
+  int child: @bicep_expression ref
+);
+
+#keyset[bicep_lambda_expression, index]
+bicep_lambda_expression_child(
+  int bicep_lambda_expression: @bicep_lambda_expression ref,
+  int index: int ref,
+  unique int child: @bicep_expression ref
+);
+
+bicep_lambda_expression_def(
+  unique int id: @bicep_lambda_expression
+);
+
+@bicep_member_expression_object_type = @bicep_expression | @bicep_parameterized_type
+
+bicep_member_expression_def(
+  unique int id: @bicep_member_expression,
+  int object: @bicep_member_expression_object_type ref,
+  int property: @bicep_token_property_identifier ref
+);
+
+@bicep_metadata_declaration_child_type = @bicep_expression | @bicep_token_identifier
+
+#keyset[bicep_metadata_declaration, index]
+bicep_metadata_declaration_child(
+  int bicep_metadata_declaration: @bicep_metadata_declaration ref,
+  int index: int ref,
+  unique int child: @bicep_metadata_declaration_child_type ref
+);
+
+bicep_metadata_declaration_def(
+  unique int id: @bicep_metadata_declaration
+);
+
+@bicep_module_declaration_child_type = @bicep_for_statement | @bicep_if_statement | @bicep_object | @bicep_string__ | @bicep_token_identifier
+
+#keyset[bicep_module_declaration, index]
+bicep_module_declaration_child(
+  int bicep_module_declaration: @bicep_module_declaration ref,
+  int index: int ref,
+  unique int child: @bicep_module_declaration_child_type ref
+);
+
+bicep_module_declaration_def(
+  unique int id: @bicep_module_declaration
+);
+
+bicep_negated_type_def(
+  unique int id: @bicep_negated_type,
+  int child: @bicep_type__ ref
+);
+
+@bicep_nullable_type_child_type = @bicep_array_type | @bicep_expression | @bicep_parenthesized_type | @bicep_token_primitive_type
+
+bicep_nullable_type_def(
+  unique int id: @bicep_nullable_type,
+  int child: @bicep_nullable_type_child_type ref
+);
+
+@bicep_object_child_type = @bicep_decorators | @bicep_object_property
+
+#keyset[bicep_object, index]
+bicep_object_child(
+  int bicep_object: @bicep_object ref,
+  int index: int ref,
+  unique int child: @bicep_object_child_type ref
+);
+
+bicep_object_def(
+  unique int id: @bicep_object
+);
+
+@bicep_object_property_child_type = @bicep_array_type | @bicep_compatible_identifier | @bicep_expression | @bicep_nullable_type | @bicep_parameterized_type | @bicep_resource_declaration | @bicep_string__ | @bicep_token_identifier | @bicep_token_primitive_type | @bicep_union_type
+
+#keyset[bicep_object_property, index]
+bicep_object_property_child(
+  int bicep_object_property: @bicep_object_property ref,
+  int index: int ref,
+  unique int child: @bicep_object_property_child_type ref
+);
+
+bicep_object_property_def(
+  unique int id: @bicep_object_property
+);
+
+@bicep_output_declaration_child_type = @bicep_expression | @bicep_token_identifier | @bicep_type__
+
+#keyset[bicep_output_declaration, index]
+bicep_output_declaration_child(
+  int bicep_output_declaration: @bicep_output_declaration ref,
+  int index: int ref,
+  unique int child: @bicep_output_declaration_child_type ref
+);
+
+bicep_output_declaration_def(
+  unique int id: @bicep_output_declaration
+);
+
+@bicep_parameter_child_type = @bicep_token_identifier | @bicep_type__
+
+#keyset[bicep_parameter, index]
+bicep_parameter_child(
+  int bicep_parameter: @bicep_parameter ref,
+  int index: int ref,
+  unique int child: @bicep_parameter_child_type ref
+);
+
+bicep_parameter_def(
+  unique int id: @bicep_parameter
+);
+
+@bicep_parameter_declaration_child_type = @bicep_expression | @bicep_token_identifier | @bicep_type__
+
+#keyset[bicep_parameter_declaration, index]
+bicep_parameter_declaration_child(
+  int bicep_parameter_declaration: @bicep_parameter_declaration ref,
+  int index: int ref,
+  unique int child: @bicep_parameter_declaration_child_type ref
+);
+
+bicep_parameter_declaration_def(
+  unique int id: @bicep_parameter_declaration
+);
+
+@bicep_parameterized_type_child_type = @bicep_token_identifier | @bicep_type_arguments
+
+#keyset[bicep_parameterized_type, index]
+bicep_parameterized_type_child(
+  int bicep_parameterized_type: @bicep_parameterized_type ref,
+  int index: int ref,
+  unique int child: @bicep_parameterized_type_child_type ref
+);
+
+bicep_parameterized_type_def(
+  unique int id: @bicep_parameterized_type
+);
+
+#keyset[bicep_parameters, index]
+bicep_parameters_child(
+  int bicep_parameters: @bicep_parameters ref,
+  int index: int ref,
+  unique int child: @bicep_parameter ref
+);
+
+bicep_parameters_def(
+  unique int id: @bicep_parameters
+);
+
+#keyset[bicep_parenthesized_expression, index]
+bicep_parenthesized_expression_child(
+  int bicep_parenthesized_expression: @bicep_parenthesized_expression ref,
+  int index: int ref,
+  unique int child: @bicep_expression ref
+);
+
+bicep_parenthesized_expression_def(
+  unique int id: @bicep_parenthesized_expression
+);
+
+bicep_parenthesized_type_def(
+  unique int id: @bicep_parenthesized_type,
+  int child: @bicep_type__ ref
+);
+
+@bicep_primary_expression = @bicep_array | @bicep_call_expression | @bicep_for_statement | @bicep_member_expression | @bicep_object | @bicep_parenthesized_expression | @bicep_resource_expression | @bicep_string__ | @bicep_subscript_expression | @bicep_token_boolean | @bicep_token_identifier | @bicep_token_null | @bicep_token_number
+
+@bicep_resource_declaration_child_type = @bicep_for_statement | @bicep_if_statement | @bicep_object | @bicep_string__ | @bicep_token_identifier
+
+#keyset[bicep_resource_declaration, index]
+bicep_resource_declaration_child(
+  int bicep_resource_declaration: @bicep_resource_declaration ref,
+  int index: int ref,
+  unique int child: @bicep_resource_declaration_child_type ref
+);
+
+bicep_resource_declaration_def(
+  unique int id: @bicep_resource_declaration
+);
+
+bicep_resource_expression_def(
+  unique int id: @bicep_resource_expression,
+  int object: @bicep_expression ref,
+  int resource: @bicep_token_identifier ref
+);
+
+@bicep_statement = @bicep_declaration | @bicep_decorators | @bicep_import_functionality | @bicep_import_statement | @bicep_import_with_statement | @bicep_target_scope_assignment | @bicep_using_statement
+
+@bicep_string_child_type = @bicep_interpolation | @bicep_token_escape_sequence | @bicep_token_string_content
+
+#keyset[bicep_string__, index]
+bicep_string_child(
+  int bicep_string__: @bicep_string__ ref,
+  int index: int ref,
+  unique int child: @bicep_string_child_type ref
+);
+
+bicep_string_def(
+  unique int id: @bicep_string__
+);
+
+bicep_subscript_expression_def(
+  unique int id: @bicep_subscript_expression,
+  int index: @bicep_expression ref,
+  int object: @bicep_expression ref
+);
+
+bicep_target_scope_assignment_def(
+  unique int id: @bicep_target_scope_assignment,
+  int child: @bicep_string__ ref
+);
+
+bicep_ternary_expression_def(
+  unique int id: @bicep_ternary_expression,
+  int alternative: @bicep_expression ref,
+  int condition: @bicep_expression ref,
+  int consequence: @bicep_expression ref
+);
+
+@bicep_test_block_child_type = @bicep_object | @bicep_string__ | @bicep_token_identifier
+
+#keyset[bicep_test_block, index]
+bicep_test_block_child(
+  int bicep_test_block: @bicep_test_block ref,
+  int index: int ref,
+  unique int child: @bicep_test_block_child_type ref
+);
+
+bicep_test_block_def(
+  unique int id: @bicep_test_block
+);
+
+@bicep_type_child_type = @bicep_array_type | @bicep_member_expression | @bicep_negated_type | @bicep_nullable_type | @bicep_object | @bicep_parameterized_type | @bicep_parenthesized_type | @bicep_string__ | @bicep_token_boolean | @bicep_token_identifier | @bicep_token_null | @bicep_token_number | @bicep_token_primitive_type | @bicep_union_type
+
+bicep_type_def(
+  unique int id: @bicep_type__,
+  int child: @bicep_type_child_type ref
+);
+
+#keyset[bicep_type_arguments, index]
+bicep_type_arguments_child(
+  int bicep_type_arguments: @bicep_type_arguments ref,
+  int index: int ref,
+  unique int child: @bicep_string__ ref
+);
+
+bicep_type_arguments_def(
+  unique int id: @bicep_type_arguments
+);
+
+@bicep_type_declaration_child_type = @bicep_array_type | @bicep_expression | @bicep_nullable_type | @bicep_parameterized_type | @bicep_token_identifier | @bicep_union_type
+
+#keyset[bicep_type_declaration, index]
+bicep_type_declaration_child(
+  int bicep_type_declaration: @bicep_type_declaration ref,
+  int index: int ref,
+  unique int child: @bicep_type_declaration_child_type ref
+);
+
+bicep_type_declaration_def(
+  unique int id: @bicep_type_declaration
+);
+
+case @bicep_unary_expression.operator of
+  0 = @bicep_unary_expression_bang
+| 1 = @bicep_unary_expression_minus
+;
+
+
+bicep_unary_expression_def(
+  unique int id: @bicep_unary_expression,
+  int argument: @bicep_expression ref,
+  int operator: int ref
+);
+
+@bicep_union_type_child_type = @bicep_array_type | @bicep_expression | @bicep_member_expression | @bicep_negated_type | @bicep_nullable_type | @bicep_object | @bicep_parameterized_type | @bicep_parenthesized_type | @bicep_string__ | @bicep_token_boolean | @bicep_token_identifier | @bicep_token_null | @bicep_token_number | @bicep_token_primitive_type
+
+#keyset[bicep_union_type, index]
+bicep_union_type_child(
+  int bicep_union_type: @bicep_union_type ref,
+  int index: int ref,
+  unique int child: @bicep_union_type_child_type ref
+);
+
+bicep_union_type_def(
+  unique int id: @bicep_union_type
+);
+
+@bicep_user_defined_function_child_type = @bicep_expression | @bicep_parameters
+
+#keyset[bicep_user_defined_function, index]
+bicep_user_defined_function_child(
+  int bicep_user_defined_function: @bicep_user_defined_function ref,
+  int index: int ref,
+  unique int child: @bicep_user_defined_function_child_type ref
+);
+
+bicep_user_defined_function_def(
+  unique int id: @bicep_user_defined_function,
+  int name: @bicep_token_identifier ref,
+  int returns: @bicep_type__ ref
+);
+
+bicep_using_statement_def(
+  unique int id: @bicep_using_statement,
+  int child: @bicep_string__ ref
+);
+
+@bicep_variable_declaration_child_type = @bicep_expression | @bicep_token_identifier
+
+#keyset[bicep_variable_declaration, index]
+bicep_variable_declaration_child(
+  int bicep_variable_declaration: @bicep_variable_declaration ref,
+  int index: int ref,
+  unique int child: @bicep_variable_declaration_child_type ref
+);
+
+bicep_variable_declaration_def(
+  unique int id: @bicep_variable_declaration
+);
+
+bicep_tokeninfo(
+  unique int id: @bicep_token,
+  int kind: int ref,
+  string value: string ref
+);
+
+case @bicep_token.kind of
+  0 = @bicep_reserved_word
+| 1 = @bicep_token_boolean
+| 2 = @bicep_token_comment
+| 3 = @bicep_token_diagnostic_comment
+| 4 = @bicep_token_escape_sequence
+| 5 = @bicep_token_identifier
+| 6 = @bicep_token_loop_enumerator
+| 7 = @bicep_token_loop_variable
+| 8 = @bicep_token_null
+| 9 = @bicep_token_nullable_return_type
+| 10 = @bicep_token_number
+| 11 = @bicep_token_primitive_type
+| 12 = @bicep_token_property_identifier
+| 13 = @bicep_token_string_content
+;
+
+
+@bicep_ast_node = @bicep_arguments | @bicep_array | @bicep_array_type | @bicep_assert_statement | @bicep_assignment_expression | @bicep_binary_expression | @bicep_call_expression | @bicep_compatible_identifier | @bicep_decorator | @bicep_decorators | @bicep_for_loop_parameters | @bicep_for_statement | @bicep_if_statement | @bicep_import_functionality | @bicep_import_statement | @bicep_import_with_statement | @bicep_infrastructure | @bicep_interpolation | @bicep_lambda_expression | @bicep_member_expression | @bicep_metadata_declaration | @bicep_module_declaration | @bicep_negated_type | @bicep_nullable_type | @bicep_object | @bicep_object_property | @bicep_output_declaration | @bicep_parameter | @bicep_parameter_declaration | @bicep_parameterized_type | @bicep_parameters | @bicep_parenthesized_expression | @bicep_parenthesized_type | @bicep_resource_declaration | @bicep_resource_expression | @bicep_string__ | @bicep_subscript_expression | @bicep_target_scope_assignment | @bicep_ternary_expression | @bicep_test_block | @bicep_token | @bicep_type__ | @bicep_type_arguments | @bicep_type_declaration | @bicep_unary_expression | @bicep_union_type | @bicep_user_defined_function | @bicep_using_statement | @bicep_variable_declaration
+
+bicep_ast_node_location(
+  unique int node: @bicep_ast_node ref,
+  int loc: @location_default ref
+);
+
+#keyset[parent, parent_index]
+bicep_ast_node_parent(
+  unique int node: @bicep_ast_node ref,
+  int parent: @bicep_ast_node ref,
+  int parent_index: int ref
+);
+

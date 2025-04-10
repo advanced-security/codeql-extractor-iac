@@ -1,0 +1,6 @@
+target/
+extractor-pack/
+.codeql/
+# CodeQL Testing Files / Folders
+*.testproj/
+*.actual

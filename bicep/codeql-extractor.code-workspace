@@ -1,0 +1,25 @@
+{
+    "folders": [
+        {
+            "name": "Library",
+            "path": "ql/lib"
+        },
+        {
+            "name": "Queries",
+            "path": "ql/src"
+        },
+        {
+            "name": "Tests",
+            "path": "ql/test"
+        },
+        {
+            "name": "Extractor",
+            "path": "extractor"
+        }
+    ],
+    "settings": {
+        "codeQL.runningTests.additionalTestArguments": [
+            "./extractor-pack"
+        ]
+    }
+}

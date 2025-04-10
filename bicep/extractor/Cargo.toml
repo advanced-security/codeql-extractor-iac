@@ -1,0 +1,20 @@
+[package]
+name = "codeql-extractor-bicep"
+version = "0.1.0"
+authors = ["GitHub"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+flate2 = "1.0"
+clap = { version = "4.4", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+rayon = "1.8"
+regex = "1.11.1"
+# Tree Sitter
+tree-sitter-bicep = { path = "./tree-sitter" }
+tree-sitter = "^0.24"
+# CodeQL - v2.20.4
+codeql-extractor = { git = "https://github.com/github/codeql", rev = "c524a98eb91c769cb2994b8373181c2ebd27c20f" }

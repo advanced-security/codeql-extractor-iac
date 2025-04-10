@@ -1,0 +1,9 @@
+name: advanced-security/bicep-tests
+groups: [bicep, test]
+dependencies:
+dependencies:
+  advanced-security/bicep-all: ${workspace}
+  advanced-security/bicep-queries: ${workspace}
+extractor: bicep
+tests: .
+warnOnImplicitThis: true

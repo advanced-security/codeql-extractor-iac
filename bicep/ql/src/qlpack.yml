@@ -1,0 +1,9 @@
+name: advanced-security/bicep-queries
+version: 0.1.0
+groups: 
+  - bicep
+  - queries
+dependencies:
+  advanced-security/bicep-all: ${workspace}
+extractor: bicep
+defaultSuiteFile: codeql-suites/code-scanning.qls

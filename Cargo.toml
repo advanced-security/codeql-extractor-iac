@@ -1,2 +1,3 @@
 [workspace]
-members = ["extractor"]
+resolver = "2"
+members = ["bicep/extractor", "extractor"]
