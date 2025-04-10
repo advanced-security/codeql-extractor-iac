@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Infrastructure for the ECS Fargate deployment pattern workshop service.'
+
+Resources:
+  #------------------------------------------------
+  # ECS task definition
+  #------------------------------------------------
+  ComponentTaskDefinition:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      ContainerDefinitions:
+        - Image: !Sub '${image}:${version}'
+          Name: !Ref Component
+          PortMappings:
+            - ContainerPort: 443
+          Environment:
+            # Normally mandatory (but e.g. SHORTNAME and FLAVOUR may not always be applicable)
+          Secrets:
+            # Normally mandatory (but e.g. SHORTNAME and FLAVOUR may not always be applicable)
+            - Name: 'AWS_ACCESS_KEY_ID'
+              ValueFrom: arn:aws:secretsmanager:region:account-id:secret:aws-key-id
+              Name: 'AWS_SECRET_ACCESS_KEY'
+              ValueFrom: arn:aws:secretsmanager:region:account-id:secret:aws-secret-key
+      Cpu: 512
+      ExecutionRoleArn: !GetAtt ComponentTaskDefinitionExecutionRole.Arn
+      TaskRoleArn: !GetAtt ComponentTaskDefinitionRole.Arn
+      Family: !Ref Component
+      Memory: 1024
+      RequiresCompatibilities:
+        - 'FARGATE'
+
+
+  ClusterService:
+    Type: 'AWS::ECS::Cluster'
+    Properties:
+      ClusterName: !Sub 'group${UserPartition}-ecs-fargate-ws-cluster'
+  #------------------------------------------------
+  # ECS Service
+  #------------------------------------------------
+  ComponentEcsService:
+    Type: 'AWS::ECS::Service'
+    DependsOn: ListenerRule
+    Properties:
+      Cluster:
+        Fn::ImportValue: !Sub 'group$-ecs-fargate-cluster-arn'
+      DesiredCount: 1
+      LaunchType: 'FARGATE'
+      LoadBalancers:
+        - ContainerName: !Ref Component
+          ContainerPort: !Ref ContainerPort
+          TargetGroupArn: !Ref ComponentTargetGroup
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: 'ENABLED'
+          SecurityGroups:
+            - !Ref ComponentEcsServiceSecurityGroup
+            - !Ref CiSecurityGroupId
+          Subnets:
+            - !Ref Subnet1
+      ServiceName: !Sub '${RegionalPrefix}-${Component}-${Version}-${Launch}'
+      TaskDefinition: !Ref ComponentTaskDefinition
+      PropagateTags: 'TASK_DEFINITION'
+      # Note: The value has been lowered from the recommended 180, for production use please choose this value wisely.
+      HealthCheckGracePeriodSeconds: 90
