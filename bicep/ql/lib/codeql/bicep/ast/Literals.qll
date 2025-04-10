@@ -8,7 +8,6 @@ private import internal.TreeSitter
 private import internal.Literals
 private import internal.Null
 private import internal.NullableReturnType
-private import internal.NullableType
 private import internal.String
 private import internal.StringContent
 
@@ -27,11 +26,7 @@ final class NullLiteral extends Literals instanceof NullImpl {
  */
 final class NullableReturnTypeLiteral extends Literals instanceof NullableReturnTypeImpl {
 }
-/**
- * A NullableType literal in the AST.
- */
-final class NullableTypeLiteral extends Literals instanceof NullableTypeImpl {
-}
+
 /**
  * A String literal in the AST.
  */

@@ -22,8 +22,10 @@ class StringImpl extends TString, LiteralsImpl {
   override string toString() { result = ast.toString() }
   /**
    *  Get the literal value
+   * 
+   *  TODO: This is broken.
    */
-  override string getValue() { result = ast.getValue() }
+  override string getValue() { result = ast.getChild(_).toString() }
 
 
 

@@ -6,13 +6,13 @@
 private import AstNodes
 private import TreeSitter
 private import codeql.bicep.ast.AstNodes
-private import Literals
+private import Expr
 
 
 /**
  *  A NullableType AST Node.
  */
-class NullableTypeImpl extends TNullableType, LiteralsImpl {
+class NullableTypeImpl extends TNullableType, ExprImpl {
   private BICEP::NullableType ast;
 
   override string getAPrimaryQlClass() { result = "NullableType" }
@@ -20,11 +20,5 @@ class NullableTypeImpl extends TNullableType, LiteralsImpl {
   NullableTypeImpl() { this = TNullableType(ast) }
 
   override string toString() { result = ast.toString() }
-  /**
-   *  Get the literal value
-   */
-  override string getValue() { result = ast.getValue() }
-
-
 
 }
