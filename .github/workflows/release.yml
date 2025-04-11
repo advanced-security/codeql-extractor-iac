@@ -12,7 +12,6 @@ on:
           - minor
           - major
 
-
 permissions:
   contents: write
 
@@ -24,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "Patch Release Me"
-        uses: 42ByteLabs/patch-release-me@0.5.3
+        uses: 42ByteLabs/patch-release-me@67fb9fab3595fd3fee1dfa539e080fef0488c909    # 0.5.4
         with:
           mode: ${{ github.event.inputs.bump }}
 
@@ -43,7 +42,7 @@ jobs:
           echo "release=true" >> "$GITHUB_ENV"
 
       - name: "Create Release"
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e  # v7.0.8
         with:
           token: ${{ github.token }}
           commit-message: "[chore]: Create release for ${{ steps.get_version.outcome.version }}"
