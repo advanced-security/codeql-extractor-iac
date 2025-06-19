@@ -1,8 +1,7 @@
 use clap::Args;
 use std::path::PathBuf;
 
-use codeql_extractor::extractor::simple;
-use codeql_extractor::trap;
+use codeql_extractor::{extractor::simple, file_paths, trap};
 
 #[derive(Args)]
 pub struct Options {
@@ -16,7 +15,7 @@ pub struct Options {
 
     /// A text file containing the paths of the files to extract
     #[arg(long)]
-    file_list: PathBuf,
+    file_list: String,
 }
 
 pub fn run(options: Options) -> std::io::Result<()> {
