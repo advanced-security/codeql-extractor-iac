@@ -16,7 +16,7 @@ jobs:
       release: ${{ steps.get_version.outputs.release }}
       version: ${{ steps.get_version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: "Check release version"
         id: get_version
@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "Check and Publish CodeQL Packs"
         env:
@@ -82,7 +82,7 @@ jobs:
     if: ${{ needs.release-check.outputs.release == 'true' }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: "Publish Extractor Pack"
         if: github.ref == 'refs/heads/main'
