@@ -22,6 +22,9 @@ else
   CODEQL_BINARY="gh codeql"
 fi
 
+echo "Update submodules..."
+git submodule update --init --recursive
+
 cargo build --release
 cargo run --release --bin codeql-extractor-iac -- generate --dbscheme ql/lib/iac.dbscheme --library ql/lib/codeql/iac/ast/internal/TreeSitter.qll
 $CODEQL_BINARY query format -i ql/lib/codeql/iac/ast/internal/TreeSitter.qll

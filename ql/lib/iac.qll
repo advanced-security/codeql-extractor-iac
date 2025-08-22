@@ -5,7 +5,6 @@ import codeql.iac.Dependencies
 import codeql.iac.actions.Actions
 // Azure
 import codeql.iac.azure.ARM
-import codeql.iac.azure.Bicep
 import codeql.iac.azure.Pipelines
 // AWS
 import codeql.iac.aws.CloudFormation

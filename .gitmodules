@@ -1,0 +1,6 @@
+[submodule "extractor/tree-sitter-hcl"]
+	path = extractor/tree-sitter-hcl
+	url = https://github.com/GeekMasher/tree-sitter-hcl
+[submodule "extractor/tree-sitter-dockerfile"]
+	path = extractor/tree-sitter-dockerfile
+	url = https://github.com/GeekMasher/tree-sitter-dockerfile
