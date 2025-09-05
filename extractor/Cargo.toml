@@ -10,14 +10,15 @@ rust-version = "1.85"
 
 [dependencies]
 # TreeSitter Grammars
-tree-sitter = ">= 0.23.0"
+tree-sitter = "^0.24"
+
 tree-sitter-hcl = { path = "./tree-sitter-hcl" }
 # tree-sitter-hcl = { git = "https://github.com/GeekMasher/tree-sitter-hcl", rev = "5e045dd1ff7852511c249c4c5d919d9556751d98" }
 tree-sitter-dockerfile = { path = "./tree-sitter-dockerfile" }
 # tree-sitter-dockerfile = { git = "https://github.com/GeekMasher/tree-sitter-dockerfile", rev = "439c3e7b8a9bfdbf1f7d7c2beaae4173dc484cbf" }
 
-# CodeQL 2.22.0
-codeql-extractor = { git = "https://github.com/github/codeql", rev = "4d681f05bd671f8b5e31624f16a2b4d75e61c071" }
+# CodeQL - v2.20.4
+codeql-extractor = { git = "https://github.com/github/codeql", rev = "c524a98eb91c769cb2994b8373181c2ebd27c20f" }
 
 flate2 = "1.1"
 clap = { version = "4.5", features = ["derive"] }
