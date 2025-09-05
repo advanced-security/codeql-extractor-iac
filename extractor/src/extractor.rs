@@ -34,13 +34,13 @@ pub fn run(options: Options) -> std::io::Result<()> {
         languages: vec![
             simple::LanguageSpec {
                 prefix: "hcl",
-                ts_language: tree_sitter_hcl::language(),
+                ts_language: tree_sitter_hcl::LANGUAGE.into(),
                 node_types: tree_sitter_hcl::NODE_TYPES,
                 file_globs: vec!["*.hcl".into(), "*.tf".into(), "*.tfvar".into()],
             },
             simple::LanguageSpec {
                 prefix: "dockerfile",
-                ts_language: tree_sitter_dockerfile::language(),
+                ts_language: tree_sitter_dockerfile::LANGUAGE.into(),
                 node_types: tree_sitter_dockerfile::NODE_TYPES,
                 file_globs: vec!["*Dockerfile".into(), "*Containerfile".into()],
             },
