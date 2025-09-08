@@ -1,1 +1,3 @@
-| storage.tf:9:1:15:1 | resource azurerm_storage_container insecure | Azure Storage is Unencrypted for 'insecure' |
+| storage.tf:15:1:22:1 | resource azurerm_storage_container insecure-storage-container | Azure Storage is Public |
+| storage.tf:25:1:33:1 | resource azurerm_storage_account insecure-storage-account | Azure Storage is Public |
+| storage.tf:49:1:59:1 | resource azurerm_storage_account insecure-storage-account | Azure Storage is Public |

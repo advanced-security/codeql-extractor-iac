@@ -13,10 +13,8 @@
  */
 
 import hcl
+import codeql.hcl.security.PublicStorage
 
 // https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk
-from Azure::StorageContainer managed_disk
-where
-  managed_disk.getContainerAccessType() = "blob" and
-  managed_disk.getProperty("publicAccess").(StringLiteral).getValue() = "blob"
-select managed_disk, "Azure Storage is Unencrypted for '" + managed_disk.getName() + "'"
+from AzurePublicStorage public_storage
+select public_storage, "Azure Storage is Public"
