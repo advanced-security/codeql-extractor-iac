@@ -6,11 +6,9 @@ legacy_qltest_extraction: true
 github_api_languages:
   - HCL
   - Docker
-  - Bicep
 scc_languages:
   - HCL
   - Docker
-  - Bicep
 
 # File types
 file_types:
@@ -26,8 +24,3 @@ file_types:
     extensions:
       - .Dockerfile
       - .Containerfile
-
-  - name: bicep
-    display_name: Bicep
-    extensions:
-      - .bicep
