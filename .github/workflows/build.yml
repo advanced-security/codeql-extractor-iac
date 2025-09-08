@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v5
+        with:
+          submodules: true
 
       - name: "Check for changes"
         uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
@@ -66,6 +68,81 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           ./scripts/run-tests.sh "ql/test/${{ matrix.test-folders }}"
+
+  scanning:
+    runs-on: ubuntu-latest
+    needs: [tests]
+
+    strategy:
+      matrix:
+        project: ["hashicorp/terraform-guides", "akamai/terraform-examples", "aws-samples/aws-sam-terraform-examples"]
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v5
+        with:
+          submodules: true
+
+      - name: "Checkout"
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ matrix.project }}
+          path: project
+
+      - name: "Check for changes"
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: extractor-changes
+        with:
+          filters: |
+            src:
+              - 'extractor/**'
+              - 'rust-toolchain.toml'
+              - 'Cargo.*'
+
+      - name: "Download Extracter"
+        if: steps.extractor-changes.outputs.src == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          gh release list -L 1 -R "advanced-security/codeql-extractor-iac"
+
+          gh release download \
+              -R "advanced-security/codeql-extractor-iac" \
+              --clobber \
+              --pattern 'extractor-iac.tar.gz'
+
+          tar -zxf extractor-iac.tar.gz
+
+      - uses: dtolnay/rust-toolchain@4305c38b25d97ef35a8ad1f985ccf2d2242004f2 # stable
+        if: steps.extractor-changes.outputs.src == 'true'
+
+      - name: "Build Extractor"
+        if: steps.extractor-changes.outputs.src == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          gh extensions install github/gh-codeql
+          gh codeql set-version latest
+
+          ./scripts/create-extractor-pack.sh
+
+          gh codeql resolve languages --format=json --search-path ./extractor-pack
+
+      - name: "Run CodeQL Analysis"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROJECT_REPO: ${{ matrix.project }}
+        run: |
+          set -e
+          gh extensions install github/gh-codeql
+          gh codeql set-version latest
+
+          gh codeql database create iac-db --language=hcl --source-root=./project --search-path ./extractor-pack
+
+          gh codeql database analyze iac-db "codeql-queries/iac-queries" --format=sarifv2.1.0 --output="iac-${PROJECT_REPO}.sarif"
+
 
   docs:
     runs-on: ubuntu-latest
