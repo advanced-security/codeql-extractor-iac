@@ -1,9 +1,7 @@
-# codeql-extractor-iac
-
 <!-- markdownlint-disable -->
 <div align="center">
 
-:warning: **This project is in early development and is not supported by GitHub or CodeQL** :warning:
+<h1>CodeQL IaC Extractor, Libraries, and Queries</h1>
 
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/advanced-security/codeql-extractor-iac)
 [![GitHub Actions](https://img.shields.io/github/actions/workflow/status/advanced-security/codeql-extractor-iac/publish.yml?style=for-the-badge)](https://github.com/advanced-security/codeql-extractor-iac/actions/workflows/publish.yml?query=branch%3Amain)
@@ -13,6 +11,12 @@
 
 </div>
 <!-- markdownlint-restore -->
+
+> [!NOTE]
+> This is **not** an official GitHub project and is not supported by the CodeQL team.
+> This is a community project.
+
+## Overview
 
 [CodeQL][codeql] Extractor, Library, and Queries for Infrastructure as Code.
 

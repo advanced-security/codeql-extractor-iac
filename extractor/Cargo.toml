@@ -2,23 +2,27 @@
 name = "codeql-extractor-iac"
 version = "0.4.1"
 authors = ["GitHub"]
-edition = "2018"
+
+edition = "2024"
+rust-version = "1.85"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-# TreeSitter Grammars
-tree-sitter = ">= 0.20, < 0.25"
-tree-sitter-hcl = { git = "https://github.com/GeekMasher/tree-sitter-hcl", rev = "5e045dd1ff7852511c249c4c5d919d9556751d98" }
-tree-sitter-dockerfile = { git = "https://github.com/GeekMasher/tree-sitter-dockerfile", rev = "439c3e7b8a9bfdbf1f7d7c2beaae4173dc484cbf" }
-tree-sitter-bicep = { git = "https://github.com/GeekMasher/tree-sitter-bicep", rev = "0092c7d1bd6bb22ce0a6f78497d50ea2b87f19c0" }
-
-# CodeQL 2.17.0
-codeql-extractor = { git = "https://github.com/github/codeql", rev = "839ca60f90f918b567e192642b0cc3003803f482" }
-
 flate2 = "1.1"
 clap = { version = "4.5", features = ["derive"] }
 tracing = "0.1"
-tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
-rayon = "1.10.0"
-regex = "1.11.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+rayon = "1.10"
+regex = "1.11"
+
+# TreeSitter
+tree-sitter = "^0.24"
+# Grammars
+# tree-sitter-hcl = { path = "./tree-sitter-hcl" }
+tree-sitter-hcl = { git = "https://github.com/GeekMasher/tree-sitter-hcl", rev = "3e0539c5fe690b353af38dce1423880d0f0c81f9" }
+# tree-sitter-dockerfile = { path = "./tree-sitter-dockerfile" }
+tree-sitter-dockerfile = { git = "https://github.com/GeekMasher/tree-sitter-dockerfile", rev = "54af8c9009d1c55f47e09fc896ba9857edf09f23" }
+
+# CodeQL - v2.20.4
+codeql-extractor = { git = "https://github.com/github/codeql", rev = "c524a98eb91c769cb2994b8373181c2ebd27c20f" }
