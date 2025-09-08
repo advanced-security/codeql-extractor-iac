@@ -1,10 +1,40 @@
+/**
+ * Classes and predicates for analyzing GitHub provider resources and configurations in HCL.
+ * This module provides specific support for GitHub resources, data sources, and provider configurations
+ * commonly used in Terraform for managing GitHub repositories, teams, and organization settings.
+ */
+
 private import codeql.hcl.AST
 private import codeql.hcl.Resources
 private import codeql.hcl.Constants
 
+/**
+ * GitHub provider module containing classes for analyzing GitHub-specific HCL configurations.
+ *
+ * This module provides specialized classes for GitHub resources like repositories, teams,
+ * webhooks, and other GitHub management features commonly defined in Terraform configurations.
+ */
 module GitHub {
   /**
-   * GitHub resources.
+   * A GitHub resource in HCL configuration.
+   *
+   * GitHub resources represent components that are managed through the GitHub API,
+   * such as repositories, teams, organization settings, webhooks, etc.
+   *
+   * Example GitHub resources:
+   * ```
+   * resource "github_repository" "example" {
+   *   name        = "example-repo"
+   *   description = "My example repository"
+   *   visibility  = "public"
+   * }
+   *
+   * resource "github_team" "developers" {
+   *   name        = "developers"
+   *   description = "Development team"
+   *   privacy     = "closed"
+   * }
+   * ```
    */
   class GitHubResource extends Resource, Block {
     GitHubResource() { this.getResourceType().regexpMatch("^github.*") }
