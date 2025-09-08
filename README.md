@@ -24,7 +24,7 @@
 
 ```yaml
 - name: Initialize and Analyze IaC
-  uses: advanced-security/codeql-extractor-iac@v0.4.1
+  uses: advanced-security/codeql-extractor-iac@v0.5.0
 ```
 
 **Note:** See full documentation on [Workflows][docs-workflows].
@@ -61,6 +61,7 @@ For use in private repositories and code, you will need to [purchase a GitHub Ad
       <td align="center" valign="top" width="10%"><a href="https://lgtm.com/"><img src="https://avatars.githubusercontent.com/u/10979737?v=4?s=100" width="100px;" alt="Arthur Baars"/><br /><sub><b>Arthur Baars</b></sub></a><br /><a href="https://github.com/advanced-security/codeql-extractor-iac/commits?author=aibaars" title="Code">💻</a> <a href="#ideas-aibaars" title="Ideas, Planning, & Feedback">🤔</a> <a href="#mentoring-aibaars" title="Mentoring">🧑‍🏫</a></td>
       <td align="center" valign="top" width="10%"><a href="https://github.com/egregius313"><img src="https://avatars.githubusercontent.com/u/18200959?v=4?s=100" width="100px;" alt="Edward Minnix III"/><br /><sub><b>Edward Minnix III</b></sub></a><br /><a href="https://github.com/advanced-security/codeql-extractor-iac/commits?author=egregius313" title="Code">💻</a> <a href="#design-egregius313" title="Design">🎨</a> <a href="#ideas-egregius313" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="10%"><a href="https://github.com/joefarebrother"><img src="https://avatars.githubusercontent.com/u/5400608?v=4?s=100" width="100px;" alt="Joe Farebrother"/><br /><sub><b>Joe Farebrother</b></sub></a><br /><a href="https://github.com/advanced-security/codeql-extractor-iac/commits?author=joefarebrother" title="Code">💻</a> <a href="#design-joefarebrother" title="Design">🎨</a> <a href="#ideas-joefarebrother" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="10%"><a href="https://github.com/ViktorLindstrm"><img src="https://avatars.githubusercontent.com/u/3715582?v=4?s=100" width="100px;" alt="Viktor Lindström"/><br /><sub><b>Viktor Lindström</b></sub></a><br /><a href="https://github.com/advanced-security/codeql-extractor-iac/commits?author=ViktorLindstrm" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
