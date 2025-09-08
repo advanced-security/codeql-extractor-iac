@@ -39,6 +39,65 @@ jobs:
             echo "release=true" >> "$GITHUB_OUTPUT"
           fi
 
+  compile:
+    name: "Compile Extractor Pack for ${{ matrix.os }}"
+    needs: [release-check]
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # TODO: Add windows-latest
+        os: [ubuntu-latest, macos-latest]
+
+    if: ${{ needs.release-check.outputs.release == 'true' }}
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v5
+        with:
+          submodules: true
+
+      - name: "Set up Rust"
+        uses: dtolnay/rust-toolchain@nightly
+        if: ${{ matrix.os != 'windows-latest' }}
+
+      - name: "Build Extractor"
+        if: ${{ matrix.os != 'windows-latest' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./scripts/create-extractor-pack.sh
+
+      - name: "Upload bundle artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "extractor-bundle-${{ matrix.os }}"
+          path: "./extractor-pack"
+
+  bundle:
+    name: "Bundle Extractor Pack"
+    runs-on: ubuntu-latest
+    needs: [compile]
+    if: ${{ needs.release-check.outputs.release == 'true' }}
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v5
+        with:
+          submodules: true
+
+      - name: "Downloadd all artifacts"
+        uses: actions/download-artifact@v4
+        with:
+          path: "./extractor-pack"
+          merge-multiple: true
+
+      - name: "Publish Extractor Pack"
+        if: github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXTRACTOR_NAME: "bicep"
+        run: |
+          ./scripts/publish-extractor-pack.sh
 
   queries:
     runs-on: ubuntu-latest
@@ -61,32 +120,24 @@ jobs:
       - name: "Check and Publish CodeQL Packs"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKS: ${{ matrix.packs }}
+          ORG: ${{ github.repository_owner }}
         run: |
-          PACK_PATH=ql/${{ matrix.packs }}/qlpack.yml
+          set -e
+          
+          PACK_PATH="ql/${PACKS}/qlpack.yml"
+          echo "[+] Pack Path :: $PACK_PATH"
+
           CURRENT_VERSION=$(grep version $PACK_PATH | awk '{print $2}')
           PACK_FULLNAME=$(cat $PACK_PATH | grep "name:" | awk '{print $2}')
           PACK_NAME=$(echo $PACK_FULLNAME | awk -F '/' '{print $2}')
+          echo "[+] Pack Name :: $PACK_NAME ($PACK_FULLNAME)"
 
-          PUBLISHED_VERSION=$(gh api /orgs/advanced-security/packages/container/$PACK_NAME/versions --jq '.[0].metadata.container.tags[0]')
+          PUBLISHED_VERSION=$(gh api /orgs/${ORG}/packages/container/$PACK_NAME/versions --jq '.[0].metadata.container.tags[0]')
           echo "Packs :: ${CURRENT_VERSION} -> ${PUBLISHED_VERSION}"
 
           if [ "$PUBLISHED_VERSION" != "$CURRENT_VERSION" ]; then
             gh extension install github/gh-codeql
-            gh codeql pack install "ql/${{ matrix.packs }}"
-            gh codeql pack publish "ql/${{ matrix.packs }}"
+            gh codeql pack install "ql/${PACKS}"
+            gh codeql pack publish "ql/${PACKS}"
           fi
-
-  compile:
-    runs-on: ubuntu-latest
-    needs: [release-check]
-    if: ${{ needs.release-check.outputs.release == 'true' }}
-
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: "Publish Extractor Pack"
-        if: github.ref == 'refs/heads/main'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          ./scripts/publish-extractor-pack.sh
