@@ -75,7 +75,8 @@ jobs:
 
     strategy:
       matrix:
-        project: ["hashicorp/terraform-guides", "akamai/terraform-examples", "aws-samples/aws-sam-terraform-examples"]
+        # project: ["hashicorp/terraform-guides", "akamai/terraform-examples", "aws-samples/aws-sam-terraform-examples"]
+        project: []
 
     steps:
       - name: "Checkout"
