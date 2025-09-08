@@ -139,9 +139,9 @@ jobs:
           gh extensions install github/gh-codeql
           gh codeql set-version latest
 
-          gh codeql database create iac-db --language=iac --source-root=./project --search-path ./extractor-pack
+          gh codeql database create --language=iac --source-root=./project --search-path ./extractor-pack iac-db
 
-          gh codeql database analyze iac-db "advanced-security/iac-queries" --format=sarifv2.1.0 --output="iac-${PROJECT_REPO}.sarif"
+          gh codeql database analyze --search-path ./extractor-pack --format sarif-latest --output="iac-${PROJECT_REPO}.sarif" iac-db ./ql/src
 
 
   docs:
