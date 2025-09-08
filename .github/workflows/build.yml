@@ -141,7 +141,7 @@ jobs:
 
           gh codeql database create iac-db --language=iac --source-root=./project --search-path ./extractor-pack
 
-          gh codeql database analyze iac-db "codeql-queries/iac-queries" --format=sarifv2.1.0 --output="iac-${PROJECT_REPO}.sarif"
+          gh codeql database analyze iac-db "advanced-security/iac-queries" --format=sarifv2.1.0 --output="iac-${PROJECT_REPO}.sarif"
 
 
   docs:
