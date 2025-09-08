@@ -9,4 +9,4 @@
 | Tree-Sitter Language (*1)                                          | 14      | Version of the TreeSitter language grammar                         |
 | CodeQL Extractor                                                   | 2.20.4  | Base CodeQL extractor version                                      |
 
-1: Tree-Sitter langauge versions can cause issuess if its newer than the supported CodeQL version.
+1: Tree-Sitter language versions can cause issues if its newer than the supported CodeQL version.
