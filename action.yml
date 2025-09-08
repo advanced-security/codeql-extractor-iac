@@ -26,6 +26,6 @@ runs:
       id: extractor
       with:
         token: ${{ inputs.token }}
-        extractors: "advanced-security/codeql-extractor-iac@v0.5.0,githubsecuritylab/codeql-extractor-bicep@v0.2.3"
-        packs: advanced-security/iac-queries,githubsecuritylab/bicep-queries
-        languages: "iac,bicep"
+        extractors: "advanced-security/codeql-extractor-iac@v0.5.0"
+        packs: advanced-security/iac-queries
+        languages: "iac"
