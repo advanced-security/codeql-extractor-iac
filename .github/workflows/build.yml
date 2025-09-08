@@ -160,21 +160,3 @@ jobs:
         run: |
           npm install -g markdownlint-cli
           markdownlint '**.md' --ignore node_modules --disable MD013
-
-  action:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
-        id: changes
-        with:
-          filters: |
-            src:
-              - '.github/action/**'
-              - 'action.yml'
-
-      - name: Run action
-        if: steps.changes.outputs.src == 'true'
-        uses: ./
-        with:
-          extractor-version: latest
