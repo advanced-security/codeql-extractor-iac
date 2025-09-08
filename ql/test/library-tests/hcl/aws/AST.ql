@@ -1,4 +1,4 @@
-private import codeql.hcl.providers.AWS
+import hcl
 
 query predicate resource(AWS::AwsResource n) { any() }
 

@@ -6,9 +6,6 @@ import codeql.hcl.Constants
 import codeql.hcl.Locals
 import codeql.hcl.Terraform
 // providers
-import codeql.hcl.providers.AWS
-import codeql.hcl.providers.Azure
-import codeql.hcl.providers.GCP
-import codeql.hcl.providers.Helm
+import codeql.hcl.Providers
 // security
-import codeql.hcl.security.HardcodedPasswords
+import codeql.hcl.Security

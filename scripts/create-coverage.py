@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#   "ghastoolkit"
+# ]
+# ///
+
 import os
 import csv
 import json
@@ -35,12 +42,8 @@ def generateCsv(csvfile, rules, src, src_suite, display: bool = True):
 
 def generateMarkdown(rules, suite: str = "code-scanning") -> str:
     markdown = """\
-# Code Scanning Coverage Report
-
-This report shows the coverage of Code Scanning rules for the current repository.
-
-| Suite         | Query ID                                   | Severity |
-| ------------- | ------------------------------------------ | -------- |
+| Suite         | Query ID                                             | Severity |
+| ------------- | ---------------------------------------------------- | -------- |
 """
 
     for rule in rules:
@@ -48,7 +51,7 @@ This report shows the coverage of Code Scanning rules for the current repository
         props = rule.get("properties", {})
         severity = props.get("security-severity", "NA")
 
-        markdown += f"| {suite} | {id:<42} | {severity:<8} |\n"
+        markdown += f"| {suite} | {id:<52} | {severity:<8} |\n"
     return markdown
 
 @dataclass
@@ -87,6 +90,7 @@ class CoverageCommandLine(CommandLine):
         parser.add_argument("--pull-request", help="Output to pull_request")
         parser.add_argument("--csv", action="store_true", help="Output as csv")
         parser.add_argument("--markdown", action="store_true", help="Output as markdown")
+        parser.add_argument("-o", "--output", help="Output file")
 
         parser.add_argument("--rules", default="./scripts/rules", help="Path to query rules folder")
 
@@ -116,7 +120,28 @@ class CoverageCommandLine(CommandLine):
         generateCsv("coverage.csv", rules, src, src_suite, display=not arguments.markdown)
 
         markdown = generateMarkdown(rules)
-        print(markdown)
+
+        if arguments.output:
+            if not os.path.exists(arguments.output):
+                raise Exception(f"Markdown output file not found: {arguments.output}")
+            with open(arguments.output, "r") as handle:
+                content = handle.read()
+            
+            start_marker = "<!-- coverage-start -->"
+            end_marker = "<!-- coverage-end -->"
+            start_index = content.find(start_marker)
+            end_index = content.find(end_marker)
+            if start_index == -1 or end_index == -1:
+                raise Exception("Markers not found in markdown file")
+
+            # Replace the content between the markers
+            new_content = content[:start_index + len(start_marker)] + "\n" + markdown + "\n" + content[end_index:]
+            with open(arguments.output, "w") as handle:
+                handle.write(new_content)
+
+        else:
+            print("""# Code Scanning Coverage Report\n\nThis report shows the coverage of Code Scanning rules for the current repository.\n\n""")
+            print(markdown)
 
     def runRules(self, arguments):
         """Run and generate the queries."""

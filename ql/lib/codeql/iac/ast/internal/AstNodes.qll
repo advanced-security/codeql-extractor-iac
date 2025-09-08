@@ -8,5 +8,4 @@ import Container
 cached
 newtype TAstNode =
   THclAstNode(HCL::AstNode node) or
-  TBicepAstNode(BICEP::AstNode node) or
   TContainerAstNode(DOCKERFILE::AstNode node)

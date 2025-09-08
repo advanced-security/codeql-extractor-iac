@@ -22,6 +22,9 @@ else
   CODEQL_BINARY="gh codeql"
 fi
 
+echo "Update submodules..."
+git submodule update --init --recursive
+
 cargo build --release
 cargo run --release --bin codeql-extractor-iac -- generate --dbscheme ql/lib/iac.dbscheme --library ql/lib/codeql/iac/ast/internal/TreeSitter.qll
 $CODEQL_BINARY query format -i ql/lib/codeql/iac/ast/internal/TreeSitter.qll
@@ -31,8 +34,3 @@ mkdir -p extractor-pack
 cp -r codeql-extractor.yml downgrades tools ql/lib/iac.dbscheme ql/lib/iac.dbscheme.stats extractor-pack/
 mkdir -p extractor-pack/tools/${platform}
 cp target/release/codeql-extractor-iac extractor-pack/tools/${platform}/extractor
-
-# pushd ql/lib
-# $CODEQL_BINARY pack installl .
-# $CODEQL_BINARY pack create --output=$HOME/.codeql/packages .
-# popd

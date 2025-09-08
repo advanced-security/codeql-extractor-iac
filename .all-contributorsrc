@@ -56,6 +56,15 @@
         "design",
         "ideas"
       ]
+    },
+    {
+      "login": "ViktorLindstrm",
+      "name": "Viktor Lindström",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3715582?v=4",
+      "profile": "https://github.com/ViktorLindstrm",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }

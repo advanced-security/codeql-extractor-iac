@@ -12,7 +12,6 @@ on:
           - minor
           - major
 
-
 permissions:
   contents: write
 
@@ -21,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "Patch Release Me"
-        uses: 42ByteLabs/patch-release-me@0.3.0
+        uses: 42ByteLabs/patch-release-me@1a840ec5f538188590b75b19e1c300c7d036bcc8    # 0.6.2
         with:
           mode: ${{ github.event.inputs.bump }}
 
@@ -43,7 +42,7 @@ jobs:
           echo "release=true" >> "$GITHUB_ENV"
 
       - name: "Create Release"
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e  # v7.0.8
         with:
           token: ${{ github.token }}
           commit-message: "[chore]: Create release for ${{ steps.get_version.outcome.version }}"

@@ -1,11 +1,8 @@
 import codeql.Locations
 import codeql.files.FileSystem
 import codeql.iac.Dependencies
-// Actions
-import codeql.iac.actions.Actions
 // Azure
 import codeql.iac.azure.ARM
-import codeql.iac.azure.Bicep
 import codeql.iac.azure.Pipelines
 // AWS
 import codeql.iac.aws.CloudFormation

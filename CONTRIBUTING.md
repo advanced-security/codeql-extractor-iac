@@ -1,26 +1,82 @@
-# Contributing
+# Contributing 🤝
 
-Hi there! We're thrilled that you'd like to contribute to this project. Your help is essential for keeping it great.
+Thank you for your interest in contributing to this project! Your help makes it better for everyone.
 
-Contributions to this project are [released](https://help.github.com/articles/github-terms-of-service/#6-contributions-under-repository-license) to the public under the [project's open source license](LICENSE.md).
+## Code of Conduct 📝
 
-Please note that this project is released with a [Contributor Code of Conduct][code-of-conduct]. By participating in this project you agree to abide by its terms.
+By participating, you agree to abide by our [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
 
-## Submitting a pull request
+## Getting Started
 
-1. [Fork][fork] and clone the repository
-2. Make sure the tests pass on your machine: `./tests/run-tests.sh`
-   - Tests can be run from VSCode
-3. Create a new branch: `git checkout -b my-branch-name`
-4. Make your change, add tests, and make sure the tests still pass
-5. Push to your fork and [submit a pull request][pr]
-6. Pat yourself on the back and wait for your pull request to be reviewed and merged.
+### Build the extractor
 
-Here are a few things you can do that will increase the likelihood of your pull request being accepted:
+To build the extractor, use the following command:
 
-- Write tests.
-- Keep your change as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.
-- Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+```sh
+./scripts/create-extractor-pack.sh
+```
+
+This will create the extractor pack in the `./extractor-pack` directory.
+
+### Installing Dependencies
+
+To install the dependencies of the queries, run the following command:
+
+```sh
+codeql pack install ./ql/lib
+```
+
+This will install the necessary dependencies for the library queries.
+Alternatively, you can install them using VSCode's CodeQL extension.
+
+### Compiling the Library
+
+To compile the library queries, run:
+
+```sh
+codeql pack create ./ql/lib
+```
+
+You can also install these packs into the CodeQL home directory using:
+
+```sh
+codeql pack install --output=$HOME/.codeql/packages ./ql/lib
+```
+
+This will allow your to use the library on your local machine with CodeQL CLI.
+
+### Run Tests
+
+To run all tests:
+
+```sh
+./scripts/run-tests.sh
+```
+
+Or use VSCode's test runner for supported tests.
+
+## Submitting a Pull Request
+
+1. Fork and clone the repository
+2. Create a new branch: `git checkout -b my-feature`
+3. Make your changes and add tests if needed
+4. Ensure all tests pass
+5. Push your branch and open a pull request
+
+### Tips for a Successful PR
+
+- Keep changes focused and minimal
+- Write clear commit messages
+- Add or update tests as needed
+
+## Reporting Issues & Discussions
+
+- Report bugs or request features via [GitHub Issues](https://github.com/advanced-security/codeql-extractor-iac/issues)
+- Use [GitHub Discussions](https://github.com/advanced-security/codeql-extractor-iac/discussions) for questions and ideas
+
+## License 📄
+
+Contributions are released under the [MIT License](LICENSE.md).
 
 ## Resources
 
@@ -28,6 +84,6 @@ Here are a few things you can do that will increase the likelihood of your pull 
 - [Using Pull Requests](https://help.github.com/articles/about-pull-requests/)
 - [GitHub Help](https://help.github.com)
 
-[fork]: https://github.com/advanced-security/codeql-extractor-iac/fork
-[pr]: https://github.com/advanced-security/codeql-extractor-iac/compare
-[code-of-conduct]: CODE_OF_CONDUCT.md
+---
+
+If you have any questions, open an issue or start a discussion. Thank you for helping improve this project! 🚀
