@@ -15,12 +15,14 @@
 > [!NOTE]
 > This is **not** an official GitHub project and is not supported by the CodeQL team.
 > This is a community project.
+>
+> ⚠️ **Important:** As of September 2025, this project **no longer supports Bicep or GitHub Actions scanning**. Please refer to the documentation for supported languages and frameworks.
 
-## Overview
+## 🚀 Overview
 
 [CodeQL][codeql] Extractor, Library, and Queries for Infrastructure as Code.
 
-## Usage
+## 🛠️ Usage
 
 ```yaml
 - name: Initialize and Analyze IaC
@@ -29,18 +31,18 @@
 
 **Note:** See full documentation on [Workflows][docs-workflows].
 
-## Documentation
+## 📚 Documentation
 
 The [documentation for CodeQL IaC extractor can be found here][docs].
 
 **Other Useful Links:**
 
-- [Q&A][docs-qanda]
-- [Languages and Frameworks][docs-languages-and-frameworks]
-- [Coverage][docs-coverage]
-- [Example Workflows][docs-workflows]
+- [Q&A][docs-qanda] ❓
+- [Languages and Frameworks][docs-languages-and-frameworks] 🌐
+- [Coverage][docs-coverage] 📊
+- [Example Workflows][docs-workflows] 📝
 
-## License
+## 📄 License
 
 This project is licensed under the terms of the MIT open source license.
 Please refer to [MIT](./LICENSE.md) for the full terms.
@@ -49,7 +51,7 @@ To use this project for Infrastructure as Code, you will need to [use CodeQL][co
 
 For use in private repositories and code, you will need to [purchase a GitHub Advanced Security license][advanced-security].
 
-## Contributors
+## 👥 Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -71,7 +73,7 @@ For use in private repositories and code, you will need to [purchase a GitHub Ad
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-## Support
+## 💬 Support
 
 Support is via [GitHub Issues][issues] or [GitHub Discussions][discussions].
 
