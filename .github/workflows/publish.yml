@@ -95,7 +95,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          EXTRACTOR_NAME: "bicep"
+          EXTRACTOR_NAME: "iac"
         run: |
           ./scripts/publish-extractor-pack.sh
 
