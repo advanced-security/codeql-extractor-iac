@@ -47,6 +47,9 @@ jobs:
 
           tar -zxf extractor-iac.tar.gz
 
+          chmod +x extractor-pack/tools/*.sh
+          chmod +x extractor-pack/tools/**/*          
+
       - uses: dtolnay/rust-toolchain@4305c38b25d97ef35a8ad1f985ccf2d2242004f2 # stable
         if: steps.extractor-changes.outputs.src == 'true'
 
