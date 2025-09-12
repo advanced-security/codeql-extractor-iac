@@ -1,6 +1,6 @@
 name: codeql-extractor-iac
 repository: advanced-security/codeql-extractor-iac
-version: 0.5.0
+version: 0.5.1
 
 ecosystems:
   - "Docs"
@@ -31,4 +31,5 @@ locations:
     paths:
       - "action.yml"
     patterns:
-      - '{repository}@v{version}'
+      - "{repository}@v{version}"
+      - "advanced-security/iac-queries@{version}"
