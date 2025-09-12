@@ -1,6 +1,6 @@
 name: codeql-extractor-iac
 repository: advanced-security/codeql-extractor-iac
-version: 0.5.0
+version: 0.5.1
 
 ecosystems:
   - "Docs"

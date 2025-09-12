@@ -32,8 +32,8 @@ runs:
       id: extractor
       with:
         token: ${{ inputs.token }}
-        extractors: "advanced-security/codeql-extractor-iac@v0.5.0"
-        packs: advanced-security/iac-queries@0.5.0
+        extractors: "advanced-security/codeql-extractor-iac@v0.5.1"
+        packs: advanced-security/iac-queries@0.5.1
         languages: "iac"
         # Other settings
         sarif-tool-name: ${{ inputs.rewrite-sarif-tool-name }}
