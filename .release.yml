@@ -31,4 +31,5 @@ locations:
     paths:
       - "action.yml"
     patterns:
-      - '{repository}@v{version}'
+      - "{repository}@v{version}"
+      - "advanced-security/iac-queries@{version}"
