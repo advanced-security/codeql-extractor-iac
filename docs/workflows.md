@@ -49,15 +49,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Initialize and Analyze IaC
-        id: codeql
+        id: codeql_iac
         uses: advanced-security/codeql-extractor-iac@v0.5.1
-        with:
-          rewrite-sarif-tool-name: false   # leave the name as "CodeQL"
+        # Uncomment if you want to show the tool name as CodeQL instead of CodeQL-IaC
+        #with:
+        #  rewrite-sarif-tool-name: false
       
       - name: "Upload SARIF file"
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ${{ steps.codeql.outputs.sarif-results }}
+          sarif_file: ${{ steps.codeql_iac.outputs.sarif-results }}
 ```
 
 ## CodeQL CLI
