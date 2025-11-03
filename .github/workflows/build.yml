@@ -12,9 +12,10 @@ permissions:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest]
         test-folders: ["library-tests", "queries-tests"]
     steps:
       - name: "Checkout"
@@ -53,8 +54,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@4305c38b25d97ef35a8ad1f985ccf2d2242004f2 # stable
         if: steps.extractor-changes.outputs.src == 'true'
 
-      - name: "Build Extractor"
-        if: steps.extractor-changes.outputs.src == 'true'
+      - name: "Build Extractor (Linux/macOS)"
+        if: steps.extractor-changes.outputs.src == 'true' && matrix.os != 'windows-latest'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -66,11 +67,33 @@ jobs:
 
           gh codeql resolve languages --format=json --search-path ./extractor-pack
 
-      - name: "Run Tests"
+      - name: "Build Extractor (Windows)"
+        if: steps.extractor-changes.outputs.src == 'true' && matrix.os == 'windows-latest'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          gh extension install github/gh-codeql
+          gh codeql set-version latest
+
+          .\scripts\create-extractor-pack.ps1
+
+          gh codeql resolve languages --format=json --search-path .\extractor-pack
+
+      - name: "Run Tests (Linux/macOS)"
+        if: matrix.os != 'windows-latest'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           ./scripts/run-tests.sh "ql/test/${{ matrix.test-folders }}"
+
+      - name: "Run Tests (Windows)"
+        if: matrix.os == 'windows-latest'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          .\scripts\run-tests.ps1 "ql/test/${{ matrix.test-folders }}"
 
   # scanning:
   #   runs-on: ubuntu-latest
