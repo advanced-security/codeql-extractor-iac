@@ -68,7 +68,7 @@ jobs:
         run: ./scripts/create-extractor-pack.sh
 
       - name: "Upload bundle artifact"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: "extractor-bundle-${{ matrix.os }}"
           path: "./extractor-pack"
@@ -86,7 +86,7 @@ jobs:
           submodules: true
 
       - name: "Downloadd all artifacts"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           path: "./extractor-pack"
           merge-multiple: true
