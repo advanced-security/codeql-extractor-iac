@@ -8,7 +8,7 @@ branding:
 inputs:
   token:
     description: >
-      The GitHub token used to make authenticated API requests.
+      The GitHub token used to make authenticated API requests. 
     default: ${{ github.token }}
     required: false
 
