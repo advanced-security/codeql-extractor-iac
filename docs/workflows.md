@@ -51,7 +51,7 @@ jobs:
       - name: Initialize and Analyze IaC
         id: codeql_iac
         uses: advanced-security/codeql-extractor-iac@v0.5.1
-        # Uncomment if you want to show the tool name as CodeQL instead of CodeQL-IaC (this may conflict with Default Setup)
+        # Uncomment if you want to show the tool name as CodeQL instead of CodeQL-IaC (NOTE: this may conflict with Default Setup)
         #with:
         #  rewrite-sarif-tool-name: false
       
