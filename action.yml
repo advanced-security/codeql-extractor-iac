@@ -14,7 +14,7 @@ inputs:
 
   rewrite-sarif-tool-name:
     description: >
-      Whether to rewrite the SARIF tool name to "CodeQL IaC" or keep the original tool name.
+      Whether to rewrite the SARIF tool name to "CodeQL IaC" or keep the original tool name.   
     required: false
     default: "true"
 
