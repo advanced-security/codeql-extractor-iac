@@ -14,10 +14,10 @@ clap = { version = "4.5", features = ["derive"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 rayon = "1.10"
-regex = "1.11"
+regex = "1.12"
 
 # TreeSitter
-tree-sitter = "^0.24"
+tree-sitter = "^0.25"
 # Grammars
 # tree-sitter-hcl = { path = "./tree-sitter-hcl" }
 tree-sitter-hcl = { git = "https://github.com/GeekMasher/tree-sitter-hcl", rev = "3e0539c5fe690b353af38dce1423880d0f0c81f9" }
