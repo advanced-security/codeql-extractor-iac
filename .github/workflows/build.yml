@@ -18,7 +18,7 @@ jobs:
         test-folders: ["library-tests", "queries-tests"]
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: true
 
@@ -83,12 +83,12 @@ jobs:
 
   #   steps:
   #     - name: "Checkout"
-  #       uses: actions/checkout@v5
+  #       uses: actions/checkout@v6
   #       with:
   #         submodules: true
 
   #     - name: "Checkout"
-  #       uses: actions/checkout@v5
+  #       uses: actions/checkout@v6
   #       with:
   #         repository: ${{ matrix.project }}
   #         path: project
@@ -151,7 +151,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         id: changes
         with:
