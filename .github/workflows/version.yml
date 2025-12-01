@@ -16,11 +16,11 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Get Token
         id: get_workflow_token
-        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+        uses: actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94 # v2.2.0
         with:
           app-id: ${{ secrets.CODEQL_FIELD_BOT_ID }}
           private-key: ${{ secrets.CODEQL_FIELD_BOT_KEY }}
@@ -34,7 +34,7 @@ jobs:
             --bump "${{ github.event.inputs.bump }}"
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
+        uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412 # v7.0.9
         with:
           title: "[Bot] Version Bump - ${{ github.event.inputs.repository }}"
           body: "This PR was automatically generated to bump the version of IaC library and queries."
