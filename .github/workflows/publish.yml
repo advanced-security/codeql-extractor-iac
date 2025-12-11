@@ -57,7 +57,8 @@ jobs:
           submodules: true
 
       - name: "Set up Rust"
-        uses: dtolnay/rust-toolchain@nightly
+        uses: dtolnay/rust-toolchain@0c3131df9e5407c0c36352032d04af846dbe0fb7 # nightly
+        if: ${{ matrix.os != 'windows-latest' }}
 
       - name: "Build Extractor (Linux/macOS)"
         if: ${{ matrix.os != 'windows-latest' }}
@@ -73,7 +74,7 @@ jobs:
         run: .\scripts\create-extractor-pack.ps1
 
       - name: "Upload bundle artifact"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: "extractor-bundle-${{ matrix.os }}"
           path: "./extractor-pack"
@@ -91,7 +92,7 @@ jobs:
           submodules: true
 
       - name: "Download all artifacts"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           path: "./extractor-pack"
           merge-multiple: true
