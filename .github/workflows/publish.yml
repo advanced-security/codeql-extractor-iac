@@ -58,7 +58,7 @@ jobs:
           submodules: true
 
       - name: "Set up Rust"
-        uses: dtolnay/rust-toolchain@nightly
+        uses: dtolnay/rust-toolchain@0c3131df9e5407c0c36352032d04af846dbe0fb7 # nightly
         if: ${{ matrix.os != 'windows-latest' }}
 
       - name: "Build Extractor"
@@ -85,7 +85,7 @@ jobs:
         with:
           submodules: true
 
-      - name: "Downloadd all artifacts"
+      - name: "Download all artifacts"
         uses: actions/download-artifact@v6
         with:
           path: "./extractor-pack"
