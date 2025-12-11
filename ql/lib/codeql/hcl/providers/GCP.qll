@@ -1,13 +1,39 @@
+/**
+ * Classes and predicates for analyzing GCP (Google Cloud Platform) provider resources and configurations in HCL.
+ * This module provides specific support for Google Cloud resources, data sources, and provider configurations
+ * commonly used in Terraform and other HCL-based infrastructure-as-code tools.
+ */
+
 private import codeql.hcl.AST
 private import codeql.hcl.Resources
 private import codeql.hcl.Constants
 
 /**
- * Google Cloud Platform (GCP) module.
+ * Google Cloud Platform (GCP) provider module containing classes for analyzing GCP-specific HCL configurations.
+ *
+ * This module provides specialized classes for GCP resources like Compute Engine instances, Cloud Storage buckets,
+ * GKE clusters, and other Google Cloud services commonly defined in Terraform configurations.
  */
 module GCP {
   /**
-   * Google Cloud Platform (GCP) resource.
+   * A Google Cloud Platform (GCP) resource in HCL configuration.
+   *
+   * GCP resources represent infrastructure components that are managed by Google Cloud,
+   * such as Compute Engine instances, Cloud Storage buckets, databases, networking components, etc.
+   *
+   * Example GCP resources:
+   * ```
+   * resource "google_compute_instance" "default" {
+   *   name         = "my-instance"
+   *   machine_type = "e2-medium"
+   *   zone         = "us-central1-a"
+   * }
+   *
+   * resource "google_storage_bucket" "example" {
+   *   name     = "my-storage-bucket"
+   *   location = "US"
+   * }
+   * ```
    */
   class GcpResource extends Resource, Block {
     GcpResource() { this.getResourceType().regexpMatch("^google.*") }

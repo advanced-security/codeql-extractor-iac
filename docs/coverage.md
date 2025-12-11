@@ -35,12 +35,7 @@ The `codeql-extractor-iac` covers a number of technologies today but is being co
 | code-scanning | hc/kubernetes/pod-run-as-root                        | 8.0      |
 | code-scanning | hc/kubernetes/privileged-pod                         | 9.0      |
 | code-scanning | openapi/web/http-allowed                             | 2.0      |
-| code-scanning | actions/github/pull-request-target                   | NA       |
-| code-scanning | actions/github/workflow-permissions                  | NA       |
-| code-scanning | actions/github/unpinned-tag                          | 9.3      |
 | code-scanning | containers/docker/latest-images                      | 2.0      |
-| code-scanning | bicep/azure/storage-publicly-accessible              | 10.0     |
-| code-scanning | bicep/azure/storage-tls-disabled                     | 9.0      |
 | code-scanning | cf/aws/storage-publicly-accessible                   | 10.0     |
 | code-scanning | iac/ecs/assignpublicip                               | NA       |
 | code-scanning | iac/ecs/non-priv                                     | NA       |

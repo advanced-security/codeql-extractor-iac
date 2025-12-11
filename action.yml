@@ -12,6 +12,12 @@ inputs:
     default: ${{ github.token }}
     required: false
 
+  rewrite-sarif-tool-name:
+    description: >
+      Whether to rewrite the SARIF tool name to "CodeQL IaC" or keep the original tool name.
+    required: false
+    default: "true"
+
 outputs:
   sarif-results:
     description: >
@@ -22,10 +28,12 @@ runs:
   using: "composite"
   steps:
     - name: "CodeQL Extractor Action"
-      uses: advanced-security/codeql-extractor-action@v0.1.0
+      uses: advanced-security/codeql-extractor-action@v0.1.5
       id: extractor
       with:
         token: ${{ inputs.token }}
-        extractors: "advanced-security/codeql-extractor-iac@v0.4.1,githubsecuritylab/codeql-extractor-bicep@v0.2.3"
-        packs: advanced-security/iac-queries,githubsecuritylab/bicep-queries
-        languages: "iac,bicep"
+        extractors: "advanced-security/codeql-extractor-iac@v0.5.1"
+        packs: advanced-security/iac-queries@0.5.1
+        languages: "iac"
+        # Other settings
+        sarif-tool-name: ${{ inputs.rewrite-sarif-tool-name }}

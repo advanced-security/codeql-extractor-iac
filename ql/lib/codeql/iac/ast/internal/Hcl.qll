@@ -1,7 +1,19 @@
+/**
+ * Internal type system for HCL AST nodes.
+ * This module contains the newtype definitions and type hierarchies
+ * that form the foundation of the HCL AST representation.
+ *
+ * This is an internal module that should not be imported directly.
+ * Use `codeql.hcl.AST` or specific AST modules instead.
+ */
+
 import TreeSitter
 
 /**
- * HCL Ast Nodes
+ * The union type of all HCL AST node types.
+ *
+ * This newtype defines all possible AST nodes that can appear in HCL code,
+ * including expressions, statements, literals, blocks, and other language constructs.
  */
 cached
 newtype THclAstNode =
@@ -40,10 +52,13 @@ newtype THclAstNode =
   TVariable(HCL::VariableExpr variable) or
   THeredocTemplate(HCL::HeredocTemplate heredocTemplate)
 
+/** Template directive types (for conditional and loop constructs). */
 class TTemplateDirective = TTemplateFor or TTemplateIf;
 
+/** Literal value types (for constant values). */
 class TLiteral = TBooleanLiteral or TNumericLit or TStringLit or TNullLiteral;
 
+/** Expression types (for any value-producing construct). */
 class TExpr =
   TLiteral or TIdentifier or TAttribute or TVariable or TFunctionCall or TUnaryOperation or
       TBinaryOperation or TConditional or TGetAttrExpr or TIndex or TTemplateLiteral or

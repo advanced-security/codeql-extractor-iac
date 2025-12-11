@@ -6,7 +6,7 @@ To use the CodeQL Extractor, Library, and Queries for Infrastructure as Code, yo
 
 ```yaml
 - name: Initialize and Analyze IaC
-  uses: advanced-security/codeql-extractor-iac@v0.4.1
+  uses: advanced-security/codeql-extractor-iac@v0.5.1
 ```
 
 ### Uploading SARIF files to GitHub
@@ -50,12 +50,15 @@ jobs:
 
       - name: Initialize and Analyze IaC
         id: codeql_iac
-        uses: advanced-security/codeql-extractor-iac@v0.4.1
-
-      - name: Upload SARIF file
+        uses: advanced-security/codeql-extractor-iac@v0.5.1
+        # Uncomment if you want to show the tool name as CodeQL instead of CodeQL-IaC (NOTE: this may conflict with Default Setup)
+        #with:
+        #  rewrite-sarif-tool-name: false
+      
+      - name: "Upload SARIF file"
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ${{ steps.codeql_iac.outputs.sarif }}
+          sarif_file: ${{ steps.codeql_iac.outputs.sarif-results }}
 ```
 
 ## CodeQL CLI

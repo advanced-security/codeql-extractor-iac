@@ -1,7 +1,0 @@
-actionWorkflows
-| .github/workflows/sample.yml:1:1:13:29 | name: "Sample" |
-actionJobs
-| .github/workflows/sample.yml:7:5:13:29 | runs-on ... -latest |
-actionSteps
-| .github/workflows/sample.yml:9:9:12:6 | name: " ... sitory" |
-| .github/workflows/sample.yml:12:9:13:29 | run: \| |
