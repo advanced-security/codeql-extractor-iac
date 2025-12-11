@@ -16,7 +16,7 @@ jobs:
       release: ${{ steps.get_version.outputs.release }}
       version: ${{ steps.get_version.outputs.version }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: "Check release version"
         id: get_version
@@ -52,7 +52,7 @@ jobs:
     if: ${{ needs.release-check.outputs.release == 'true' }}
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: true
 
@@ -87,7 +87,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: true
 
@@ -121,7 +121,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: "Check and Publish CodeQL Packs"
         env:
