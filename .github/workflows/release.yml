@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: "Patch Release Me"
-        uses: 42ByteLabs/patch-release-me@840ec9cfe2170a5704f77ba721bddeb4eb52317a    # 0.6.3
+        uses: 42ByteLabs/patch-release-me@ef44b04c04fde87280adf14548664bfbcebba04d    # 0.6.4
         with:
           mode: ${{ github.event.inputs.bump }}
 
@@ -42,7 +42,7 @@ jobs:
           echo "release=true" >> "$GITHUB_ENV"
 
       - name: "Create Release"
-        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e  # v7.0.8
+        uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412  # v7.0.9
         with:
           token: ${{ github.token }}
           commit-message: "[chore]: Create release for ${{ steps.get_version.outcome.version }}"
