@@ -34,10 +34,10 @@
   },
   "homepage": "https://github.com/advanced-security/codeql-extractor-iac#readme",
   "dependencies": {
-    "@actions/core": "^1.10.1",
+    "@actions/core": "^1.11.1",
     "@actions/exec": "^1.1.1",
     "@actions/github": "^6.0.0",
-    "@actions/tool-cache": "^2.0.1"
+    "@actions/tool-cache": "^2.0.2"
   },
   "devDependencies": {
     "@types/node": "^20.6.0",
