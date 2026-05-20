@@ -37,7 +37,7 @@ jobs:
         id: get_version
         run: |
           set -e
-          pip install yq
+          pip install -r requirements.txt --require-hashes
           echo "version=$(cat .release.yml | yq -r ".version")" >> "$GITHUB_ENV"
           echo "release=true" >> "$GITHUB_ENV"
 
