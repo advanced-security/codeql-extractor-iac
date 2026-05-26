@@ -2,13 +2,14 @@
   "name": "codeql-extractor-iac",
   "version": "1.0.0",
   "description": "markdownlint tooling for CI",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "markdownlint '**.md' --ignore node_modules --disable MD013"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
-    "markdownlint-cli": "^0.48.0"
+    "markdownlint-cli": "0.48.0"
   }
 }
