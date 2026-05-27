@@ -9,15 +9,16 @@ if (Get-Command "codeql" -ErrorAction SilentlyContinue) {
     $CODEQL_BINARY = "codeql"
 }
 elseif (Get-Command "gh" -ErrorAction SilentlyContinue) {
-    try {
-        gh codeql version 2>&1 | Out-Null
-        $CODEQL_BINARY = "gh codeql"
-    }
-    catch {
+    gh codeql version 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) {
         Write-Host "Installing gh-codeql extension..."
         gh extension install github/gh-codeql
-        $CODEQL_BINARY = "gh codeql"
+        if ($LASTEXITCODE -ne 0) {
+            Write-Error "Failed to install gh-codeql extension (exit code $LASTEXITCODE)"
+            exit $LASTEXITCODE
+        }
     }
+    $CODEQL_BINARY = "gh codeql"
 }
 else {
     Write-Error "Neither 'codeql' nor 'gh' command found"
