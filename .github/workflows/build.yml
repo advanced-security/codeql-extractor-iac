@@ -96,6 +96,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         shell: pwsh
         run: |
+          git config --global core.longpaths true
+
           gh extension install github/gh-codeql
           gh codeql set-version latest
 

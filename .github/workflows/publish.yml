@@ -70,7 +70,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh
-        run: .\scripts\create-extractor-pack.ps1
+        run: |
+          git config --global core.longpaths true
+          .\scripts\create-extractor-pack.ps1
 
       - name: "Upload bundle artifact"
         uses: actions/upload-artifact@v6
