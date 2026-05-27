@@ -31,8 +31,10 @@ jobs:
           filters: |
             src:
               - 'extractor/**'
+              - 'tools/**'
               - 'rust-toolchain.toml'
               - 'Cargo.*'
+              - 'scripts/create-extractor-pack.*'
 
       - name: "Download Extractor (Linux/macOS)"
         if: steps.extractor-changes.outputs.src == 'false' && matrix.os != 'windows-latest'
@@ -144,8 +146,10 @@ jobs:
   #         filters: |
   #           src:
   #             - 'extractor/**'
+  #             - 'tools/**'
   #             - 'rust-toolchain.toml'
   #             - 'Cargo.*'
+  #             - 'scripts/create-extractor-pack.*'
 
   #     - name: "Download Extracter"
   #       if: steps.extractor-changes.outputs.src == 'false'
