@@ -14,6 +14,7 @@ jobs:
   tests:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
         test-folders: ["library-tests", "queries-tests"]
@@ -33,8 +34,8 @@ jobs:
               - 'rust-toolchain.toml'
               - 'Cargo.*'
 
-      - name: "Download Extracter"
-        if: steps.extractor-changes.outputs.src == 'false'
+      - name: "Download Extractor (Linux/macOS)"
+        if: steps.extractor-changes.outputs.src == 'false' && matrix.os != 'windows-latest'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -50,6 +51,26 @@ jobs:
 
           chmod +x extractor-pack/tools/*.sh
           chmod +x extractor-pack/tools/**/*          
+
+      - name: "Download Extractor (Windows)"
+        if: steps.extractor-changes.outputs.src == 'false' && matrix.os == 'windows-latest'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          gh release list -L 1 -R "advanced-security/codeql-extractor-iac"
+
+          $ghArgs = @(
+              'release', 'download',
+              '-R', 'advanced-security/codeql-extractor-iac',
+              '--clobber',
+              '--pattern', 'extractor-iac.tar.gz'
+          )
+          & gh @ghArgs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+          tar -zxf extractor-iac.tar.gz
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - uses: dtolnay/rust-toolchain@4305c38b25d97ef35a8ad1f985ccf2d2242004f2 # stable
         if: steps.extractor-changes.outputs.src == 'true'
