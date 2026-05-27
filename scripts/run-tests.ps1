@@ -31,6 +31,10 @@ if ($CODEQL_BINARY -eq "gh codeql") {
 else {
     codeql pack install ql/test
 }
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "codeql pack install failed with exit code $LASTEXITCODE"
+    exit $LASTEXITCODE
+}
 
 Write-Host "Running tests in $TestsDir"
 

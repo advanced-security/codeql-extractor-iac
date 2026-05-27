@@ -60,7 +60,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -e
-          gh extensions install github/gh-codeql
+          gh extension install github/gh-codeql
           gh codeql set-version latest
 
           ./scripts/create-extractor-pack.sh
@@ -150,7 +150,7 @@ jobs:
   #         GH_TOKEN: ${{ github.token }}
   #       run: |
   #         set -e
-  #         gh extensions install github/gh-codeql
+  #         gh extension install github/gh-codeql
   #         gh codeql set-version latest
 
   #         ./scripts/create-extractor-pack.sh
@@ -163,7 +163,7 @@ jobs:
   #         PROJECT_REPO: ${{ matrix.project }}
   #       run: |
   #         set -e
-  #         gh extensions install github/gh-codeql
+  #         gh extension install github/gh-codeql
   #         gh codeql set-version latest
 
   #         gh codeql database create --language=iac --source-root=./project --search-path ./extractor-pack iac-db
