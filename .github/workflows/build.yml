@@ -120,6 +120,37 @@ jobs:
         run: |
           .\scripts\run-tests.ps1 "ql/test/${{ matrix.test-folders }}"
 
+  # Fixed-name summary gates so branch protection's required checks
+  # ("tests (library-tests)" / "tests (queries-tests)") are satisfied
+  # regardless of the OS-qualified matrix check names emitted above.
+  library-tests-summary:
+    name: tests (library-tests)
+    runs-on: ubuntu-latest
+    needs: tests
+    if: always()
+    steps:
+      - name: Aggregate matrix result
+        run: |
+          if [ "${{ needs.tests.result }}" != "success" ]; then
+            echo "Matrix 'tests' did not succeed (result=${{ needs.tests.result }})"
+            exit 1
+          fi
+          echo "All matrix 'tests' jobs succeeded."
+
+  queries-tests-summary:
+    name: tests (queries-tests)
+    runs-on: ubuntu-latest
+    needs: tests
+    if: always()
+    steps:
+      - name: Aggregate matrix result
+        run: |
+          if [ "${{ needs.tests.result }}" != "success" ]; then
+            echo "Matrix 'tests' did not succeed (result=${{ needs.tests.result }})"
+            exit 1
+          fi
+          echo "All matrix 'tests' jobs succeeded."
+
   # scanning:
   #   runs-on: ubuntu-latest
   #   needs: [tests]
