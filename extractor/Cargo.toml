@@ -10,10 +10,10 @@ rust-version = "1.85"
 
 [dependencies]
 flate2 = "1.1"
-clap = { version = "4.5", features = ["derive"] }
+clap = { version = "4.6", features = ["derive"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-rayon = "1.10"
+rayon = "1.12"
 regex = "1.12"
 
 # TreeSitter
