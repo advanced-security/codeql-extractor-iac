@@ -162,5 +162,5 @@ jobs:
       - name: "Lint Markdown"
         if: steps.changes.outputs.src == 'true'
         run: |
-          npm install -g markdownlint-cli
-          markdownlint '**.md' --ignore node_modules --disable MD013
+          npm ci
+          npx markdownlint '**.md' --ignore node_modules --disable MD013
