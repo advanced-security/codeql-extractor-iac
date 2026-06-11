@@ -9,6 +9,7 @@ ql/test/**/*.actual
 ql/test/**/CONSISTENCY
 work
 testing/
+node_modules/
 
 *.sarif
 *.tar.gz

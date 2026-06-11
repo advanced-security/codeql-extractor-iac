@@ -18,7 +18,7 @@ jobs:
       - name: "Run Coverage Report"
         if: github.ref == 'refs/heads/main'
         run: |
-          pip install ghastoolkit
+          pip install -r requirements.txt --require-hashes
           ./scripts/create-coverage.py report --markdown > $GITHUB_STEP_SUMMARY
 
       - name: "Upload Coverage Report"
