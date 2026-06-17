@@ -29,7 +29,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          pip install ghastoolkit
+          pip install -r requirements.txt --require-hashes
           python ./.github/scripts/codeql.py version \
             --bump "${{ github.event.inputs.bump }}"
 

@@ -17,11 +17,11 @@ updates:
       prefix-development: chore
     labels:
       - "Dependencies"
+    cooldown:
+      default-days: 3
     groups:
-      production-dependencies:
-        dependency-type: "production"
-      development-dependencies:
-        dependency-type: "development"
+      actions:
+        patterns: ["*"]
 
   - package-ecosystem: "cargo"
     directory: "/"
@@ -35,6 +35,8 @@ updates:
       prefix-development: chore
     labels:
       - "Dependencies"
+    cooldown:
+      default-days: 3
     groups:
       production-dependencies:
         dependency-type: "production"
