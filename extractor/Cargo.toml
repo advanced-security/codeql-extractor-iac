@@ -24,5 +24,5 @@ tree-sitter-hcl = { git = "https://github.com/GeekMasher/tree-sitter-hcl", rev =
 # tree-sitter-dockerfile = { path = "./tree-sitter-dockerfile" }
 tree-sitter-dockerfile = { git = "https://github.com/GeekMasher/tree-sitter-dockerfile", rev = "54af8c9009d1c55f47e09fc896ba9857edf09f23" }
 
-# CodeQL - v2.20.4
-codeql-extractor = { git = "https://github.com/github/codeql", rev = "c524a98eb91c769cb2994b8373181c2ebd27c20f" }
+# CodeQL - v2.26.1
+codeql-extractor = { git = "https://github.com/github/codeql", rev = "373814b4300341b090f18e6a75c92a65cb2f193a" }

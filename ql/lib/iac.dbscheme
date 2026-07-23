@@ -1,5 +1,6 @@
 // CodeQL database schema for HCL
 // Automatically generated from the tree-sitter grammar; do not edit
+// To regenerate, run scripts/create-extractor-pack.sh
 
 /*- Files and folders -*/
 
@@ -100,17 +101,39 @@ yaml_scalars (unique int scalar: @yaml_scalar_node ref,
               int style: int ref,
               string value: string ref);
 
-yaml_errors (unique int id: @yaml_error,
-             string message: string ref);
-
 yaml_comments (unique int id: @yaml_comment,
                string text: string ref,
                string tostring: string ref);
+
+yaml_errors (unique int id: @yaml_error,
+             string message: string ref);
 
 yaml_locations(unique int locatable: @yaml_locatable ref,
              int location: @location_default ref);
 
 @yaml_locatable = @yaml_node | @yaml_error | @yaml_comment;
+
+/*- Database metadata -*/
+
+/**
+ * The CLI will automatically emit applicable tuples for this table,
+ * such as `databaseMetadata("isOverlay", "true")` when building an
+ * overlay database.
+ */
+databaseMetadata(
+  string metadataKey: string ref,
+  string value: string ref
+);
+
+/*- Overlay support -*/
+
+/**
+ * The CLI will automatically emit tuples for each new/modified/deleted file
+ * when building an overlay database.
+ */
+overlayChangedFiles(
+  string path: string ref
+);
 
 /*- HCL dbscheme -*/
 @hcl_underscore_collection_value = @hcl_object | @hcl_tuple
