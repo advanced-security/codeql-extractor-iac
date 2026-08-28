@@ -23,9 +23,11 @@ jobs:
         uses: actions/checkout@v6.0.3
 
       - name: "Patch Release Me"
-        uses: 42ByteLabs/patch-release-me@04ea0a696abfc3cfbdfadb279bd9c9dd0b1652a2    # 0.6.6
+        # TODO: Return to the upstream action after its runtime image is digest-pinned:
+        # https://github.com/42ByteLabs/patch-release-me/issues/169
+        uses: docker://ghcr.io/42bytelabs/patch-release-me:0.6.7@sha256:b9624359ce08707dfb4d22bcbf9d1a75f7f4718ccec610ddaa62280ffea98958
         with:
-          mode: ${{ github.event.inputs.bump }}
+          args: bump -m ${{ github.event.inputs.bump }}
 
       - name: "Bundle"
         run: |
