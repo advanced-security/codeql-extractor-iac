@@ -113,3 +113,20 @@ codeql database analyze \
   "$CODEQL_DATABASE" \
   "advanced-security/iac-queries"
 ```
+
+#### Install extractor on Windows
+
+PowerShell equivalents of the scripts above are provided for Windows. From a checkout of this repository:
+
+```powershell
+# Install the extractor into $env:USERPROFILE\.codeql\extractors (default)
+.\scripts\install-extractor.ps1
+
+# Or build the extractor pack locally
+.\scripts\create-extractor-pack.ps1
+
+# Run the test suite
+.\scripts\run-tests.ps1 ql\test\library-tests
+```
+
+Both `pwsh` (PowerShell 7+) and Windows PowerShell 5.1 are supported. The scripts require either `codeql` or `gh` on the `PATH`; if only `gh` is available, the `gh-codeql` extension will be installed automatically.
