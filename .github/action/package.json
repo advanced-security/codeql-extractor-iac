@@ -44,5 +44,8 @@
     "@vercel/ncc": "^0.38.0",
     "prettier": "^3.0.3",
     "typescript": "^5.2.2"
+  },
+  "overrides": {
+    "undici": ">=6.24.0"
   }
 }
