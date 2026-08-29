@@ -1,4 +1,8 @@
 ---
 lockVersion: 1.0.0
-dependencies: {}
+dependencies:
+  codeql/util:
+    version: 1.0.12
+  codeql/yaml:
+    version: 1.0.25
 compiled: false
