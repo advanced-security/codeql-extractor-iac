@@ -7,7 +7,17 @@ private import codeql.hcl.Terraform
 /**
  * Dependency for all Infrastructure as Code languages.
  */
-abstract class Dependency extends Location {
+abstract class Dependency extends @location_default {
+  /**
+   * Gets the location of this dependency.
+   */
+  Location getLocation() { result = this }
+
+  /**
+   * Gets a textual representation of this dependency.
+   */
+  abstract string toString();
+
   /**
    * Gets the name of the dependency.
    */
