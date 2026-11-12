@@ -41,7 +41,7 @@
   },
   "overrides": {
     "undici": {
-      "@fastify/busboy": "3.2.1"
+      "@fastify/busboy": "3.2.5"
     }
   },
   "devDependencies": {
