@@ -26,12 +26,30 @@ pub fn run(options: Options) -> std::io::Result<()> {
         Language {
             name: "HCL".to_owned(),
             node_types: tree_sitter_hcl::NODE_TYPES,
+            desugar: None,
         },
         Language {
             name: "DOCKERFILE".to_owned(),
             node_types: tree_sitter_dockerfile::NODE_TYPES,
+            desugar: None,
         },
     ];
 
-    generate(languages, options.dbscheme, options.library)
+    let library = options.library;
+    generate(
+        languages,
+        options.dbscheme,
+        library.clone(),
+        false,
+        "run `./scripts/create-extractor-pack.sh`",
+    )?;
+
+    // Overlay-local ASTs cannot reference the global Locations::Location type.
+    let qll = std::fs::read_to_string(&library)?
+        .replace("import codeql.Locations as L\n", "")
+        .replace(
+            "L::Location getLocation()",
+            "@location_default getLocation()",
+        );
+    std::fs::write(library, qll)
 }
