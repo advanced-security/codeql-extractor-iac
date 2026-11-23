@@ -47,6 +47,8 @@ jobs:
 
           tar -zxf extractor-iac.tar.gz
 
+          cp ql/lib/iac.dbscheme extractor-pack/iac.dbscheme
+
           chmod +x extractor-pack/tools/*.sh
           chmod +x extractor-pack/tools/**/*          
 
